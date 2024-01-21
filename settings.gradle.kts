@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Tv Channel"
 include(":app")
+include(":network")
+include(":cachemanager")

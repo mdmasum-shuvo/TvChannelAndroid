@@ -77,6 +77,21 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.45")
 
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")
+    implementation("com.squareup.retrofit2:converter-moshi:${rootProject.extra.get("version_retrofit")}")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.extra.get("version_retrofit_coroutines_adapt")}")
+
+    // Moshi
+    implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
+    implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
+    implementation ("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
+    //Room
+    implementation ("androidx.room:room-runtime:${rootProject.extra.get("version_room")}")
+    kapt ("androidx.room:room-compiler:${rootProject.extra.get("version_room")}")
+    implementation ("androidx.navigation:navigation-compose:2.7.6")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.6.0-rc01")
+
 }
 
 // Allow references to generated code
