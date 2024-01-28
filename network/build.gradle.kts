@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -9,9 +11,13 @@ android {
 
     defaultConfig {
         minSdk = 26
-
+        buildConfigField("String","BASE_URL","\"" + "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"+ "\"")
+        buildConfigField("String","SHEET_ID","\"" + "1GuUq8kE2IcOxpQUu_bUgfGhPkvQQHdePSd5lsilpdVQ"+ "\"")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -31,6 +37,12 @@ android {
         jvmTarget = "1.8"
     }
 }
+fun getBaseUrl():String {
+
+
+    return "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"
+}
+
 
 dependencies {
 
@@ -40,4 +52,19 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")
+    implementation("com.squareup.retrofit2:converter-moshi:${rootProject.extra.get("version_retrofit")}")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.extra.get("version_retrofit_coroutines_adapt")}")
+    implementation(project(":cachemanager", "default"))
+    // Moshi
+    implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
+    implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
+    implementation ("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
+    //OkHttp logging
+    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
+  
 }
