@@ -2,6 +2,7 @@ package com.appifly.network
 
 
 import android.content.Context
+import com.appifly.network.remote_data.NetworkCallbackApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.adapters.Rfc3339DateJsonAdapter
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

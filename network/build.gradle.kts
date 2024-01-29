@@ -54,12 +54,12 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     //hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")
     implementation("com.squareup.retrofit2:converter-moshi:${rootProject.extra.get("version_retrofit")}")
     implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.extra.get("version_retrofit_coroutines_adapt")}")
-    implementation(project(":cachemanager", "default"))
+    implementation(project(":cachemanager"))
     // Moshi
     implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
     implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")

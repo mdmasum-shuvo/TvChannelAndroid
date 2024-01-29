@@ -75,7 +75,7 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation("com.google.dagger:hilt-android:2.48.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.45")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")
@@ -91,6 +91,8 @@ dependencies {
     kapt ("androidx.room:room-compiler:${rootProject.extra.get("version_room")}")
     implementation ("androidx.navigation:navigation-compose:2.7.6")
     implementation ("androidx.compose.runtime:runtime-livedata:1.6.0-rc01")
+    implementation(project(":cachemanager"))
+    implementation(project(":network"))
 
 }
 
