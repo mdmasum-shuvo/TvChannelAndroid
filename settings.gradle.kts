@@ -17,3 +17,4 @@ rootProject.name = "Tv Channel"
 include(":app")
 include(":network")
 include(":cachemanager")
+include(":app_data_source")

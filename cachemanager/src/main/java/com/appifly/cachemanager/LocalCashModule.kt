@@ -2,6 +2,8 @@ package com.appifly.cachemanager
 
 import android.content.Context
 import androidx.room.Room
+import com.appifly.cachemanager.dao.CategoryDao
+import com.appifly.cachemanager.dao.ChannelDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,6 +33,17 @@ object LocalCashModule {
         return Room.databaseBuilder(context, TvDatabase::class.java, dbname)
             .fallbackToDestructiveMigration()
             .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(database: TvDatabase): CategoryDao {
+        return database.categoryDao()
+    }
+    @Provides
+    @Singleton
+    fun provideAllChannelDao(database: TvDatabase): ChannelDao {
+        return database.channelDao()
     }
 
 

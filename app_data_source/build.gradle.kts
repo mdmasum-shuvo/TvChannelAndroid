@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.appifly.cachemanager"
+    namespace = "com.appifly.app_data_source"
     compileSdk = 33
 
     defaultConfig {
@@ -45,9 +45,6 @@ dependencies {
     //hilt
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
-    //Room
-    implementation ("androidx.room:room-ktx:${rootProject.extra.get("version_room")}")
-
-    implementation ("androidx.room:room-runtime:${rootProject.extra.get("version_room")}")
-    kapt ("androidx.room:room-compiler:${rootProject.extra.get("version_room")}")
+    implementation(project(":cachemanager"))
+    implementation(project(":network"))
 }

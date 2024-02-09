@@ -11,9 +11,9 @@ import com.appifly.cachemanager.model.CategoryEntity
 @Dao
 interface CategoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(list: List<CategoryEntity?>?)
+    suspend fun insert(list: List<CategoryEntity>)
 
     @Query("SELECT * FROM ${LocalDbConstant.CATEGORY_TABLE}")
-    suspend fun getAllCategory(): LiveData<List<CategoryEntity>>
+     fun getAllCategory(): LiveData<List<CategoryEntity>>
 
 }

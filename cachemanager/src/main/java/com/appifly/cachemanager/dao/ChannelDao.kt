@@ -11,11 +11,11 @@ import com.appifly.cachemanager.model.ChannelEntity
 @Dao
 interface ChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(list: List<ChannelEntity?>?)
+    suspend fun insert(list: List<ChannelEntity>)
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE}")
-    suspend fun getAllChannel(): LiveData<List<ChannelEntity>>
+     fun getAllChannel(): LiveData<List<ChannelEntity>>?
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE catId=:catId")
-    suspend fun getAllChannelByCategory(catId:Int): LiveData<List<ChannelEntity>>
+     fun getAllChannelByCategory(catId:Int): LiveData<List<ChannelEntity>>
 }
