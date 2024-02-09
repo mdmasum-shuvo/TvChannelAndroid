@@ -1,6 +1,5 @@
-package com.appinion.network
+package com.appifly.network
 
-import com.appifly.network.HttpStatusCode
 import retrofit2.HttpException
 import java.io.IOException
 import java.net.SocketTimeoutException
@@ -25,9 +24,9 @@ fun Throwable.handleThrowable(): Failure {
     return if (this is UnknownHostException) {
         Failure.ConnectivityError
     } else if (this is HttpException && this.code() == HttpStatusCode.Unauthorized.code) {
-        Failure.UnAuthorizedException(code = this.code(),this.code().toString())
+        Failure.UnAuthorizedException(code = this.code(), this.code().toString())
     } else if (this is HttpException && this.code() == HttpStatusCode.UnProcessable.code) {
-        Failure.UnProcessableError(this.code().toString()) 
+        Failure.UnProcessableError(this.code().toString())
     }
     else if (this is HttpException && this.code() == HttpStatusCode.NotFound.code) {
         Failure.DataNotFoundError(this.code().toString())

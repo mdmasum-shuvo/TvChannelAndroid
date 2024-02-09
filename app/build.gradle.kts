@@ -76,6 +76,7 @@ dependencies {
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation ("androidx.hilt:hilt-navigation-compose:${rootProject.extra.get("version_hilt_navigation")}")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")

@@ -5,7 +5,9 @@ import com.appifly.cachemanager.dao.ChannelDao
 import com.appifly.network.apiCall
 import com.appifly.network.remote_data.NetworkCallbackApi
 import com.appifly.network.remote_data.repository.NetworkDataRepository
-import com.appinion.network.DataState
+import com.appifly.network.DataState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class NetworkDataRepositoryImpl @Inject constructor(
@@ -15,12 +17,11 @@ class NetworkDataRepositoryImpl @Inject constructor(
 ) : NetworkDataRepository {
     override suspend fun getAllCategory() {
         var data = apiCall { apiService.getAllCategory() }
-    }
-
-    override suspend fun getAllChannel() {
-        var data = apiCall { apiService.getAllCategory() }
         when (data) {
             is DataState.Success -> {
+                withContext(Dispatchers.IO){
+
+                }
 
             }
 
@@ -37,6 +38,11 @@ class NetworkDataRepositoryImpl @Inject constructor(
             }
 
         }
+    }
+
+    override suspend fun getAllChannel() {
+        var data = apiCall { apiService.getAllChannel() }
+
 
     }
 
