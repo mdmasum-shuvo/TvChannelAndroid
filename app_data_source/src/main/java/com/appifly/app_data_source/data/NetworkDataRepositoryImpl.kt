@@ -1,5 +1,6 @@
 package com.appifly.app_data_source.data
 
+import com.appifly.app_data_source.datamapper.toEntity
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
 import com.appifly.network.apiCall
@@ -19,7 +20,11 @@ class NetworkDataRepositoryImpl @Inject constructor(
         var data = apiCall { apiService.getAllCategory() }
         when (data) {
             is DataState.Success -> {
-                withContext(Dispatchers.IO){
+                if (data.result.category.isNotEmpty()) {
+                    withContext(Dispatchers.IO) {
+                        categoryDao.insert(data.result.category.map { it.toEntity() })
+                        print("")
+                    }
 
                 }
 
@@ -29,9 +34,6 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
             }
 
-            is DataState.Success -> {
-
-            }
 
             else -> {
 
@@ -43,6 +45,28 @@ class NetworkDataRepositoryImpl @Inject constructor(
     override suspend fun getAllChannel() {
         var data = apiCall { apiService.getAllChannel() }
 
+        when (data) {
+            is DataState.Success -> {
+                if (data.result.channel_list.isNotEmpty()) {
+                    withContext(Dispatchers.IO) {
+                        channelDao.insert(data.result.channel_list.map { it.toEntity() })
+                        print("")
+                    }
+
+                }
+
+            }
+
+            is DataState.Error -> {
+
+            }
+
+
+            else -> {
+
+            }
+
+        }
 
     }
 

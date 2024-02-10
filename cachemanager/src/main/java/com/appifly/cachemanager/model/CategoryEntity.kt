@@ -9,5 +9,6 @@ import com.appifly.cachemanager.LocalDbConstant
 data class CategoryEntity(
     @PrimaryKey
     val id: Int,
-    val name:String?
+    val name:String?,
+    val imageUrl:String?
 )
