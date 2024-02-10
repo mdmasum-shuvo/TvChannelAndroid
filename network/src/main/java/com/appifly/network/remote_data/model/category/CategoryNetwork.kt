@@ -1,4 +1,4 @@
-package com.appifly.network.remote_data.model
+package com.appifly.network.remote_data.model.category
 
 data class CategoryNetwork(
     val category_id: Int,

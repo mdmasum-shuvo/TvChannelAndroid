@@ -87,9 +87,6 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
     implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
     implementation ("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
-    //Room
-    implementation ("androidx.room:room-runtime:${rootProject.extra.get("version_room")}")
-    kapt ("androidx.room:room-compiler:${rootProject.extra.get("version_room")}")
     implementation ("androidx.navigation:navigation-compose:2.7.6")
     implementation ("androidx.compose.runtime:runtime-livedata:1.6.0-rc01")
     implementation(project(":app_data_source"))

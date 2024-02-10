@@ -6,6 +6,7 @@ import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,24 +25,22 @@ class CategoryViewModel @Inject constructor(
     }
 
     private fun getCategoryData() {
-        viewModelScope.launch {
-            useCase.invoke().onEach { dataState ->
-                when (dataState) {
-                    is DataState.Loading -> {
+        useCase.invoke().onEach { dataState ->
+            when (dataState) {
+                is DataState.Loading -> {
 
-                    }
+                }
 
-                    is DataState.DisableLoading -> {
+                is DataState.DisableLoading -> {
 
-                    }
+                }
 
-                    else -> {
-
-                    }
+                else -> {
 
                 }
 
             }
-        }
+
+        }.launchIn(viewModelScope)
     }
 }
