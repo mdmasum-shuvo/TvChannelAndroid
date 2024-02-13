@@ -90,7 +90,7 @@ dependencies {
     implementation ("androidx.navigation:navigation-compose:2.7.6")
     implementation ("androidx.compose.runtime:runtime-livedata:1.6.0-rc01")
     implementation(project(":app_data_source"))
-
+    implementation("io.coil-kt:coil-compose:1.3.2")
 }
 
 // Allow references to generated code

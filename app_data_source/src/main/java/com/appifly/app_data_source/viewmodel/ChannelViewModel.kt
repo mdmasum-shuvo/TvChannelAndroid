@@ -1,9 +1,11 @@
 package com.appifly.app_data_source.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.data.ChannelListUseCase
+import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
 import com.appifly.network.DataState
@@ -16,10 +18,10 @@ import javax.inject.Inject
 class ChannelViewModel @Inject constructor(
     private val useCase: ChannelListUseCase,
     channelDao: ChannelDao
-) : ViewModel()  {
+) : ViewModel() {
 
 
-    val channelData = channelDao.getAllChannel()
+    val channelData = channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
 
     init {
         getChannelData()

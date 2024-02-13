@@ -6,15 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.appifly.app_data_source.viewmodel.CategoryViewModel
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.category.CategoryScreen
+import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,24 +30,35 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    CategoryScreen()
+                    MainScreenView()
                 }
             }
 
         }
     }
+
 }
 
+/**
+ * @Composable fun for start destination and navigation to screen
+ */
 @Composable
-fun Greeting(viewModel: CategoryViewModel= hiltViewModel()) {
-    Text(
-        text = viewModel.categoryData.observeAsState().value.toString(),
-    )
-}
+private fun MainScreenView() {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = Routing.CategoryScreen.routeName
+    ) {
+        // Auth
+        composable(Routing.CategoryScreen.routeName) {
+            CategoryScreen(navController = navController)
+        }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TvChannelTheme {
+        composable(Routing.ChannelScreen.routeName) {
+            ChannelScreen(navController = navController)
+        }
     }
 }
+
+
+

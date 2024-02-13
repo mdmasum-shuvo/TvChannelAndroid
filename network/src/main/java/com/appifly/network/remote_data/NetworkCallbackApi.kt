@@ -14,6 +14,7 @@ interface NetworkCallbackApi {
         @Query("sheet") sheetName: String = HttpParam.SHEET_NAME_CATEGORY
     ): CategoryResponse
 
+    @GET(HttpParam.SHEET_API_END_POINT)
     suspend fun getAllChannel(
         @Query("id") sheetId: String = BuildConfig.SHEET_ID,
         @Query("sheet") sheetName: String = HttpParam.SHEET_NAME_CHANNEL_LIST
