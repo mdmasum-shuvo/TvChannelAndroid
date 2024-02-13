@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.view.category.CategoryScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting()
+                    CategoryScreen()
                 }
             }
 
