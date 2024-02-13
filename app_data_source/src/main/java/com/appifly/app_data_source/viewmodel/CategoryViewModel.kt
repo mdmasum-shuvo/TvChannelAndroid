@@ -18,13 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val useCase: CategoryListUseCase,
-    categoryDao: CategoryDao
-) :
-    ViewModel() {
+    private val useCase: CategoryListUseCase, categoryDao: CategoryDao
+) : ViewModel() {
 
     val categoryData = categoryDao.getAllCategory().map { it -> it.map { it.toDto() } }
-
 
     init {
         getCategoryData()
