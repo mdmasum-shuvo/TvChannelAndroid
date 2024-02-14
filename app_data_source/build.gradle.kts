@@ -51,4 +51,9 @@ dependencies {
 
     implementation(project(":cachemanager"))
     implementation(project(":network"))
+
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.hilt:hilt-work:1.1.0")
+
+
 }
