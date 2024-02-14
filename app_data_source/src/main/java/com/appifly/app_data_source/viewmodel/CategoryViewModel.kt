@@ -5,9 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.app_data_source.dto.CategoryDto
+import com.appifly.app_data_source.worker.DataLoadWorker
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,13 +21,15 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val useCase: CategoryListUseCase, categoryDao: CategoryDao
+    private val useCase: CategoryListUseCase, categoryDao: CategoryDao,
+    private val workManager: WorkManager
 ) : ViewModel() {
 
     val categoryData = categoryDao.getAllCategory().map { it -> it.map { it.toDto() } }
 
     init {
-        getCategoryData()
+        //getCategoryData()
+        applyWorker()
     }
 
     private fun getCategoryData() {
@@ -45,5 +50,11 @@ class CategoryViewModel @Inject constructor(
             }
 
         }.launchIn(viewModelScope)
+    }
+
+    private fun applyWorker() {
+        val workRequest =
+            OneTimeWorkRequestBuilder<DataLoadWorker>().build()
+        workManager.enqueue(workRequest)
     }
 }
