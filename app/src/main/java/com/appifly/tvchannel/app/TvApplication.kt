@@ -10,6 +10,7 @@ import androidx.work.WorkerParameters
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.data.ChannelListUseCase
 import com.appifly.app_data_source.data.NetworkDataRepositoryImpl
+import com.appifly.app_data_source.worker.CustomWorkerFactory
 import com.appifly.app_data_source.worker.DataLoadWorker
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
@@ -20,17 +21,5 @@ class TvApplication : Application(), Configuration.Provider {
     lateinit var workerFactory: CustomWorkerFactory
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
-
-}
-
-class CustomWorkerFactory @Inject constructor(
-    private val categoryListUseCase: CategoryListUseCase,
-    private val channelListUseCase: ChannelListUseCase
-) : WorkerFactory() {
-    override fun createWorker(
-        appContext: Context, workerClassName: String, workerParameters: WorkerParameters
-    ): ListenableWorker? = DataLoadWorker(
-        appContext, workerParameters, categoryListUseCase, channelListUseCase
-    )
 
 }
