@@ -22,7 +22,6 @@ android {
         }
     }
 
-
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -45,11 +44,23 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
-
     }
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
+    }
+    flavorDimensions += listOf("firebase")
+    productFlavors {
+        create("dev") {
+            dimension = "firebase"
+            applicationId = "com.appifly.tvchannel.dev"
+
+        }
+        create("pro") {
+            dimension = "firebase"
+            applicationId = "com.appifly.tvchannel"
+
         }
     }
 
