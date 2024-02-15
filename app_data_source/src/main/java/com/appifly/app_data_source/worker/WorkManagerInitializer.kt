@@ -19,7 +19,7 @@ object WorkManagerInitializer :Initializer<WorkManager> {
     @Provides
     override fun create(@ApplicationContext context: Context): WorkManager {
         val configuration = Configuration.Builder().build()
-        WorkManager.initialize(context, configuration)
+       // WorkManager.initialize(context, configuration)
         Log.d("Hilt Init", "WorkManager initialized by Hilt this time")
         return WorkManager.getInstance(context)
     }

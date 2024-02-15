@@ -24,7 +24,7 @@ class ChannelViewModel @Inject constructor(
     val channelData = channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
 
     init {
-        getChannelData()
+       // getChannelData()
     }
 
     private fun getChannelData() {
