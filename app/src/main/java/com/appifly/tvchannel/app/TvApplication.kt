@@ -24,15 +24,13 @@ class TvApplication : Application(), Configuration.Provider {
 }
 
 class CustomWorkerFactory @Inject constructor(
-    private val
-    categoryListUseCase: CategoryListUseCase,private val channelListUseCase: ChannelListUseCase
+    private val categoryListUseCase: CategoryListUseCase,
+    private val channelListUseCase: ChannelListUseCase
 ) : WorkerFactory() {
     override fun createWorker(
-        appContext: Context,
-        workerClassName: String,
-        workerParameters: WorkerParameters
+        appContext: Context, workerClassName: String, workerParameters: WorkerParameters
     ): ListenableWorker? = DataLoadWorker(
-        appContext, workerParameters, categoryListUseCase,channelListUseCase
+        appContext, workerParameters, categoryListUseCase, channelListUseCase
     )
 
 }
