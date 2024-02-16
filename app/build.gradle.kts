@@ -3,6 +3,11 @@ plugins {
     id("org.jetbrains.kotlin.android")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    // Add the Performance Monitoring Gradle plugin
+    id("com.google.firebase.firebase-perf")
+
 }
 
 android {
@@ -99,12 +104,21 @@ dependencies {
     implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
     implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
     implementation ("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
-    implementation ("androidx.navigation:navigation-compose:2.7.6")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.6.0-rc01")
+    implementation ("androidx.navigation:navigation-compose:2.7.7")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.6.1")
     implementation(project(":app_data_source"))
-    implementation("io.coil-kt:coil-compose:1.3.2")
+    implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.hilt:hilt-work:1.1.0")
+
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
+    // Add the dependency for the Performance Monitoring library
+    implementation("com.google.firebase:firebase-perf")
+
+
 }
 
 // Allow references to generated code

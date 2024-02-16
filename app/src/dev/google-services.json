@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "981746993478",
+    "project_id": "fly-tv-test",
+    "storage_bucket": "fly-tv-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981746993478:android:cee56c13206913a679bd47",
+        "android_client_info": {
+          "package_name": "com.appifly.tvchannel.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzBlyiqRsIwRz487X9npIcTP5Dnlxch1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
