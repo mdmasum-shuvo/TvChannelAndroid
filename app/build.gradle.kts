@@ -105,6 +105,7 @@ dependencies {
     implementation("io.coil-kt:coil-compose:1.3.2")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.hilt:hilt-work:1.1.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 }
 
 // Allow references to generated code
