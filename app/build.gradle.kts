@@ -61,6 +61,7 @@ android {
             applicationId = "com.appifly.tvchannel.dev"
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
+            buildConfigField("String","NATIVE_ADD_ID","\"" + "ca-app-pub-3940256099942544/2247696110"+ "\"")
 
         }
         create("pro") {

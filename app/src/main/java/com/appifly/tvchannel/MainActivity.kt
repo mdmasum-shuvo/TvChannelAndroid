@@ -46,7 +46,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        loadInterstitialAdd(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 
@@ -81,7 +84,7 @@ private fun loadInterstitialAdd(activity: Activity) {
 
     InterstitialAd.load(
         activity,
-        "ca-app-pub-3940256099942544/1033173712",
+        BuildConfig.INTERSTITIAL_ADD_ID,
         adRequest,
         object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
