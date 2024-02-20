@@ -117,6 +117,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     // Add the dependency for the Performance Monitoring library
     implementation("com.google.firebase:firebase-perf")
+    implementation("com.google.firebase:firebase-messaging")
 
 
 }
