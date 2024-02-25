@@ -10,18 +10,20 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
 
 @Composable
 fun CategoryItem(item: CategoryDto, onItemClick: () -> Unit) {
     val painter =
-        rememberImagePainter(data = item.imageUrl,
-            builder = {
-
-
-            })
+        rememberAsyncImagePainter(
+            ImageRequest.Builder(LocalContext.current).data(data = item.imageUrl).apply(block = fun ImageRequest.Builder.() {
+            }).build()
+        )
     Column(modifier = Modifier
         .padding(8.dp)
         .clickable { onItemClick() }) {
