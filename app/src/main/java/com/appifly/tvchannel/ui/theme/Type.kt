@@ -7,14 +7,62 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
+// Set of Material typography styles to start with
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
+
+
+    headlineLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W600,
+        fontSize = 22.sp,
+        letterSpacing = 0.5.sp,
+    ),
+
+
+    headlineMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W600,
+        fontSize = 18.sp,
         letterSpacing = 0.5.sp
+    ),
+
+    headlineSmall = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W600,
+        fontSize = 18.sp,
+        letterSpacing = 0.5.sp
+    ),
+
+    titleLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W600,
+        fontSize = 16.sp,
+        letterSpacing = 0.5.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W600,
+        fontSize = 14.sp,
+        letterSpacing = 0.5.sp
+    ),
+    bodyLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 16.sp,
+    ),
+
+    bodyMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 14.sp,
+        letterSpacing = 0.1.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp,
     )
+
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
