@@ -11,8 +11,21 @@ android {
 
     defaultConfig {
         minSdk = 26
-        buildConfigField("String","BASE_URL","\"" + "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"+ "\"")
-        buildConfigField("String","SHEET_ID","\"" + "1GuUq8kE2IcOxpQUu_bUgfGhPkvQQHdePSd5lsilpdVQ"+ "\"")
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            "\"" + "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/" + "\""
+        )
+        buildConfigField(
+            "String",
+            "SHEET_ID",
+            "\"" + "1GuUq8kE2IcOxpQUu_bUgfGhPkvQQHdePSd5lsilpdVQ" + "\""
+        )
+        buildConfigField(
+            "String",
+            "ICON_BASE_URL_DRIVE",
+            "\"" + "https://drive.google.com/uc?export=download&id=" + "\""
+        )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -37,7 +50,7 @@ android {
         jvmTarget = "1.8"
     }
 }
-fun getBaseUrl():String {
+fun getBaseUrl(): String {
 
 
     return "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"
@@ -58,13 +71,19 @@ dependencies {
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")
     implementation("com.squareup.retrofit2:converter-moshi:${rootProject.extra.get("version_retrofit")}")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.extra.get("version_retrofit_coroutines_adapt")}")
+    implementation(
+        "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${
+            rootProject.extra.get(
+                "version_retrofit_coroutines_adapt"
+            )
+        }"
+    )
     implementation(project(":cachemanager"))
     // Moshi
-    implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
-    implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
-    implementation ("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
+    implementation("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
+    implementation("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
+    implementation("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
     //OkHttp logging
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.6")
-  
+
 }

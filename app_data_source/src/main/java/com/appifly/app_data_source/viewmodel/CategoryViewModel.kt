@@ -29,7 +29,7 @@ class CategoryViewModel @Inject constructor(
 
     init {
         //getCategoryData()
-       // applyWorker()
+        applyWorker()
     }
 
     private fun getCategoryData() {
