@@ -54,7 +54,7 @@ private fun MainScreenView() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Routing.HomeScreen.routeName
+        startDestination = Routing.ChannelScreen.routeName
     ) {
         // Auth
         composable(Routing.CategoryScreen.routeName) {
@@ -66,7 +66,7 @@ private fun MainScreenView() {
         }
 
         composable(Routing.ChannelScreen.routeName) {
-            ChannelScreen(navController = navController)
+            ChannelScreen()
         }
     }
 }

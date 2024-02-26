@@ -9,10 +9,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.appifly.tvchannel.ui.common_component.TextView14_W400
+import com.appifly.tvchannel.ui.common_component.TextView14_W400_Gradient
 import com.appifly.tvchannel.ui.common_component.TextView18_W500
 
 @Composable
-fun HeaderText(title: String?, subTitle: String?) {
+fun HeaderText(title: String?, subTitle: String?="") {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -21,6 +22,6 @@ fun HeaderText(title: String?, subTitle: String?) {
             .padding(horizontal = 16.dp)
     ) {
         TextView18_W500(value = title ?: "")
-        TextView14_W400(value = subTitle ?: "")
+        TextView14_W400_Gradient(value = subTitle ?: "")
     }
 }

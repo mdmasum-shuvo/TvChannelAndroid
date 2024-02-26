@@ -13,7 +13,7 @@ val Typography = Typography(
 
     headlineLarge = TextStyle(
         fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.W500,
         fontSize = 22.sp,
         letterSpacing = 0.5.sp,
     ),
@@ -21,27 +21,27 @@ val Typography = Typography(
 
     headlineMedium = TextStyle(
         fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.W500,
         fontSize = 18.sp,
         letterSpacing = 0.5.sp
     ),
 
     headlineSmall = TextStyle(
         fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.W500,
         fontSize = 18.sp,
         letterSpacing = 0.5.sp
     ),
 
     titleLarge = TextStyle(
         fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.W500,
         fontSize = 16.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 0.0.sp
     ),
     titleMedium = TextStyle(
         fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W600,
+        fontWeight = FontWeight.W500,
         fontSize = 14.sp,
         letterSpacing = 0.5.sp
     ),

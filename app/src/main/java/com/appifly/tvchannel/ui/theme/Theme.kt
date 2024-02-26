@@ -21,7 +21,7 @@ private val DarkColorScheme = darkColorScheme(
     primary = darkBackground,
     background = darkBackground,
     tertiary = darkThemeTextColor,
-    onTertiary = secondaryLightTextColor,
+    onTertiary = darkThemeTextColor,
     secondaryContainer = cardBackgroundColor
 )
 

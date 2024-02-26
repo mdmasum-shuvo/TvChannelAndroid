@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Tv Channel</string>
+    <string name="frequently_played">Frequently Played</string>
+    <string name="see_all">See all</string>
+    <string name="favorites">Favorites Channel</string>
+    <string name="popular_channel">Popular Channel</string>
+    <string name="tv_series">TV Series</string>
 </resources>
