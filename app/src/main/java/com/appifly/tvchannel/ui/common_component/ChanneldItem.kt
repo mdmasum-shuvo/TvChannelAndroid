@@ -102,7 +102,7 @@ fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp)) {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(8.dp),
+                .padding(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ImageComponent(R.drawable.hbo_icon)
