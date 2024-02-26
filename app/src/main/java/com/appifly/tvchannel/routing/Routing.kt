@@ -11,11 +11,13 @@ package com.appifly.tvchannel.routing
 
 const val CATEGORY_SCREEN = "CATEGORY_SCREEN"
 const val CHANNEL_SCREEN = "CHANNEL_SCREEN"
+const val HOME_SCREEN = "HOME_SCREEN"
 
 sealed class Routing(
     val routeName: String
 ) {
     data object CategoryScreen : Routing(routeName = CATEGORY_SCREEN)
     data object ChannelScreen : Routing( routeName = CHANNEL_SCREEN)
+    data object HomeScreen : Routing( routeName = HOME_SCREEN)
 
 }

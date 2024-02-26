@@ -20,7 +20,9 @@ private val DarkColorScheme = darkColorScheme(
     surface = darkBackground,
     primary = darkBackground,
     background = darkBackground,
-    tertiary = lightThemeTextColor,
+    tertiary = darkThemeTextColor,
+    onTertiary = secondaryLightTextColor,
+    secondaryContainer = cardBackgroundColor
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -28,8 +30,9 @@ private val LightColorScheme = lightColorScheme(
     surface = lightBackground,
     primary = lightBackground,
     background = lightBackground,
-    tertiary = darkThemeTextColor,
-
+    tertiary = lightThemeTextColor,
+    onTertiary = secondaryLightTextColor,
+    secondaryContainer = cardBackgroundColor
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

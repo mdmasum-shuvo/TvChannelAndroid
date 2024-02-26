@@ -19,6 +19,7 @@ import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.category.CategoryScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
+import com.appifly.tvchannel.ui.view.home.HomeScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -53,11 +54,15 @@ private fun MainScreenView() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = Routing.CategoryScreen.routeName
+        startDestination = Routing.HomeScreen.routeName
     ) {
         // Auth
         composable(Routing.CategoryScreen.routeName) {
             CategoryScreen(navController = navController)
+        }
+
+        composable(Routing.HomeScreen.routeName) {
+            HomeScreen()
         }
 
         composable(Routing.ChannelScreen.routeName) {
