@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -17,13 +16,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
-import com.appifly.tvchannel.ui.theme.cardBackgroundColor
 import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
