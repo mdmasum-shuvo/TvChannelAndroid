@@ -13,6 +13,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,13 +49,17 @@ fun MainTopBar() {
             )
         }
 
-        Box(modifier = Modifier
-            .padding(end = 16.dp)
-            .align(Alignment.CenterEnd)) {
-            ImageComponent(
-                drawableId = R.drawable.search,
+        Box(
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .align(Alignment.CenterEnd)
+        ) {
+            Icon(
+                Icons.Filled.Search, tint =MaterialTheme.colorScheme.secondary,
+                contentDescription = "search icon",
                 modifier = Modifier.size(24.dp)
             )
+
         }
     }
 }

@@ -20,6 +20,7 @@ private val DarkColorScheme = darkColorScheme(
     surface = darkBackground,
     primary = darkBackground,
     background = darkBackground,
+    secondary = lightBackground,
     tertiary = darkThemeTextColor,
     onTertiary = darkThemeTextColor,
     secondaryContainer = cardBackgroundColor
@@ -29,6 +30,7 @@ private val LightColorScheme = lightColorScheme(
 
     surface = lightBackground,
     primary = lightBackground,
+    secondary = darkBackground,
     background = lightBackground,
     tertiary = lightThemeTextColor,
     onTertiary = secondaryLightTextColor,

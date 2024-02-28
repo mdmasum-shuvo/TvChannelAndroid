@@ -2,9 +2,7 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,7 +15,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -75,7 +73,7 @@ fun FrequentlyPlayedItem() {
 }
 
 @Composable
-fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp)) {
+fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp), borderC: Color =borderColor,cardColor: Color =MaterialTheme.colorScheme.secondaryContainer) {
     val painter =
         rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
@@ -86,10 +84,10 @@ fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp)) {
         )
     Card(
         shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+        colors = CardDefaults.cardColors(containerColor = cardColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         modifier = modifier,
-        border = BorderStroke(width = 1.dp, color = borderColor)
+        border = BorderStroke(width = 1.dp, color = borderC)
     ) {
 /*
         Image(
@@ -102,7 +100,7 @@ fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp)) {
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(4.dp),
+                .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             ImageComponent(R.drawable.hbo_icon)
