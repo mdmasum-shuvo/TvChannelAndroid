@@ -19,6 +19,14 @@
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
+        <service
+            android:name=".notification.FirebaseMessaging"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
 
         <provider
             android:name="androidx.startup.InitializationProvider"

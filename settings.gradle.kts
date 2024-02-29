@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Tv Channel"
+rootProject.name = "Firebase practice"
 include(":app")
 include(":network")
 include(":cachemanager")
