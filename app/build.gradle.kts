@@ -119,7 +119,7 @@ dependencies {
     implementation("com.google.firebase:firebase-perf")
     implementation("com.google.firebase:firebase-messaging")
     implementation ("androidx.core:core-splashscreen:1.0.1")
-
+    implementation ("com.google.accompanist:accompanist-flowlayout:0.20.0")
 
 }
 

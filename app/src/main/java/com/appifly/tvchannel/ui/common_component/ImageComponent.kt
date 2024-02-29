@@ -7,11 +7,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 
 @Composable
-fun ImageComponent(drawableId:Int,modifier: Modifier) {
+fun ImageComponent(drawableId:Int,modifier: Modifier=Modifier,contentScale: ContentScale= ContentScale.Fit) {
     Image(
         painterResource(drawableId),
         contentDescription = null,
         modifier = modifier,
-        contentScale = ContentScale.Crop
+        contentScale =contentScale
     )
 }
