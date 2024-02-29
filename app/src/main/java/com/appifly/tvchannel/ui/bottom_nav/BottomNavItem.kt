@@ -55,7 +55,7 @@ fun BottomNavigation(navController: NavController) {
             NavigationBarItem(
                 selected = index == navigationSelectedItem,
                 label = {
-                    Text("Home")
+                    Text( navigationItem.title!!)
                 },
                 icon = {
                     Icon(

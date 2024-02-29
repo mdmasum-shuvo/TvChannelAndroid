@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.sharp.PlayArrow
@@ -31,6 +32,6 @@ sealed class Routing(
     data object FavoriteScreen : Routing(routeName = FAVORITE_SCREEN,title = "Favorite", drawable =Icons.Outlined.Favorite )
     data object MenuScreen : Routing(routeName = MENU_SCREEN,title = "Menu", drawable =Icons.Outlined.Menu)
     data object ChannelScreen : Routing(routeName = CHANNEL_SCREEN,title = "Channel", drawable =Icons.Outlined.PlayArrow)
-    data object HomeScreen : Routing(routeName = HOME_SCREEN)
+    data object HomeScreen : Routing(routeName = HOME_SCREEN,title = "Home", drawable =Icons.Outlined.Home)
 
 }
