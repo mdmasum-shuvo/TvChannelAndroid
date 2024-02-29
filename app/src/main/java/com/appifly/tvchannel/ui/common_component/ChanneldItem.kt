@@ -66,7 +66,7 @@ fun FrequentlyPlayedItem() {
             }
 
         }
-        TextView12_W500(value = "T Sports", color = MaterialTheme.colorScheme.onTertiary)
+        TextView14_W500(value = "T Sports", color = MaterialTheme.colorScheme.onTertiary)
 
     }
 

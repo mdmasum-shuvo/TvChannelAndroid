@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.material.icons.sharp.PlayArrow
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.appifly.tvchannel.R
 
 /**
  *
@@ -26,12 +27,12 @@ const val FAVORITE_SCREEN = "FAVORITE_SCREEN"
 const val MENU_SCREEN = "MENU_SCREEN"
 
 sealed class Routing(
-    val routeName: String, val title: String? = "", val drawable: ImageVector =Icons.Filled.Home
+    val routeName: String, val title: String? = "", val drawable: Int = R.drawable.bottom_home_icon
 ) {
     data object CategoryScreen : Routing(routeName = CATEGORY_SCREEN)
-    data object FavoriteScreen : Routing(routeName = FAVORITE_SCREEN,title = "Favorite", drawable =Icons.Outlined.Favorite )
-    data object MenuScreen : Routing(routeName = MENU_SCREEN,title = "Menu", drawable =Icons.Outlined.Menu)
-    data object ChannelScreen : Routing(routeName = CHANNEL_SCREEN,title = "Channel", drawable =Icons.Outlined.PlayArrow)
-    data object HomeScreen : Routing(routeName = HOME_SCREEN,title = "Home", drawable =Icons.Outlined.Home)
+    data object FavoriteScreen : Routing(routeName = FAVORITE_SCREEN,title = "Favorite", drawable =R.drawable.bottom_fav_icon )
+    data object MenuScreen : Routing(routeName = MENU_SCREEN,title = "Menu", drawable =R.drawable.bottom_menu_icon)
+    data object ChannelScreen : Routing(routeName = CHANNEL_SCREEN,title = "Channel", drawable =R.drawable.bottom_tv_icon)
+    data object HomeScreen : Routing(routeName = HOME_SCREEN,title = "Home", drawable =R.drawable.bottom_home_icon)
 
 }

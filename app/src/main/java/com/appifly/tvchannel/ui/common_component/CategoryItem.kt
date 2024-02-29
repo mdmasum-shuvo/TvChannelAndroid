@@ -42,16 +42,16 @@ fun CategoryItem(item: CategoryDto, onItemClick: () -> Unit) {
                     .padding(12.dp)
             ) {
 
-           /*     Image(
-                    painter = painter,
-                    contentDescription = null,
-                    modifier = Modifier.size(24.dp),
-                    contentScale = ContentScale.Crop
-                )*/
-                ImageComponent(drawableId = R.drawable.mdi_comedy)
+                /*     Image(
+                         painter = painter,
+                         contentDescription = null,
+                         modifier = Modifier.size(24.dp),
+                         contentScale = ContentScale.Crop
+                     )*/
+                ImageComponent(drawableId = R.drawable.mdi_comedy, modifier = Modifier.size(30.dp))
             }
         }
-        TextView10_W400(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
+        TextView12_W400(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
 
     }
 }
@@ -60,6 +60,6 @@ fun CategoryItem(item: CategoryDto, onItemClick: () -> Unit) {
 @Composable
 fun PreviewCategoryItem() {
     TvChannelTheme {
-        //  CategoryItem()
+        CategoryItem(CategoryDto(1, "Drama", ""), {})
     }
 }
