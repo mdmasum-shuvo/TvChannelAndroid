@@ -10,11 +10,14 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -22,7 +25,7 @@ import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
-fun ChannelScreen() {
+fun ChannelScreen(viewModel: CategoryViewModel= hiltViewModel()) {
     /*    viewModel.channelData?.observeAsState()?.value?.let {
             LazyColumn {
                 items(it.map { it }, key = { it.id }) { item ->
@@ -57,7 +60,10 @@ fun ChannelScreen() {
         }
 
         item {
-            CategoryListSection()
+            viewModel.categoryData.observeAsState().value?.let {
+                CategoryListSection(it)
+
+            }
         }
 
 
