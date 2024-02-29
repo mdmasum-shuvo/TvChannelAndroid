@@ -20,7 +20,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -60,6 +59,10 @@ android {
         create("dev") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel.dev"
+            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
+            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
+            buildConfigField("String","NATIVE_ADD_ID","\"" + "ca-app-pub-3940256099942544/2247696110"+ "\"")
+            buildConfigField("String","REWARDED_AD","\"" + "ca-app-pub-3940256099942544/5224354917"+ "\"")
 
         }
         create("pro") {
@@ -67,6 +70,9 @@ android {
             applicationId = "com.appifly.tvchannel"
 
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
 
 }
@@ -93,19 +99,25 @@ dependencies {
     implementation("com.google.android.exoplayer:exoplayer:2.19.1")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
-    implementation ("androidx.hilt:hilt-navigation-compose:${rootProject.extra.get("version_hilt_navigation")}")
+    implementation("androidx.hilt:hilt-navigation-compose:${rootProject.extra.get("version_hilt_navigation")}")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit: ${rootProject.extra.get("version_retrofit")}")
     implementation("com.squareup.retrofit2:converter-moshi:${rootProject.extra.get("version_retrofit")}")
-    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${rootProject.extra.get("version_retrofit_coroutines_adapt")}")
+    implementation(
+        "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:${
+            rootProject.extra.get(
+                "version_retrofit_coroutines_adapt"
+            )
+        }"
+    )
 
     // Moshi
-    implementation ("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
-    implementation ("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
-    implementation ("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
-    implementation ("androidx.navigation:navigation-compose:2.7.7")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.6.1")
+    implementation("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
+    implementation("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
+    implementation("com.squareup.moshi:moshi-adapters:${rootProject.extra.get("version_moshi")}")
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.compose.runtime:runtime-livedata:1.6.1")
     implementation(project(":app_data_source"))
     implementation("io.coil-kt:coil-compose:2.2.2")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
@@ -120,6 +132,8 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation ("androidx.core:core-splashscreen:1.0.1")
     implementation ("com.google.accompanist:accompanist-flowlayout:0.20.0")
+    //admob
+    implementation("com.google.android.gms:play-services-ads:22.6.0")
 
 }
 
