@@ -32,26 +32,6 @@ class CategoryViewModel @Inject constructor(
         applyWorker()
     }
 
-    private fun getCategoryData() {
-        useCase.invoke().onEach { dataState ->
-            when (dataState) {
-                is DataState.Loading -> {
-
-                }
-
-                is DataState.DisableLoading -> {
-
-                }
-
-                else -> {
-
-                }
-
-            }
-
-        }.launchIn(viewModelScope)
-    }
-
     private fun applyWorker() {
         val workRequest =
             OneTimeWorkRequestBuilder<DataLoadWorker>().build()

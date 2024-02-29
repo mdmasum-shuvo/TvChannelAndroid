@@ -41,14 +41,12 @@ fun CategoryItem(item: CategoryDto, onItemClick: () -> Unit) {
                 modifier = Modifier
                     .padding(12.dp)
             ) {
-
-                /*     Image(
+                     Image(
                          painter = painter,
                          contentDescription = null,
-                         modifier = Modifier.size(24.dp),
+                         modifier = Modifier.size(30.dp),
                          contentScale = ContentScale.Crop
-                     )*/
-                ImageComponent(drawableId = R.drawable.mdi_comedy, modifier = Modifier.size(30.dp))
+                     )
             }
         }
         TextView12_W400(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)

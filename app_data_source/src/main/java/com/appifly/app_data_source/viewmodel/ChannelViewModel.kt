@@ -16,34 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
-    private val useCase: ChannelListUseCase,
     channelDao: ChannelDao
 ) : ViewModel() {
-
-
     val channelData = channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
 
-    init {
-       // getChannelData()
-    }
-
-    private fun getChannelData() {
-        useCase.invoke().onEach { dataState ->
-            when (dataState) {
-                is DataState.Loading -> {
-
-                }
-
-                is DataState.DisableLoading -> {
-
-                }
-
-                else -> {
-
-                }
-
-            }
-
-        }.launchIn(viewModelScope)
-    }
 }
