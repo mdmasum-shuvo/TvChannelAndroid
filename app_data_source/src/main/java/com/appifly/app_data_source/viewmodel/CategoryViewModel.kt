@@ -21,20 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CategoryViewModel @Inject constructor(
-    private val useCase: CategoryListUseCase, categoryDao: CategoryDao,
-    private val workManager: WorkManager
+  categoryDao: CategoryDao,
 ) : ViewModel() {
 
     val categoryData = categoryDao.getAllCategory().map { it -> it.map { it.toDto() } }
 
-    init {
-        //getCategoryData()
-        applyWorker()
-    }
-
-    private fun applyWorker() {
-        val workRequest =
-            OneTimeWorkRequestBuilder<DataLoadWorker>().build()
-        workManager.enqueue(workRequest)
-    }
 }

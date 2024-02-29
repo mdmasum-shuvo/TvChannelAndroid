@@ -15,9 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
@@ -58,6 +60,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 private fun MainScreenView() {
     val navController = rememberNavController()
+    val mainViewModel:MainViewModel= hiltViewModel()
 
     Scaffold(bottomBar = { BottomNavigation(navController) }) { paddingValues ->
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
