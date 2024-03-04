@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,21 +17,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
-import com.appifly.tvchannel.R
+import com.appifly.app_data_source.dto.CategoryDto
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 
 @Composable
-fun FrequentlyPlayedItem() {
+fun FrequentlyPlayedItem(item: ChannelDto) {
     val painter =
         rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
-                .data(data = "https://png.pngtree.com/png-clipart/20201202/ourmid/pngtree-breaking-news-lower-third-with-tv-logo-png-image_2504689.jpg")
+                .data(data = item.iconUrl)
                 .apply(block = fun ImageRequest.Builder.() {
 
                 }).build()
@@ -47,13 +50,7 @@ fun FrequentlyPlayedItem() {
                 .width(130.dp),
             border = BorderStroke(width = 1.dp, color = borderColor)
         ) {
-/*
-            Image(
-                painter = Painter,
-                contentDescription = null,
-                modifier = Modifier.size(300.dp),
-                contentScale = ContentScale.Crop
-            )*/
+
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
@@ -61,23 +58,31 @@ fun FrequentlyPlayedItem() {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                ImageComponent(R.drawable.channel)
-
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop
+                )
             }
 
         }
-        TextView14_W500(value = "T Sports", color = MaterialTheme.colorScheme.onTertiary)
+        TextView14_W500(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
 
     }
 
 }
 
 @Composable
-fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp), borderC: Color =borderColor,cardColor: Color =MaterialTheme.colorScheme.secondaryContainer) {
+fun RegularChannelItem(
+    item: ChannelDto? =null,
+    modifier: Modifier = Modifier.size(80.dp),
+    borderC: Color = borderColor,
+    cardColor: Color = MaterialTheme.colorScheme.secondaryContainer
+) {
     val painter =
         rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
-                .data(data = "https://png.pngtree.com/png-clipart/20201202/ourmid/pngtree-breaking-news-lower-third-with-tv-logo-png-image_2504689.jpg")
+                .data(data = item?.iconUrl)
                 .apply(block = fun ImageRequest.Builder.() {
 
                 }).build()
@@ -89,13 +94,7 @@ fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp), borderC: Color =
         modifier = modifier,
         border = BorderStroke(width = 1.dp, color = borderC)
     ) {
-/*
-        Image(
-            painter = Painter,
-            contentDescription = null,
-            modifier = Modifier.size(300.dp),
-            contentScale = ContentScale.Crop
-        )*/
+
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -103,8 +102,11 @@ fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp), borderC: Color =
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ImageComponent(R.drawable.hbo_icon)
-
+            Image(
+                painter = painter,
+                contentDescription = null,
+                contentScale = ContentScale.Crop
+            )
         }
 
     }
@@ -115,6 +117,6 @@ fun RegularChannelItem(modifier: Modifier=Modifier.size(80.dp), borderC: Color =
 @Composable
 fun PreviewFrequentlyPlayedItem() {
     TvChannelTheme {
-        FrequentlyPlayedItem()
+        FrequentlyPlayedItem(ChannelDto(1, 1, "", "", ""))
     }
 }

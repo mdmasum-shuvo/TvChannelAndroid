@@ -34,6 +34,7 @@ import com.appifly.tvchannel.ui.theme.borderColor
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TopBannerItem() {
     val sliderList=5

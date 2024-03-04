@@ -2,6 +2,7 @@ package com.appifly.app_data_source.datamapper
 
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.cachemanager.model.ChannelEntity
+import com.appifly.network.BuildConfig
 import com.appifly.network.remote_data.model.channel.ChannelNetwork
 
 fun ChannelNetwork.toEntity(): ChannelEntity {
@@ -20,7 +21,7 @@ fun ChannelEntity.toDto(): ChannelDto {
         id = id,
         catId = catId,
         name = name,
-        iconUrl = iconUrl,
+        iconUrl =BuildConfig.ICON_BASE_URL_DRIVE+ iconUrl,
         liveUrl = liveUrl
     )
 }
