@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -31,7 +32,7 @@ fun CategoryItem(item: CategoryDto, onItemClick: () -> Unit) {
                 .apply(block = fun ImageRequest.Builder.() {
                 }).build()
         )
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.clickable { onItemClick() }) {
         Card(
             shape = MaterialTheme.shapes.medium,
             colors = cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),

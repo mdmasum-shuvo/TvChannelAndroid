@@ -66,7 +66,9 @@ fun ChannelScreen(
 
         item {
             viewModel.categoryData.observeAsState().value?.let {
-                CategoryListSection(it)
+                CategoryListSection(it) {
+                    chanelViewModel.callChannelDataByCatId(it)
+                }
 
             }
         }
