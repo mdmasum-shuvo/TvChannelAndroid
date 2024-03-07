@@ -23,26 +23,29 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
-    val channelDao: ChannelDao
+    private val channelDao: ChannelDao
 ) : ViewModel() {
-    // var channelData = channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
 
     val channelData: LiveData<List<ChannelDto>>
         get() = _channelData
 
-    ///var channelDataByCatId = channelDao.geta(1).map { it -> it.map { it.toDto() } }
+    init {
 
+        getAllChannel()
+    }
     fun callChannelDataByCatId(catId: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
                 _channelData.value = channelDao.getAllChannelByCategory(catId).map { it.toDto() }
             }
         }
+        Log.e("data", channelData.value.toString())
+    }
 
-        Log.e("data", channelData?.value.toString())
-
+    private fun getAllChannel(){
+        _channelData.value= channelDao.getAllChannel()?.value?.map { it.toDto() }
     }
 
 }

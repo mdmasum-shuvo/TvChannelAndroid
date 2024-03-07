@@ -11,7 +11,7 @@ fun CategoryNetwork.toEntity(): CategoryEntity {
     return CategoryEntity(
         id = category_id,
         name = category_title,
-        imageUrl = image_url
+        imageUrl = getSubString(image_url)
     )
 }
 
@@ -22,3 +22,4 @@ fun CategoryEntity.toDto(): CategoryDto {
         imageUrl = BuildConfig.ICON_BASE_URL_DRIVE + imageUrl
     )
 }
+

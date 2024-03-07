@@ -66,10 +66,10 @@ fun ChannelScreen(
 
         item {
             viewModel.categoryData.observeAsState().value?.let {
+                chanelViewModel.callChannelDataByCatId(it[0].id)
                 CategoryListSection(it) {
                     chanelViewModel.callChannelDataByCatId(it)
                 }
-
             }
         }
 
