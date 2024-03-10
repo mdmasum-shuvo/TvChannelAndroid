@@ -12,5 +12,6 @@ data class ChannelEntity (
     val name:String?,
     val iconUrl:String?,
     val liveUrl:String?,
-    val isPopular:Boolean?
+    val isPopular:Boolean?,
+    val isFavorite:Boolean=false
 )

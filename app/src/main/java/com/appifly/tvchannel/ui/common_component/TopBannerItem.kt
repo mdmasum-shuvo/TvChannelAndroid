@@ -96,7 +96,7 @@ fun TopBannerItem() {
             }
             SpacerHeight(12)
             Row {
-                RegularChannelItem(modifier = Modifier.size(48.dp))
+                RegularChannelItem(modifier = Modifier.size(48.dp), isRegularItem = false)
                 SpacerWidth(10)
 
                 Column {

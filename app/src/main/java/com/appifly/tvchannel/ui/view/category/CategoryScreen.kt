@@ -42,7 +42,7 @@ fun CategoryScreen(navController: NavController, viewModel: CategoryViewModel = 
         checkAndRequestCameraPermission(context, permission, launcher)
     })
 
-    viewModel.categoryData.observeAsState().value?.let {
+    viewModel.categoryData?.observeAsState()?.value?.let {
         LazyColumn {
             items(it.map { it }, key = { it.id }) { item ->
                 CategoryItem(item) {

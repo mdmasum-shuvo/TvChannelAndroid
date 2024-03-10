@@ -19,6 +19,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.appifly.app_data_source.viewmodel.CategoryViewModel
+import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
@@ -35,7 +37,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
 
         setContent {
             TvChannelTheme {
@@ -58,10 +60,13 @@ class MainActivity : ComponentActivity() {
  * @Composable fun for start destination and navigation to screen
  */
 @Composable
-private fun MainScreenView() {
-    val navController = rememberNavController()
-    val mainViewModel:MainViewModel= hiltViewModel()
+private fun MainScreenView(
 
+) {
+    val navController = rememberNavController()
+    hiltViewModel<MainViewModel>()
+    val categoryViewModel: CategoryViewModel = hiltViewModel()
+    val channelViewModel: ChannelViewModel = hiltViewModel()
     Scaffold(bottomBar = { BottomNavigation(navController) }) { paddingValues ->
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
@@ -70,7 +75,7 @@ private fun MainScreenView() {
             ) {
                 // Auth
                 composable(Routing.HomeScreen.routeName) {
-                    HomeScreen()
+                    HomeScreen(categoryViewModel,channelViewModel)
                 }
 
                 composable(Routing.MenuScreen.routeName) {
@@ -78,7 +83,7 @@ private fun MainScreenView() {
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
-                    ChannelScreen()
+                    ChannelScreen(categoryViewModel,channelViewModel)
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {

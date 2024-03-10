@@ -18,7 +18,7 @@ class CategoryViewModel @Inject constructor(
 
     val channelCategoryName: LiveData<String>
         get() = _channelCategoryName
-    val categoryData = categoryDao.getAllCategory().map { it -> it.map { it.toDto() } }
+    val categoryData = categoryDao.getAllCategory()?.map { it -> it.map { it.toDto() } }
 
 
     fun setCategoryName(categoryName:String?){

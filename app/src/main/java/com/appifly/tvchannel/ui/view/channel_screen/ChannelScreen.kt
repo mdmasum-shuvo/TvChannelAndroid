@@ -28,33 +28,10 @@ import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
 fun ChannelScreen(
-    viewModel: CategoryViewModel = hiltViewModel(),
-    chanelViewModel: ChannelViewModel = hiltViewModel()
+    viewModel: CategoryViewModel,
+    chanelViewModel: ChannelViewModel
 ) {
-    /*    viewModel.channelData?.observeAsState()?.value?.let {
-            LazyColumn {
-                items(it.map { it }, key = { it.id }) { item ->
-                    ChannelItem(item)
-                }
-            }
-        }*/
-    /*   LazyVerticalStaggeredGrid(
-           columns = StaggeredGridCells.Fixed(3),
-           horizontalArrangement = Arrangement.spacedBy(12.dp),
-           contentPadding = PaddingValues(
-               start = 12.dp,
-               top = 16.dp,
-               end = 12.dp,
-               bottom = 16.dp
-           )
-       ) {
-           items(10) {
-               RegularChannelItem(modifier = Modifier.height(100.dp))
-           }
 
-       }*/
-    val state = rememberScrollState()
-    val context = LocalContext.current
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth(),
@@ -65,17 +42,21 @@ fun ChannelScreen(
         }
 
         item {
-            viewModel.categoryData.observeAsState().value?.let {
+            viewModel.categoryData?.observeAsState()?.value?.let {
                 chanelViewModel.callChannelDataByCatId(it[0].id)
-                CategoryListSection(it) {item->
+                viewModel.setCategoryName(it[0].name)
+
+                CategoryListSection(it) { item ->
                     chanelViewModel.callChannelDataByCatId(item.id)
+                    viewModel.setCategoryName(item.name)
+
                 }
             }
         }
 
 
         item {
-            HeaderText("News Channel")
+            HeaderText(viewModel.channelCategoryName.observeAsState().value)
         }
 
         item {
@@ -111,6 +92,6 @@ fun ChannelScreen(
 @Composable
 fun PreviewChannelScreen() {
     TvChannelTheme {
-        ChannelScreen()
+        //ChannelScreen()
     }
 }

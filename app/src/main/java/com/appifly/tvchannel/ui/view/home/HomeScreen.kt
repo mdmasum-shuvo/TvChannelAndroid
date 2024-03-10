@@ -31,8 +31,8 @@ import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
 fun HomeScreen(
-    viewModel: CategoryViewModel = hiltViewModel(),
-    channelViewModel: ChannelViewModel = hiltViewModel()
+    viewModel: CategoryViewModel ,
+    channelViewModel: ChannelViewModel
 ) {
     val context = LocalContext.current
     LazyColumn(
@@ -50,10 +50,9 @@ fun HomeScreen(
             TopBannerItem()
         }
         item {
-            viewModel.categoryData.observeAsState().value?.let {
+            viewModel.categoryData?.observeAsState()?.value?.let {
                 channelViewModel.callChannelDataByCatId(it[0].id)
                 viewModel.setCategoryName(it[0].name)
-
                 CategoryListSection(it) { item ->
                     channelViewModel.callChannelDataByCatId(item.id)
                     viewModel.setCategoryName(item.name)
@@ -164,6 +163,6 @@ fun HomeScreen(
 @Composable
 fun PreviewHomeSceen() {
     TvChannelTheme {
-        HomeScreen()
+      //  HomeScreen()
     }
 }

@@ -29,6 +29,7 @@ fun ChannelEntity.toDto(): ChannelDto {
         catId = catId,
         name = name,
         iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
-        liveUrl = liveUrl
+        liveUrl = liveUrl,
+        isFavorite = isFavorite
     )
 }

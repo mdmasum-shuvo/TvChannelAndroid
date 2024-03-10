@@ -5,5 +5,6 @@ data class ChannelDto(
     val catId: Int,
     val name: String?,
     val iconUrl: String?,
-    val liveUrl: String?
+    val liveUrl: String?,
+    val isFavorite: Boolean?,
 )

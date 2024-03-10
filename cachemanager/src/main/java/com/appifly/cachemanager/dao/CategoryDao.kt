@@ -14,6 +14,6 @@ interface CategoryDao {
     suspend fun insert(list: List<CategoryEntity>)
 
     @Query("SELECT * FROM ${LocalDbConstant.CATEGORY_TABLE}")
-     fun getAllCategory(): LiveData<List<CategoryEntity>>
+     fun getAllCategory(): LiveData<List<CategoryEntity>>?
 
 }
