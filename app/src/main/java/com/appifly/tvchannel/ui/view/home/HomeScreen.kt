@@ -51,8 +51,10 @@ fun HomeScreen(
         }
         item {
             viewModel.categoryData?.observeAsState()?.value?.let {
-                channelViewModel.callChannelDataByCatId(it[0].id)
-                viewModel.setCategoryName(it[0].name)
+                if (it.isNotEmpty()){
+                    channelViewModel.callChannelDataByCatId(it[0].id)
+                    viewModel.setCategoryName(it[0].name)
+                }
                 CategoryListSection(it) { item ->
                     channelViewModel.callChannelDataByCatId(item.id)
                     viewModel.setCategoryName(item.name)
@@ -82,7 +84,7 @@ fun HomeScreen(
             }
         }
 
-        item {
+   /*     item {
             channelViewModel.channelData.observeAsState().value?.let {
                 Column(horizontalAlignment = Alignment.Start) {
 
@@ -106,7 +108,7 @@ fun HomeScreen(
 
 
 
-
+*/
         item {
 
             channelViewModel.popularChannelList?.observeAsState()?.value?.let {
