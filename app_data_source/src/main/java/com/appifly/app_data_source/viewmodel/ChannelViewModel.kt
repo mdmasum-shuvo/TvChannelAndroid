@@ -33,7 +33,7 @@ class ChannelViewModel @Inject constructor(
     
     
     val channelList=channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
-    val popularChannelList=channelDao.getPopularChannel()?.map { it -> it.map { it.toDto() } }
+    val popularChannelList=channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
 
     init {
 

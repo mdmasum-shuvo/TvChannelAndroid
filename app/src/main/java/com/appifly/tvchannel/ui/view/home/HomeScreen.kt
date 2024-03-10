@@ -51,7 +51,10 @@ fun HomeScreen(
         }
         item {
             viewModel.categoryData.observeAsState().value?.let {
-                CategoryListSection(it){item->
+                channelViewModel.callChannelDataByCatId(it[0].id)
+                viewModel.setCategoryName(it[0].name)
+
+                CategoryListSection(it) { item ->
                     channelViewModel.callChannelDataByCatId(item.id)
                     viewModel.setCategoryName(item.name)
                 }
@@ -60,7 +63,7 @@ fun HomeScreen(
 
         item {
             channelViewModel.channelData.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start)  {
+                Column(horizontalAlignment = Alignment.Start) {
 
                     HeaderText(
                         viewModel.channelCategoryName.observeAsState().value,
@@ -82,7 +85,7 @@ fun HomeScreen(
 
         item {
             channelViewModel.channelData.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start)  {
+                Column(horizontalAlignment = Alignment.Start) {
 
                     HeaderText(
                         context.getString(R.string.frequently_played),
@@ -129,10 +132,8 @@ fun HomeScreen(
         }
 
         item {
-            HeaderText(context.getString(R.string.tv_series), context.getString(R.string.see_all))
-        }
+            HeaderText(context.getString(R.string.tv_shows), context.getString(R.string.see_all))
 
-        item {
             TvSeriesItem()
 
         }
