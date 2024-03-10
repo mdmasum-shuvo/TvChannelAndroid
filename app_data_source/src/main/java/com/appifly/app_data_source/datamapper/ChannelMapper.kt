@@ -12,7 +12,8 @@ fun ChannelNetwork.toEntity(): ChannelEntity {
         catId = category_id,
         name = channel_name,
         iconUrl = getSubString(channel_image_url),
-        liveUrl = channel_live_url
+        liveUrl = channel_live_url,
+        isPopular = is_popular,
     )
 }
 

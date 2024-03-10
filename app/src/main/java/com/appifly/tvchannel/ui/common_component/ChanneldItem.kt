@@ -61,7 +61,7 @@ fun FrequentlyPlayedItem(item: ChannelDto) {
                 Image(
                     painter = painter,
                     contentDescription = null,
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Fit
                 )
             }
 

@@ -16,6 +16,9 @@ interface ChannelDao {
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE}")
      fun getAllChannel(): LiveData<List<ChannelEntity>>?
 
+     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE isPopular=1")
+     fun getPopularChannel(): LiveData<List<ChannelEntity>>?
+
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE catId=:categoryId")
      suspend fun getAllChannelByCategory(categoryId:Int): List<ChannelEntity>
 

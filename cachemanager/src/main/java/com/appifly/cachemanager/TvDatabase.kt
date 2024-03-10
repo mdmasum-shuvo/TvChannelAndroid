@@ -9,7 +9,7 @@ import com.appifly.cachemanager.model.ChannelEntity
 
 @Database(
     entities = [CategoryEntity::class, ChannelEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class TvDatabase : RoomDatabase() {

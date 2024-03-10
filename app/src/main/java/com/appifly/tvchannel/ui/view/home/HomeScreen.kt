@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.view.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -50,20 +51,51 @@ fun HomeScreen(
         }
         item {
             viewModel.categoryData.observeAsState().value?.let {
-                CategoryListSection(it)
+                CategoryListSection(it){item->
+                    channelViewModel.callChannelDataByCatId(item.id)
+                    viewModel.setCategoryName(item.name)
+                }
             }
         }
 
         item {
-            channelViewModel.channelData?.observeAsState()?.value?.let {
-                HeaderText(context.getString(R.string.frequently_played), context.getString(R.string.see_all))
+            channelViewModel.channelData.observeAsState().value?.let {
+                Column(horizontalAlignment = Alignment.Start)  {
 
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                ) {
-                    items(it) {item->
-                        FrequentlyPlayedItem(item)
+                    HeaderText(
+                        viewModel.channelCategoryName.observeAsState().value,
+                        context.getString(R.string.see_all)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(it) { item ->
+                            FrequentlyPlayedItem(item)
+                        }
+                    }
+                }
+
+            }
+        }
+
+        item {
+            channelViewModel.channelData.observeAsState().value?.let {
+                Column(horizontalAlignment = Alignment.Start)  {
+
+                    HeaderText(
+                        context.getString(R.string.frequently_played),
+                        context.getString(R.string.see_all)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(it) { item ->
+                            FrequentlyPlayedItem(item)
+                        }
                     }
                 }
 
@@ -75,15 +107,20 @@ fun HomeScreen(
 
         item {
 
-            channelViewModel.channelData?.observeAsState()?.value?.let {
-                HeaderText(context.getString(R.string.popular_channel), context.getString(R.string.see_all))
+            channelViewModel.popularChannelList?.observeAsState()?.value?.let {
+                Column(horizontalAlignment = Alignment.Start) {
+                    HeaderText(
+                        context.getString(R.string.popular_channel),
+                        context.getString(R.string.see_all)
+                    )
 
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                ) {
-                    items(it) {item->
-                        RegularChannelItem(item)
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(it) { item ->
+                            RegularChannelItem(item)
+                        }
                     }
                 }
 
@@ -102,14 +139,17 @@ fun HomeScreen(
 
 
         item {
-            channelViewModel.channelData?.observeAsState()?.value?.let {
-                HeaderText(context.getString(R.string.favorites), context.getString(R.string.see_all))
+            channelViewModel.channelData.observeAsState().value?.let {
+                HeaderText(
+                    context.getString(R.string.favorites),
+                    context.getString(R.string.see_all)
+                )
 
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                 ) {
-                    items(it) {item->
+                    items(it) { item ->
                         FrequentlyPlayedItem(item)
                     }
                 }

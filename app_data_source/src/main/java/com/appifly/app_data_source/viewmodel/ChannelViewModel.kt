@@ -29,7 +29,11 @@ class ChannelViewModel @Inject constructor(
     private val _channelData = MutableLiveData<List<ChannelDto>>()
 
     val channelData: LiveData<List<ChannelDto>>
-        get() = _channelData
+        get() = _channelData 
+    
+    
+    val channelList=channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
+    val popularChannelList=channelDao.getPopularChannel()?.map { it -> it.map { it.toDto() } }
 
     init {
 
@@ -45,6 +49,7 @@ class ChannelViewModel @Inject constructor(
     }
 
     private fun getAllChannel(){
+        Log.e("call api","call all channel")
         _channelData.value= channelDao.getAllChannel()?.value?.map { it.toDto() }
     }
 

@@ -11,14 +11,14 @@ import com.appifly.app_data_source.dto.CategoryDto
 import com.appifly.tvchannel.ui.common_component.CategoryItem
 
 @Composable
-fun CategoryListSection (list: List<CategoryDto>,onItemClick: (Int)-> Unit= {  } ){
+fun CategoryListSection (list: List<CategoryDto>,onItemClick: (CategoryDto)-> Unit= {  } ){
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 24.dp)
     ) {
         items(list) {item->
             CategoryItem(item) {
-                onItemClick(item.id)
+                onItemClick(item)
 
             }
         }

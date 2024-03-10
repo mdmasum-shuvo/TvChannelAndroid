@@ -67,8 +67,8 @@ fun ChannelScreen(
         item {
             viewModel.categoryData.observeAsState().value?.let {
                 chanelViewModel.callChannelDataByCatId(it[0].id)
-                CategoryListSection(it) {
-                    chanelViewModel.callChannelDataByCatId(it)
+                CategoryListSection(it) {item->
+                    chanelViewModel.callChannelDataByCatId(item.id)
                 }
             }
         }
@@ -80,7 +80,7 @@ fun ChannelScreen(
 
         item {
 
-            chanelViewModel.channelData?.observeAsState()?.value?.let {
+            chanelViewModel.channelData.observeAsState().value?.let {
 
                 LazyVerticalGrid(
                     modifier = Modifier.height(((112 * 10) / 2).dp),
