@@ -15,10 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.FrequentlyPlayedItem
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -26,13 +27,13 @@ import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.common_component.TopBannerItem
 import com.appifly.tvchannel.ui.common_component.TvSeriesItem
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
-import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
 fun HomeScreen(
-    viewModel: CategoryViewModel ,
-    channelViewModel: ChannelViewModel
+    viewModel: CategoryViewModel,
+    channelViewModel: ChannelViewModel,
+    homeViewModel: HomeViewModel
 ) {
     val context = LocalContext.current
     LazyColumn(
@@ -47,11 +48,16 @@ fun HomeScreen(
         }
 
         item {
-            TopBannerItem()
+            homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
+
+                TopBannerItem(it)
+            }
         }
+
+
         item {
             viewModel.categoryData?.observeAsState()?.value?.let {
-                if (it.isNotEmpty()){
+                if (it.isNotEmpty()) {
                     channelViewModel.callChannelDataByCatId(it[0].id)
                     viewModel.setCategoryName(it[0].name)
                 }
@@ -84,31 +90,31 @@ fun HomeScreen(
             }
         }
 
-   /*     item {
-            channelViewModel.channelData.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
+        /*     item {
+                 channelViewModel.channelData.observeAsState().value?.let {
+                     Column(horizontalAlignment = Alignment.Start) {
 
-                    HeaderText(
-                        context.getString(R.string.frequently_played),
-                        context.getString(R.string.see_all)
-                    )
+                         HeaderText(
+                             context.getString(R.string.frequently_played),
+                             context.getString(R.string.see_all)
+                         )
 
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                    ) {
-                        items(it) { item ->
-                            FrequentlyPlayedItem(item)
-                        }
-                    }
-                }
+                         LazyRow(
+                             horizontalArrangement = Arrangement.spacedBy(12.dp),
+                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                         ) {
+                             items(it) { item ->
+                                 FrequentlyPlayedItem(item)
+                             }
+                         }
+                     }
 
-            }
-        }
+                 }
+             }
 
 
 
-*/
+     */
         item {
 
             channelViewModel.popularChannelList?.observeAsState()?.value?.let {
@@ -133,9 +139,16 @@ fun HomeScreen(
         }
 
         item {
-            HeaderText(context.getString(R.string.tv_shows), context.getString(R.string.see_all))
+            homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
 
-            TvSeriesItem()
+                HeaderText(
+                    context.getString(R.string.tv_shows),
+                    context.getString(R.string.see_all)
+                )
+
+                TvSeriesItem(it)
+
+            }
 
         }
 
@@ -165,6 +178,6 @@ fun HomeScreen(
 @Composable
 fun PreviewHomeSceen() {
     TvChannelTheme {
-      //  HomeScreen()
+        //  HomeScreen()
     }
 }

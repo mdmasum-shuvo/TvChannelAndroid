@@ -21,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
@@ -67,6 +68,7 @@ private fun MainScreenView(
     hiltViewModel<MainViewModel>()
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
+    val homeViewModel:HomeViewModel= hiltViewModel()
     Scaffold(bottomBar = { BottomNavigation(navController) }) { paddingValues ->
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
@@ -75,7 +77,7 @@ private fun MainScreenView(
             ) {
                 // Auth
                 composable(Routing.HomeScreen.routeName) {
-                    HomeScreen(categoryViewModel,channelViewModel)
+                    HomeScreen(categoryViewModel,channelViewModel,homeViewModel)
                 }
 
                 composable(Routing.MenuScreen.routeName) {

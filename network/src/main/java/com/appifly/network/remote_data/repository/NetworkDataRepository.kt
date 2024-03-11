@@ -6,4 +6,6 @@ interface NetworkDataRepository {
 
     suspend fun getAllCategory()
     suspend fun getAllChannel()
+    suspend fun getAllBanner()
+    suspend fun getAllTvShows()
 }

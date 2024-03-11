@@ -3,6 +3,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.appifly.app_data_source.dto.ChannelDto
+import com.appifly.app_data_source.dto.TvShowDto
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
@@ -36,11 +39,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TvSeriesItem() {
-   val sliderList=5
+fun TvSeriesItem(dataList: List<TvShowDto>) {
+    val sliderList = dataList.size
     val configuration = LocalConfiguration.current
 
-    val pagerState = rememberPagerState{sliderList}
+    val pagerState = rememberPagerState { sliderList }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
@@ -59,20 +62,22 @@ fun TvSeriesItem() {
         }
 
     }
-    val painter =
-        rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current)
-                .data(data = "https://png.pngtree.com/png-clipart/20201202/ourmid/pngtree-breaking-news-lower-third-with-tv-logo-png-image_2504689.jpg")
-                .apply(block = fun ImageRequest.Builder.() {
 
-                }).build()
-        )
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxWidth()
     ) { page ->
+
+        val painter =
+            rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = dataList[page].imageUrl)
+                    .apply(block = fun ImageRequest.Builder.() {
+
+                    }).build()
+            )
         Column(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp,bottom=32.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
 
         ) {
             Card(
@@ -84,33 +89,36 @@ fun TvSeriesItem() {
                     .fillMaxWidth(),
                 border = BorderStroke(width = 1.dp, color = borderColor)
             ) {
-/*
-            Image(
-                painter = Painter,
-                contentDescription = null,
-                modifier = Modifier.size(300.dp),
-                contentScale = ContentScale.Crop
-            )*/
+
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ImageComponent(R.drawable.series, contentScale = ContentScale.Crop)
-
+                    Image(
+                        painter = painter,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
                 }
 
             }
             SpacerHeight(12)
             Row {
-                RegularChannelItem(modifier = Modifier.size(48.dp), isRegularItem = false)
+                RegularChannelItem(
+                    modifier = Modifier.size(48.dp),
+                    isRegularItem = false,
+                    item = ChannelDto(iconUrl = dataList[page].iconUrl)
+                )
                 SpacerWidth(10)
 
                 Column {
-                    TextView16_W500(value = "Paper Girls | English | Season 1")
+                    TextView16_W500(value = dataList[page].title)
                     TextView12_W400(
-                        value = "Every Sunday, 8:30 PM",
+                        value = dataList[page].date ?: "N/A",
                         color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
@@ -127,6 +135,6 @@ fun TvSeriesItem() {
 @Composable
 fun PreviewTvSeriesItem() {
     TvChannelTheme {
-        TvSeriesItem()
+        // TvSeriesItem()
     }
 }

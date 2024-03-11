@@ -2,8 +2,10 @@ package com.appifly.cachemanager
 
 import android.content.Context
 import androidx.room.Room
+import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.TvShowDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,6 +13,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
 import javax.inject.Singleton
+
 private const val DB_NAME = "db_name"
 
 @Module
@@ -40,10 +43,23 @@ object LocalCashModule {
     fun provideCategoryDao(database: TvDatabase): CategoryDao {
         return database.categoryDao()
     }
+
     @Provides
     @Singleton
     fun provideAllChannelDao(database: TvDatabase): ChannelDao {
         return database.channelDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideBannerDao(database: TvDatabase): BannerDao {
+        return database.bannerDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTvShowDao(database: TvDatabase): TvShowDao {
+        return database.tvShowDao()
     }
 
 

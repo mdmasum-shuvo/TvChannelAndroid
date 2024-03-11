@@ -134,10 +134,12 @@ fun RegularChannelItem(
                     contentScale = ContentScale.Crop
                 )
             }
-            if (isRegularItem)
-            Box(modifier = Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 8.dp)) {
-                GradientFavIcon(item?.isFavorite)
+            if (isRegularItem){
+                Box(modifier = Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 8.dp)) {
+                    GradientFavIcon(item?.isFavorite)
+                }
             }
+
         }
 
     }

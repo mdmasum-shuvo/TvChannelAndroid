@@ -11,7 +11,7 @@ class CategoryListUseCase @Inject constructor(private val repository: NetworkDat
     operator fun invoke(): Flow<DataState<CategoryNetwork>> =
         flow {
             emit(DataState.Loading())
-            val uploadResponse = repository.getAllCategory()
+            repository.getAllCategory()
             emit(DataState.DisableLoading())
         }
 

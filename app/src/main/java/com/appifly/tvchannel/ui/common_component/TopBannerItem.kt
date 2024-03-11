@@ -5,6 +5,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.appifly.app_data_source.dto.BannerDto
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
@@ -36,11 +39,11 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TopBannerItem() {
-    val sliderList=5
+fun TopBannerItem(dataList: List<BannerDto>) {
+    val sliderList = dataList.size
     val configuration = LocalConfiguration.current
 
-    val pagerState = rememberPagerState{sliderList}
+    val pagerState = rememberPagerState { sliderList }
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
@@ -59,18 +62,19 @@ fun TopBannerItem() {
         }
 
     }
-    val painter =
-        rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current)
-                .data(data = "https://png.pngtree.com/png-clipart/20201202/ourmid/pngtree-breaking-news-lower-third-with-tv-logo-png-image_2504689.jpg")
-                .apply(block = fun ImageRequest.Builder.() {
 
-                }).build()
-        )
     HorizontalPager(
         state = pagerState,
         modifier = Modifier.fillMaxWidth()
     ) { page ->
+        val painter =
+            rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(data = dataList[page].imageUrl)
+                    .apply(block = fun ImageRequest.Builder.() {
+
+                    }).build()
+            )
         Column(
             modifier = Modifier.padding(start = 32.dp, end = 32.dp)
 
@@ -80,29 +84,32 @@ fun TopBannerItem() {
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                 modifier = Modifier
-                    .height(200.dp).fillMaxWidth(),
+                    .height(200.dp)
+                    .fillMaxWidth(),
 
                 border = BorderStroke(width = 1.dp, color = borderColor)
             ) {
-/*
-            Image(
-                painter = Painter,
-                contentDescription = null,
-                modifier = Modifier.size(300.dp),
-                contentScale = ContentScale.Crop
-            )*/
-                ImageComponent(R.drawable.banner, contentScale = ContentScale.Crop, modifier = Modifier.fillMaxSize())
+                Image(
+                    painter = painter,
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
 
             }
             SpacerHeight(12)
             Row {
-                RegularChannelItem(modifier = Modifier.size(48.dp), isRegularItem = false)
+                RegularChannelItem(
+                    modifier = Modifier.size(48.dp),
+                    isRegularItem = false,
+                    item = ChannelDto(iconUrl = dataList[page].iconUrl)
+                )
                 SpacerWidth(10)
 
                 Column {
-                    TextView14_W500(value = "India vs South Africa | Live Match")
+                    TextView14_W500(value = dataList[page].title)
                     TextView12_W400(
-                        value = "25 Feb, 8:30 PM",
+                        value = dataList[page].date ?: "N/A",
                         color = MaterialTheme.colorScheme.onTertiary
                     )
                 }
@@ -119,6 +126,6 @@ fun TopBannerItem() {
 @Composable
 fun PreviewTopBannerItem() {
     TvChannelTheme {
-        TopBannerItem()
+        //TopBannerItem()
     }
 }

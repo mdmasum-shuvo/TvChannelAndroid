@@ -17,11 +17,7 @@ fun ChannelNetwork.toEntity(): ChannelEntity {
     )
 }
 
-fun getSubString(channelImageUrl: String): String? {
-    val imgUrl:StringBuilder=java.lang.StringBuilder()
-    imgUrl.append(channelImageUrl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing",""))
-    return imgUrl.toString()
-}
+
 
 fun ChannelEntity.toDto(): ChannelDto {
     return ChannelDto(
@@ -32,4 +28,10 @@ fun ChannelEntity.toDto(): ChannelDto {
         liveUrl = liveUrl,
         isFavorite = isFavorite
     )
+}
+
+fun getSubString(channelImageUrl: String): String? {
+    val imgUrl:StringBuilder=java.lang.StringBuilder()
+    imgUrl.append(channelImageUrl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing",""))
+    return imgUrl.toString()
 }

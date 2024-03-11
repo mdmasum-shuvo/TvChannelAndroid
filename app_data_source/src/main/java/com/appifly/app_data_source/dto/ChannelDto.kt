@@ -1,10 +1,10 @@
 package com.appifly.app_data_source.dto
 
 data class ChannelDto(
-    val id: Int,
-    val catId: Int,
-    val name: String?,
-    val iconUrl: String?,
-    val liveUrl: String?,
-    val isFavorite: Boolean?,
+    var id: Int?=null,
+    var catId: Int?=null,
+    var name: String?=null,
+    var iconUrl: String?=null,
+    var liveUrl: String?=null,
+    var isFavorite: Boolean?=null,
 )

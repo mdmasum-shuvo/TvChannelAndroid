@@ -6,8 +6,10 @@ import android.widget.Toast
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.appifly.app_data_source.data.BannerListApiUseCase
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.data.ChannelListUseCase
+import com.appifly.app_data_source.data.TvShowListApiUseCase
 import com.appifly.network.remote_data.repository.NetworkDataRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -24,7 +26,9 @@ class DataLoadWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted params: WorkerParameters,
     @Assisted val categoryListUseCase: CategoryListUseCase,
-    @Assisted val channelListUseCase: ChannelListUseCase
+    @Assisted val channelListUseCase: ChannelListUseCase,
+    @Assisted val tvShowListApiUseCase: TvShowListApiUseCase,
+    @Assisted val bannerListApiUseCase: BannerListApiUseCase,
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
 
@@ -32,6 +36,14 @@ class DataLoadWorker @AssistedInject constructor(
 
         }.launchIn(CoroutineScope(Dispatchers.IO))
         channelListUseCase.invoke().onEach {
+
+        }.launchIn(CoroutineScope(Dispatchers.IO))
+
+        bannerListApiUseCase.invoke().onEach {
+
+        }.launchIn(CoroutineScope(Dispatchers.IO))
+
+        tvShowListApiUseCase.invoke().onEach {
 
         }.launchIn(CoroutineScope(Dispatchers.IO))
 
