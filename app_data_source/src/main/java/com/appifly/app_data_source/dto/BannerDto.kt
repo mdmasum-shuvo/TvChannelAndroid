@@ -1,8 +1,8 @@
 package com.appifly.app_data_source.dto
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
+@Immutable
 data class BannerDto(
     val id: Int,
     val title: String,

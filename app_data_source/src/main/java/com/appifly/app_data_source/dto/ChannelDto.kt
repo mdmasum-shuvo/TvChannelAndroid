@@ -1,9 +1,8 @@
 package com.appifly.app_data_source.dto
 
-import androidx.compose.runtime.Stable
+import androidx.compose.runtime.Immutable
 
-@Stable
-
+@Immutable
 data class ChannelDto(
     var id: Int?=null,
     var catId: Int?=null,
