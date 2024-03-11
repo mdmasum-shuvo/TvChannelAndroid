@@ -40,14 +40,15 @@ fun ChannelScreen(
 
         item {
             viewModel.categoryData?.observeAsState()?.value?.let {
-                if (it.isNotEmpty()){
-                    chanelViewModel.callChannelDataByCatId(it[0].id)
+                if (it.isNotEmpty()) {
+                    chanelViewModel.catId = it[0].id
+                    chanelViewModel.callChannelDataByCatId()
                     viewModel.setCategoryName(it[0].name)
                 }
 
-
                 CategoryListSection(it) { item ->
-                    chanelViewModel.callChannelDataByCatId(item.id)
+                    chanelViewModel.catId = item.id
+                    chanelViewModel.callChannelDataByCatId()
                     viewModel.setCategoryName(item.name)
 
                 }

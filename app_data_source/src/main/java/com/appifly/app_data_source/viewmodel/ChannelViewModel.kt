@@ -28,6 +28,7 @@ class ChannelViewModel @Inject constructor(
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
 
+    var catId:Int=0
     val channelData: LiveData<List<ChannelDto>>
         get() = _channelData 
     
@@ -39,7 +40,7 @@ class ChannelViewModel @Inject constructor(
 
         getAllChannel()
     }
-    fun callChannelDataByCatId(catId: Int) {
+    fun callChannelDataByCatId() {
         viewModelScope.launch {
             withContext(Dispatchers.Main) {
                 _channelData.value = channelDao.getAllChannelByCategory(catId).map { it.toDto() }
@@ -57,6 +58,8 @@ class ChannelViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO){
                 channelDao.favoriteChannel(chanelId)
+                callChannelDataByCatId()
+
             }
         }
     }

@@ -57,11 +57,13 @@ fun HomeScreen(
         item {
             viewModel.categoryData?.observeAsState()?.value?.let {
                 if (it.isNotEmpty()) {
-                    channelViewModel.callChannelDataByCatId(it[0].id)
+                    channelViewModel.catId = it[0].id
+                    channelViewModel.callChannelDataByCatId()
                     viewModel.setCategoryName(it[0].name)
                 }
                 CategoryListSection(it) { item ->
-                    channelViewModel.callChannelDataByCatId(item.id)
+                    channelViewModel.catId = item.id
+                    channelViewModel.callChannelDataByCatId()
                     viewModel.setCategoryName(item.name)
                 }
             }
@@ -80,12 +82,11 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(  items = it, key = { item -> item}) { item ->
+                            items(it) { item ->
                                 FrequentlyPlayedItem(
                                     item,
                                     onItemClick = { item -> },
                                     onFavClick = { channelId, isFav ->
-
                                         if (!isFav) {
                                             channelViewModel.setFavoriteChannel(channelId)
                                         }
@@ -171,28 +172,31 @@ fun HomeScreen(
         item {
             if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
                 channelViewModel.favoriteChannelList?.observeAsState()?.value?.let {
-                    HeaderText(
-                        context.getString(R.string.favorites),
-                        context.getString(R.string.see_all)
-                    )
+                    Column(horizontalAlignment = Alignment.Start) {
 
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                    ) {
-                        items(it) { item ->
-                            FrequentlyPlayedItem(
-                                item,
-                                onItemClick = { item -> },
-                                onFavClick = { channelId, isFav ->
-                                    if (!isFav) {
-                                        channelViewModel.setFavoriteChannel(channelId)
-                                    }
 
-                                })
+                        HeaderText(
+                            context.getString(R.string.favorites),
+                            context.getString(R.string.see_all)
+                        )
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        ) {
+                            items(it) { item ->
+                                FrequentlyPlayedItem(
+                                    item,
+                                    onItemClick = { item -> },
+                                    onFavClick = { channelId, isFav ->
+                                        if (!isFav) {
+                                            channelViewModel.setFavoriteChannel(channelId)
+                                        }
+
+                                    })
+                            }
                         }
                     }
-
                 }
             }
 
