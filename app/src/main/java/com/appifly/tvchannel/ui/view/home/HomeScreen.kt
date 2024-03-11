@@ -46,7 +46,7 @@ fun HomeScreen(
 
         }
 
-        item (key = "TOpBanner"){
+        item(key = "TOpBanner") {
             homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
                 TopBannerItem(it)
             }
@@ -68,7 +68,7 @@ fun HomeScreen(
             }
         }
 
-        item (key = "AllChannel"){
+        item(key = "AllChannel") {
             if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
                 channelViewModel.channelData.observeAsState().value?.let {
                     Column(horizontalAlignment = Alignment.Start) {
@@ -81,7 +81,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(items = it, key = {it.id!!}) { item ->
+                            items(items = it, key = { it.id!! }) { item ->
                                 FrequentlyPlayedItem(
                                     item,
                                     onItemClick = { item -> },
@@ -137,7 +137,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(items = it, key = {it.id!!}) { item ->
+                            items(items = it, key = { it.id!! }) { item ->
                                 RegularChannelItem(item)
                             }
                         }
@@ -146,27 +146,20 @@ fun HomeScreen(
                 }
             }
 
-
         }
 
-        item (key = "TvSeries"){
+        item(key = "TvSeries") {
             if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
                 homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
-
                     HeaderText(
                         context.getString(R.string.tv_shows),
                         context.getString(R.string.see_all)
                     )
-
                     TvSeriesItem(it)
-
                 }
             }
 
-
         }
-
-
 
         item(key = "Favorite") {
             if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
@@ -183,7 +176,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(items = it, key = {it.id!!}) { item ->
+                            items(items = it, key = { it.id!! }) { item ->
                                 FrequentlyPlayedItem(
                                     item,
                                     onItemClick = { item -> },
