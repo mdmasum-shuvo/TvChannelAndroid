@@ -40,21 +40,20 @@ fun HomeScreen(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
+        item(key = "MainTopbar") {
             MainTopBar()
-        }
-        item {
             SpacerHeight(height = 16)
+
         }
 
-        item {
+        item (key = "TOpBanner"){
             homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
                 TopBannerItem(it)
             }
         }
 
 
-        item {
+        item(key = "Category") {
             viewModel.categoryData?.observeAsState()?.value?.let {
                 if (it.isNotEmpty()) {
                     channelViewModel.catId = it[0].id
@@ -69,7 +68,7 @@ fun HomeScreen(
             }
         }
 
-        item {
+        item (key = "AllChannel"){
             if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
                 channelViewModel.channelData.observeAsState().value?.let {
                     Column(horizontalAlignment = Alignment.Start) {
@@ -125,7 +124,7 @@ fun HomeScreen(
 
 
      */
-        item {
+        item(key = "PopularItem") {
             if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
                 channelViewModel.popularChannelList?.observeAsState()?.value?.let {
                     Column(horizontalAlignment = Alignment.Start) {
@@ -150,7 +149,7 @@ fun HomeScreen(
 
         }
 
-        item {
+        item (key = "TvSeries"){
             if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
                 homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
 
@@ -169,7 +168,7 @@ fun HomeScreen(
 
 
 
-        item {
+        item(key = "Favorite") {
             if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
                 channelViewModel.favoriteChannelList?.observeAsState()?.value?.let {
                     Column(horizontalAlignment = Alignment.Start) {

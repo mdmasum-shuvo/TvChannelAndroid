@@ -34,7 +34,7 @@ fun ChannelScreen(
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
+        item(key = "MainTopbar") {
             MainTopBar()
         }
 
@@ -55,14 +55,10 @@ fun ChannelScreen(
             }
         }
 
-
-        item {
-            HeaderText(viewModel.channelCategoryName.observeAsState().value)
-        }
-
         item {
 
             chanelViewModel.channelData.observeAsState().value?.let {
+                HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
                     modifier = Modifier.height(((112 * 10) / 2).dp),
