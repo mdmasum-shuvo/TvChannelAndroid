@@ -34,6 +34,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
@@ -79,10 +80,12 @@ fun FrequentlyPlayedItem(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(item.iconUrl)
+                            .build(),
+                        contentScale = ContentScale.Fit,
+                        contentDescription = "ImageRequest example",
                     )
 
 
@@ -137,10 +140,13 @@ fun RegularChannelItem(
                     .padding(8.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painter,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop
+
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item?.iconUrl)
+                        .build(),
+                    contentScale = ContentScale.Fit,
+                    contentDescription = "ImageRequest example",
                 )
             }
             if (isRegularItem) {

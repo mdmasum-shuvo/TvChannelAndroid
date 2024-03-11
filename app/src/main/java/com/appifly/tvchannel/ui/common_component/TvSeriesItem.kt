@@ -27,7 +27,9 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.dto.TvShowDto
@@ -96,12 +98,16 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
                         .fillMaxSize(),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(
-                        painter = painter,
-                        contentDescription = null,
+                    AsyncImage(
                         modifier = Modifier
                             .fillMaxSize(),
-                        contentScale = ContentScale.Crop
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(dataList[page].imageUrl).diskCachePolicy(CachePolicy.ENABLED)
+
+                            .build(),
+
+                        contentScale = ContentScale.Crop,
+                        contentDescription = "ImageRequest example",
                     )
                 }
 

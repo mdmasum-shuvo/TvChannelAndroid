@@ -6,6 +6,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
@@ -21,7 +22,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
 import com.appifly.tvchannel.R
@@ -40,10 +43,11 @@ fun CategoryItem(
                 .apply(block = fun ImageRequest.Builder.() {
                 }).build()
         )
-    Column(horizontalAlignment = Alignment.CenterHorizontally,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .selectable(selected = selectedIndex.value == index, onClick = {
-                if (selectedIndex.value!=index){
+                if (selectedIndex.value != index) {
                     selectedIndex.value = if (selectedIndex.value != index) index else -1
                     onItemClick()
                 }
@@ -67,11 +71,14 @@ fun CategoryItem(
                 modifier = Modifier
                     .padding(12.dp)
             ) {
-                Image(
-                    painter = painter,
-                    contentDescription = null,
+                AsyncImage(
                     modifier = Modifier.size(30.dp),
-                    contentScale = ContentScale.Crop
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(item.imageUrl).diskCachePolicy(CachePolicy.ENABLED)
+                        .build(),
+
+                    contentScale = ContentScale.Crop,
+                    contentDescription = "ImageRequest example",
                 )
             }
         }
