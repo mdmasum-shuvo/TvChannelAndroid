@@ -3,6 +3,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,11 @@ import com.appifly.tvchannel.ui.theme.gradientColor1
 import com.appifly.tvchannel.ui.theme.gradientColor2
 
 @Composable
-fun FrequentlyPlayedItem(item: ChannelDto) {
+fun FrequentlyPlayedItem(
+    item: ChannelDto,
+    onItemClick: (ChannelDto) -> Unit = { },
+    onFavClick: (Int, Boolean) -> Unit
+) {
     val painter =
         rememberAsyncImagePainter(
             ImageRequest.Builder(LocalContext.current)
@@ -60,6 +65,7 @@ fun FrequentlyPlayedItem(item: ChannelDto) {
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             modifier = Modifier
+                .clickable { onItemClick(item) }
                 .height(90.dp)
                 .width(130.dp),
             border = BorderStroke(width = 1.dp, color = borderColor)
@@ -83,6 +89,9 @@ fun FrequentlyPlayedItem(item: ChannelDto) {
                 }
 
                 Box(modifier = Modifier
+                    .clickable {
+                        onFavClick(item.id!!, item.isFavorite!!)
+                    }
                     .align(Alignment.BottomEnd)
                     .padding(end = 8.dp, bottom = 8.dp)) {
                     GradientFavIcon(item.isFavorite)
@@ -99,7 +108,7 @@ fun FrequentlyPlayedItem(item: ChannelDto) {
 @Composable
 fun RegularChannelItem(
     item: ChannelDto? = null,
-    isRegularItem:Boolean=true,
+    isRegularItem: Boolean = true,
     modifier: Modifier = Modifier.size(80.dp),
     borderC: Color = borderColor,
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer
@@ -134,8 +143,12 @@ fun RegularChannelItem(
                     contentScale = ContentScale.Crop
                 )
             }
-            if (isRegularItem){
-                Box(modifier = Modifier.align(Alignment.BottomEnd).padding(end = 8.dp, bottom = 8.dp)) {
+            if (isRegularItem) {
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 8.dp, bottom = 8.dp)
+                ) {
                     GradientFavIcon(item?.isFavorite)
                 }
             }
@@ -147,7 +160,7 @@ fun RegularChannelItem(
 }
 
 @Composable
-fun GradientFavIcon(isFavorite:Boolean?){
+fun GradientFavIcon(isFavorite: Boolean?) {
     val gradient = Brush.linearGradient(
         colors = listOf(
             gradientColor1,
@@ -157,7 +170,8 @@ fun GradientFavIcon(isFavorite:Boolean?){
         end = Offset(12f, 52f),
     )
     Icon(
-        modifier = Modifier.size(16.dp)
+        modifier = Modifier
+            .size(16.dp)
             .graphicsLayer(alpha = 0.99f)
             .drawWithCache {
                 onDrawWithContent {
@@ -165,7 +179,7 @@ fun GradientFavIcon(isFavorite:Boolean?){
                     drawRect(gradient, blendMode = BlendMode.SrcAtop)
                 }
             },
-        imageVector =if (isFavorite==true) Icons.Default.Favorite else  Icons.Default.FavoriteBorder,
+        imageVector = if (isFavorite == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
         contentDescription = null,
     )
 }

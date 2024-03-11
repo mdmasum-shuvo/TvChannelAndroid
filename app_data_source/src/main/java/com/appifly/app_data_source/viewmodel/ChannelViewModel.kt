@@ -32,8 +32,8 @@ class ChannelViewModel @Inject constructor(
         get() = _channelData 
     
     
-    val channelList=channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
-    val popularChannelList=channelDao.getAllChannel()?.map { it -> it.map { it.toDto() } }
+    val popularChannelList=channelDao.getPopularChannel()?.map { it -> it.map { it.toDto() } }
+    val favoriteChannelList=channelDao.getFavoriteChannel()?.map { it -> it.map { it.toDto() } }
 
     init {
 
@@ -51,6 +51,14 @@ class ChannelViewModel @Inject constructor(
     private fun getAllChannel(){
         Log.e("call api","call all channel")
         _channelData.value= channelDao.getAllChannel()?.value?.map { it.toDto() }
+    }
+
+    fun setFavoriteChannel(chanelId:Int){
+        viewModelScope.launch {
+            withContext(Dispatchers.IO){
+                channelDao.favoriteChannel(chanelId)
+            }
+        }
     }
 
 }

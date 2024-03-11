@@ -49,7 +49,6 @@ fun HomeScreen(
 
         item {
             homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
-
                 TopBannerItem(it)
             }
         }
@@ -69,24 +68,34 @@ fun HomeScreen(
         }
 
         item {
-            channelViewModel.channelData.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
+            if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
+                channelViewModel.channelData.observeAsState().value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            viewModel.channelCategoryName.observeAsState().value,
+                            context.getString(R.string.see_all)
+                        )
 
-                    HeaderText(
-                        viewModel.channelCategoryName.observeAsState().value,
-                        context.getString(R.string.see_all)
-                    )
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        ) {
+                            items(  items = it, key = { item -> item}) { item ->
+                                FrequentlyPlayedItem(
+                                    item,
+                                    onItemClick = { item -> },
+                                    onFavClick = { channelId, isFav ->
 
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                    ) {
-                        items(it) { item ->
-                            FrequentlyPlayedItem(item)
+                                        if (!isFav) {
+                                            channelViewModel.setFavoriteChannel(channelId)
+                                        }
+
+                                    })
+                            }
                         }
                     }
-                }
 
+                }
             }
         }
 
@@ -116,11 +125,54 @@ fun HomeScreen(
 
      */
         item {
+            if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
+                channelViewModel.popularChannelList?.observeAsState()?.value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            context.getString(R.string.popular_channel),
+                            context.getString(R.string.see_all)
+                        )
 
-            channelViewModel.popularChannelList?.observeAsState()?.value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        ) {
+                            items(it) { item ->
+                                RegularChannelItem(item)
+                            }
+                        }
+                    }
+
+                }
+            }
+
+
+        }
+
+        item {
+            if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
+                homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
+
                     HeaderText(
-                        context.getString(R.string.popular_channel),
+                        context.getString(R.string.tv_shows),
+                        context.getString(R.string.see_all)
+                    )
+
+                    TvSeriesItem(it)
+
+                }
+            }
+
+
+        }
+
+
+
+        item {
+            if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
+                channelViewModel.favoriteChannelList?.observeAsState()?.value?.let {
+                    HeaderText(
+                        context.getString(R.string.favorites),
                         context.getString(R.string.see_all)
                     )
 
@@ -129,47 +181,21 @@ fun HomeScreen(
                         modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                     ) {
                         items(it) { item ->
-                            RegularChannelItem(item)
+                            FrequentlyPlayedItem(
+                                item,
+                                onItemClick = { item -> },
+                                onFavClick = { channelId, isFav ->
+                                    if (!isFav) {
+                                        channelViewModel.setFavoriteChannel(channelId)
+                                    }
+
+                                })
                         }
                     }
+
                 }
-
             }
 
-        }
-
-        item {
-            homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
-
-                HeaderText(
-                    context.getString(R.string.tv_shows),
-                    context.getString(R.string.see_all)
-                )
-
-                TvSeriesItem(it)
-
-            }
-
-        }
-
-
-        item {
-            channelViewModel.channelData.observeAsState().value?.let {
-                HeaderText(
-                    context.getString(R.string.favorites),
-                    context.getString(R.string.see_all)
-                )
-
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                ) {
-                    items(it) { item ->
-                        FrequentlyPlayedItem(item)
-                    }
-                }
-
-            }
         }
     }
 }
