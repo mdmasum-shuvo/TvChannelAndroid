@@ -82,7 +82,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(it) { item ->
+                            items(items = it, key = {it.id!!}) { item ->
                                 FrequentlyPlayedItem(
                                     item,
                                     onItemClick = { item -> },
@@ -138,7 +138,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(it) { item ->
+                            items(items = it, key = {it.id!!}) { item ->
                                 RegularChannelItem(item)
                             }
                         }
@@ -184,7 +184,7 @@ fun HomeScreen(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                         ) {
-                            items(it) { item ->
+                            items(items = it, key = {it.id!!}) { item ->
                                 FrequentlyPlayedItem(
                                     item,
                                     onItemClick = { item -> },
