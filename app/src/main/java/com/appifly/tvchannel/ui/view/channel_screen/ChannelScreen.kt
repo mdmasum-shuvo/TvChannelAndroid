@@ -77,7 +77,7 @@ fun ChannelScreen(
                         bottom = 16.dp
                     )
                 ) {
-                    items(it) { item ->
+                    items(items = it, key = {it.id!!}) { item ->
                         RegularChannelItem(item = item, modifier = Modifier.height(100.dp))
                     }
 
