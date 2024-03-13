@@ -97,11 +97,8 @@ fun HomeScreen(
                             FrequentlyPlayedItem(
                                 item,
                                 onItemClick = { item -> },
-                                onFavClick = { channelId, isFav ->
-                                    if (!isFav) {
-                                        channelViewModel.setFavoriteChannel(channelId)
-                                    }
-
+                                onFavClick = { channelId ->
+                                    channelViewModel.setFavoriteChannel(channelId)
                                 })
                         }
                     }
@@ -150,7 +147,10 @@ fun HomeScreen(
                         modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
-                            RegularChannelItem(item)
+                            RegularChannelItem(item, onItemClick = {}, onFavClick = { channelId ->
+                                channelViewModel.setFavoriteChannel(channelId)
+
+                            })
                         }
                     }
                 }
@@ -171,9 +171,8 @@ fun HomeScreen(
             }
         }
 
-/*
-        if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
-            channelViewModel.favoriteChannelList?.observeAsState()?.value?.let {
+        if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
+            channelViewModel.favoriteChannelList.observeAsState().value?.let {
                 Column(horizontalAlignment = Alignment.Start) {
 
 
@@ -189,19 +188,19 @@ fun HomeScreen(
                         items(items = it, key = { it.id!! }) { item ->
                             FrequentlyPlayedItem(
                                 item,
+                                isFavorite = true,
                                 onItemClick = { item -> },
-                                onFavClick = { channelId, isFav ->
-                                    if (!isFav) {
-                                        channelViewModel.setFavoriteChannel(channelId)
-                                    }
-
+                                onFavClick = { channelId ->
+                                    /*        if (!isFav) {
+                                                channelViewModel.setFavoriteChannel(channelId)
+                                            }
+        */
                                 })
                         }
                     }
                 }
             }
         }
-*/
 
 
     }

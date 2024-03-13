@@ -12,6 +12,8 @@ import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.FavoriteDao
+import com.appifly.cachemanager.model.FavoriteEntity
 import com.appifly.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,18 +25,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
-    private val channelDao: ChannelDao
+    private val channelDao: ChannelDao,
+    private val favoriteDao: FavoriteDao
 ) : ViewModel() {
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
 
-    var catId:Int=0
+    var catId: Int = 0
     val channelData: LiveData<List<ChannelDto>>
-        get() = _channelData 
+        get() = _channelData
 
 
-    val popularChannelList=channelDao.getPopularChannel()?.map { it -> it.map { it.toDto() } }
-    //val favoriteChannelList=channelDao.getFavoriteChannel()?.map { it -> it.map { it.toDto() } }
+    val popularChannelList = channelDao.getPopularChannel()?.map { it -> it.map { it.toDto() } }
+    val favoriteChannelList=favoriteDao.getAllFavoriteChannel().map { it -> it.map { it.toDto() } }
 
 
     fun callChannelDataByCatId() {
@@ -46,14 +49,12 @@ class ChannelViewModel @Inject constructor(
         Log.e("data", channelData.value.toString())
     }
 
-
-
-    fun setFavoriteChannel(chanelId:Int){
+    fun setFavoriteChannel(chanelId: Int) {
         viewModelScope.launch {
-            withContext(Dispatchers.IO){
-              //  channelDao.favoriteChannel(chanelId)
-                callChannelDataByCatId()
-
+            withContext(Dispatchers.IO) {
+                val count = favoriteDao.insert(FavoriteEntity(channelId = chanelId))
+                Log.e("count_favorite", "Count:$count")
+                // callChannelDataByCatId()
             }
         }
     }
