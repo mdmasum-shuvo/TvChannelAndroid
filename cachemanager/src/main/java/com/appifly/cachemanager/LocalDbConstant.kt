@@ -5,5 +5,7 @@ object LocalDbConstant {
     const val CHANNEL_TABLE="channel_table"
     const val BANNER_TABLE="banner_table"
     const val TV_SHOW_TABLE="tv_show_table"
+    const val FAVORITE_TABLE="favorite_table"
+    const val FREQUENTLY_TABLE="frequently_played_table"
 
 }

@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.FavoriteDao
+import com.appifly.cachemanager.dao.FrequentlyDao
 import com.appifly.cachemanager.dao.TvShowDao
 import dagger.Module
 import dagger.Provides
@@ -60,6 +62,18 @@ object LocalCashModule {
     @Singleton
     fun provideTvShowDao(database: TvDatabase): TvShowDao {
         return database.tvShowDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteDao(database: TvDatabase): FavoriteDao {
+        return database.favoriteDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFrequentlyDao(database: TvDatabase): FrequentlyDao {
+        return database.frequentlyDao()
     }
 
 
