@@ -13,7 +13,9 @@ import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
 import com.appifly.cachemanager.dao.FavoriteDao
+import com.appifly.cachemanager.dao.FrequentlyDao
 import com.appifly.cachemanager.model.FavoriteEntity
+import com.appifly.cachemanager.model.FrequentlyEntity
 import com.appifly.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +28,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ChannelViewModel @Inject constructor(
     private val channelDao: ChannelDao,
-    private val favoriteDao: FavoriteDao
+    private val favoriteDao: FavoriteDao,
+    private val frequentlyDao: FrequentlyDao
 ) : ViewModel() {
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
@@ -37,7 +40,11 @@ class ChannelViewModel @Inject constructor(
 
 
     val popularChannelList = channelDao.getPopularChannel()?.map { it -> it.map { it.toDto() } }
-    val favoriteChannelList=favoriteDao.getAllFavoriteChannel().map { it -> it.map { it.toDto() } }
+    val favoriteChannelList =
+        favoriteDao.getAllFavoriteChannel().map { it -> it.map { it.toDto() } }
+
+    val frequentlyPlayedChannelList =
+        frequentlyDao.getAllFrequentlyPlayedChannel().map { it -> it.map { it.toDto() } }
 
 
     fun callChannelDataByCatId() {
@@ -53,6 +60,16 @@ class ChannelViewModel @Inject constructor(
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 val count = favoriteDao.insert(FavoriteEntity(channelId = chanelId))
+                Log.e("count_favorite", "Count:$count")
+                // callChannelDataByCatId()
+            }
+        }
+    }
+
+    fun addTOFrequentChannel(chanelId: Int) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val count = frequentlyDao.insert(FrequentlyEntity(channelId = chanelId))
                 Log.e("count_favorite", "Count:$count")
                 // callChannelDataByCatId()
             }

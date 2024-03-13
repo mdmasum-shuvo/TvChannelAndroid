@@ -131,7 +131,7 @@ fun RegularChannelItem(
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(containerColor = cardColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        modifier = modifier,
+        modifier = modifier.clickable { onItemClick(item!!) },
         border = BorderStroke(width = 1.dp, color = borderC)
     ) {
 

@@ -21,6 +21,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
+import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -32,7 +33,7 @@ import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
-fun FavoriteScreen(categoryViewModel: CategoryViewModel) {
+fun FavoriteScreen(categoryViewModel: CategoryViewModel,channelViewModel: ChannelViewModel) {
 
     val context = LocalContext.current
     LazyColumn(
@@ -86,7 +87,7 @@ fun FavoriteScreen(categoryViewModel: CategoryViewModel) {
                                         bottom = 4.dp
                                     )
                                 ) {
-                                    items(9) {
+                                    items(3) {
                                         RegularChannelItem(
                                             modifier = Modifier.height(70.dp), borderC = lightBackground,
                                             cardColor = lightBackground, isRegularItem = false

@@ -96,7 +96,7 @@ fun HomeScreen(
                         items(items = it, key = { it.id!! }) { item ->
                             FrequentlyPlayedItem(
                                 item,
-                                onItemClick = { item -> },
+                                onItemClick = { item -> channelViewModel.addTOFrequentChannel(item.id!!) },
                                 onFavClick = { channelId ->
                                     channelViewModel.setFavoriteChannel(channelId)
                                 })
@@ -107,32 +107,30 @@ fun HomeScreen(
             }
         }
 
+        if (!channelViewModel.frequentlyPlayedChannelList.observeAsState().value.isNullOrEmpty()) {
+            channelViewModel.frequentlyPlayedChannelList.observeAsState().value?.let {
+                Column(horizontalAlignment = Alignment.Start) {
+                    HeaderText(
+                        context.getString(R.string.frequently_played),
+                        context.getString(R.string.see_all)
+                    )
 
-        /*     item {
-                 channelViewModel.channelData.observeAsState().value?.let {
-                     Column(horizontalAlignment = Alignment.Start) {
-
-                         HeaderText(
-                             context.getString(R.string.frequently_played),
-                             context.getString(R.string.see_all)
-                         )
-
-                         LazyRow(
-                             horizontalArrangement = Arrangement.spacedBy(12.dp),
-                             modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                         ) {
-                             items(it) { item ->
-                                 FrequentlyPlayedItem(item)
-                             }
-                         }
-                     }
-
-                 }
-             }
-
-
-
-     */
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(items = it, key = { it.id!! }) { item ->
+                            FrequentlyPlayedItem(
+                                item,
+                                onItemClick = { item -> },
+                                onFavClick = { channelId ->
+                                    channelViewModel.setFavoriteChannel(channelId)
+                                })
+                        }
+                    }
+                }
+            }
+        }
 
         if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
             channelViewModel.popularChannelList?.observeAsState()?.value?.let {
@@ -147,18 +145,17 @@ fun HomeScreen(
                         modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
-                            RegularChannelItem(item, onItemClick = {}, onFavClick = { channelId ->
+                            RegularChannelItem(item, onItemClick = {
+                                channelViewModel.addTOFrequentChannel(item.id!!)
+                            }, onFavClick = { channelId ->
                                 channelViewModel.setFavoriteChannel(channelId)
 
                             })
                         }
                     }
                 }
-
             }
         }
-
-
 
 
         if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
