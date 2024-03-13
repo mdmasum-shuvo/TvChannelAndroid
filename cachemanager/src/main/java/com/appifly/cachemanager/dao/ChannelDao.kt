@@ -14,8 +14,7 @@ interface ChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(list: List<ChannelEntity>)
 
-    @Query("UPDATE ${LocalDbConstant.CHANNEL_TABLE} SET isFavorite=1 WHERE id=:channelId")
-    suspend fun favoriteChannel(channelId: Int)
+
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE}")
     fun getAllChannel(): LiveData<List<ChannelEntity>>?
@@ -23,8 +22,7 @@ interface ChannelDao {
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE isPopular=1")
     fun getPopularChannel(): LiveData<List<ChannelEntity>>?
 
-    @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE isFavorite=1")
-    fun getFavoriteChannel(): LiveData<List<ChannelEntity>>?
+
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE catId=:categoryId")
     suspend fun getAllChannelByCategory(categoryId: Int): List<ChannelEntity>

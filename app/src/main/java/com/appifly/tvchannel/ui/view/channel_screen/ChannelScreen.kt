@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.view.channel_screen
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,8 +10,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,34 +34,39 @@ fun ChannelScreen(
     viewModel: CategoryViewModel,
     chanelViewModel: ChannelViewModel
 ) {
+    val selectedIndex = remember { mutableIntStateOf(0) }
 
-    LazyColumn(
+    Column(
         modifier = Modifier
+            .verticalScroll(rememberScrollState())
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item(key = "MainTopbar") {
+
             MainTopBar()
-        }
 
-        item {
+
+
             viewModel.categoryData?.observeAsState()?.value?.let {
-                if (it.isNotEmpty()) {
-                    chanelViewModel.catId = it[0].id
-                    chanelViewModel.callChannelDataByCatId()
-                    viewModel.setCategoryName(it[0].name)
-                }
 
-                CategoryListSection(it) { item ->
+                LaunchedEffect(key1 = true, block = {
+                    if (it.isNotEmpty()) {
+                        chanelViewModel.catId = it[0].id
+                        chanelViewModel.callChannelDataByCatId()
+                        viewModel.setCategoryName(it[0].name)
+                    }
+                })
+
+                CategoryListSection(it,selectedIndex) { item ->
                     chanelViewModel.catId = item.id
                     chanelViewModel.callChannelDataByCatId()
                     viewModel.setCategoryName(item.name)
 
                 }
             }
-        }
 
-        item {
+
+
 
             chanelViewModel.channelData.observeAsState().value?.let {
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
@@ -79,7 +90,7 @@ fun ChannelScreen(
 
                 }
             }
-        }
+
     }
 
 }

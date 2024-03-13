@@ -8,8 +8,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -36,68 +42,74 @@ fun HomeScreen(
     homeViewModel: HomeViewModel
 ) {
     val context = LocalContext.current
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+    val selectedIndex = remember { mutableIntStateOf(0) }
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item(key = "MainTopbar") {
-            MainTopBar()
-            SpacerHeight(height = 16)
 
+        MainTopBar()
+        SpacerHeight(height = 16)
+
+
+
+
+        homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
+            TopBannerItem(it)
         }
 
-        item(key = "TOpBanner") {
-            homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
-                TopBannerItem(it)
-            }
-        }
 
 
-        item(key = "Category") {
-            viewModel.categoryData?.observeAsState()?.value?.let {
+
+        viewModel.categoryData?.observeAsState()?.value?.let {
+
+            LaunchedEffect(key1 = true, block = {
                 if (it.isNotEmpty()) {
                     channelViewModel.catId = it[0].id
                     channelViewModel.callChannelDataByCatId()
                     viewModel.setCategoryName(it[0].name)
                 }
-                CategoryListSection(it) { item ->
-                    channelViewModel.catId = item.id
-                    channelViewModel.callChannelDataByCatId()
-                    viewModel.setCategoryName(item.name)
-                }
+            })
+            CategoryListSection(it, selectedIndex) { item ->
+                channelViewModel.catId = item.id
+                channelViewModel.callChannelDataByCatId()
+                viewModel.setCategoryName(item.name)
             }
         }
 
-        item(key = "AllChannel") {
-            if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
-                channelViewModel.channelData.observeAsState().value?.let {
-                    Column(horizontalAlignment = Alignment.Start) {
-                        HeaderText(
-                            viewModel.channelCategoryName.observeAsState().value,
-                            context.getString(R.string.see_all)
-                        )
 
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                        ) {
-                            items(items = it, key = { it.id!! }) { item ->
-                                FrequentlyPlayedItem(
-                                    item,
-                                    onItemClick = { item -> },
-                                    onFavClick = { channelId, isFav ->
-                                        if (!isFav) {
-                                            channelViewModel.setFavoriteChannel(channelId)
-                                        }
 
-                                    })
-                            }
+        if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
+            channelViewModel.channelData.observeAsState().value?.let {
+                Column(horizontalAlignment = Alignment.Start) {
+                    HeaderText(
+                        viewModel.channelCategoryName.observeAsState().value,
+                        context.getString(R.string.see_all)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(items = it, key = { it.id!! }) { item ->
+                            FrequentlyPlayedItem(
+                                item,
+                                onItemClick = { item -> },
+                                onFavClick = { channelId, isFav ->
+                                    if (!isFav) {
+                                        channelViewModel.setFavoriteChannel(channelId)
+                                    }
+
+                                })
                         }
                     }
-
                 }
+
             }
         }
+
 
         /*     item {
                  channelViewModel.channelData.observeAsState().value?.let {
@@ -124,75 +136,74 @@ fun HomeScreen(
 
 
      */
-        item(key = "PopularItem") {
-            if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
-                channelViewModel.popularChannelList?.observeAsState()?.value?.let {
-                    Column(horizontalAlignment = Alignment.Start) {
-                        HeaderText(
-                            context.getString(R.string.popular_channel),
-                            context.getString(R.string.see_all)
-                        )
 
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                        ) {
-                            items(items = it, key = { it.id!! }) { item ->
-                                RegularChannelItem(item)
-                            }
-                        }
-                    }
-
-                }
-            }
-
-        }
-
-        item(key = "TvSeries") {
-            if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
-                homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
+        if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
+            channelViewModel.popularChannelList?.observeAsState()?.value?.let {
+                Column(horizontalAlignment = Alignment.Start) {
                     HeaderText(
-                        context.getString(R.string.tv_shows),
+                        context.getString(R.string.popular_channel),
                         context.getString(R.string.see_all)
                     )
-                    TvSeriesItem(it)
-                }
-            }
 
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(items = it, key = { it.id!! }) { item ->
+                            RegularChannelItem(item)
+                        }
+                    }
+                }
+
+            }
         }
 
-        item(key = "Favorite") {
-            if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
-                channelViewModel.favoriteChannelList?.observeAsState()?.value?.let {
-                    Column(horizontalAlignment = Alignment.Start) {
 
 
-                        HeaderText(
-                            context.getString(R.string.favorites),
-                            context.getString(R.string.see_all)
-                        )
 
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
-                        ) {
-                            items(items = it, key = { it.id!! }) { item ->
-                                FrequentlyPlayedItem(
-                                    item,
-                                    onItemClick = { item -> },
-                                    onFavClick = { channelId, isFav ->
-                                        if (!isFav) {
-                                            channelViewModel.setFavoriteChannel(channelId)
-                                        }
+        if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
+            homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
+                HeaderText(
+                    context.getString(R.string.tv_shows),
+                    context.getString(R.string.see_all)
+                )
+                TvSeriesItem(it)
+            }
+        }
 
-                                    })
-                            }
+/*
+        if (!channelViewModel.favoriteChannelList?.observeAsState()?.value.isNullOrEmpty()) {
+            channelViewModel.favoriteChannelList?.observeAsState()?.value?.let {
+                Column(horizontalAlignment = Alignment.Start) {
+
+
+                    HeaderText(
+                        context.getString(R.string.favorites),
+                        context.getString(R.string.see_all)
+                    )
+
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                    ) {
+                        items(items = it, key = { it.id!! }) { item ->
+                            FrequentlyPlayedItem(
+                                item,
+                                onItemClick = { item -> },
+                                onFavClick = { channelId, isFav ->
+                                    if (!isFav) {
+                                        channelViewModel.setFavoriteChannel(channelId)
+                                    }
+
+                                })
                         }
                     }
                 }
             }
-
         }
+*/
+
+
     }
 }
 

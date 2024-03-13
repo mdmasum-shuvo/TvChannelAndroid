@@ -3,6 +3,7 @@
     <string name="frequently_played">Frequently Played</string>
     <string name="see_all">See all</string>
     <string name="favorites">Favorites Channel</string>
+    <string name="favorites_screen_title">Favorites</string>
     <string name="popular_channel">Popular Channel</string>
     <string name="tv_shows">TV Shows</string>
 </resources>

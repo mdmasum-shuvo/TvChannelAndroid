@@ -14,6 +14,7 @@ fun ChannelNetwork.toEntity(): ChannelEntity {
         iconUrl = getSubString(channel_image_url),
         liveUrl = channel_live_url,
         isPopular = is_popular,
+
     )
 }
 
@@ -26,7 +27,6 @@ fun ChannelEntity.toDto(): ChannelDto {
         name = name,
         iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
         liveUrl = liveUrl,
-        isFavorite = isFavorite
     )
 }
 

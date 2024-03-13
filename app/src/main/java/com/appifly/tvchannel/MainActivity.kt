@@ -89,7 +89,7 @@ private fun MainScreenView(
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
-                    FavoriteScreen()
+                    FavoriteScreen(categoryViewModel)
                 }
             }
         }
