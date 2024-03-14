@@ -36,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
+import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
 import com.appifly.app_data_source.dto.ChannelDto
@@ -75,6 +76,7 @@ fun FrequentlyPlayedItem(
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
                             .data(item.iconUrl)
+                            .diskCachePolicy(CachePolicy.ENABLED)
                             .build(),
                         contentScale = ContentScale.Fit,
                         contentDescription = "ImageRequest example",
@@ -100,14 +102,7 @@ fun RegularChannelItem(
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onItemClick: (ChannelDto) -> Unit = { },
 ) {
-    val painter =
-        rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current)
-                .data(data = item?.iconUrl)
-                .apply(block = fun ImageRequest.Builder.() {
 
-                }).build()
-        )
     Card(
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(containerColor = cardColor),
@@ -127,7 +122,7 @@ fun RegularChannelItem(
 
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
-                        .data(item?.iconUrl)
+                        .data(item?.iconUrl).diskCachePolicy(CachePolicy.ENABLED)
                         .build(),
                     contentScale = ContentScale.Fit,
                     contentDescription = "ImageRequest example",

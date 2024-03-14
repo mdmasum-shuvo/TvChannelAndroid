@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.bottom_nav
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
@@ -55,7 +56,8 @@ fun BottomNavigation(navController: NavController) {
         Routing.FavoriteScreen,
         Routing.MenuScreen,
     )
-    Card(elevation = CardDefaults.elevatedCardElevation(4.dp)) {
+    Card(elevation = CardDefaults.elevatedCardElevation(4.dp),
+        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 0.dp, bottomStart = 0.dp) ){
         NavigationBar {
 
             items.forEachIndexed { index, navigationItem ->
