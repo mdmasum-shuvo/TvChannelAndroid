@@ -56,12 +56,12 @@ class ChannelViewModel @Inject constructor(
         Log.e("data", channelData.value.toString())
     }
 
-    fun setFavoriteChannel(chanelId: Int) {
+    fun setFavoriteChannel(channelDto: ChannelDto) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-               val countRow= favoriteDao.countRow(chanelId)
+               val countRow= favoriteDao.countRow(channelDto.id!!)
                 if (countRow==0.toLong()){
-                    val count = favoriteDao.insert(FavoriteEntity(channelId = chanelId))
+                    val count = favoriteDao.insert(FavoriteEntity(channelId = channelDto.id!!, catId = channelDto.catId!!))
 
                 }
                 // callChannelDataByCatId()
