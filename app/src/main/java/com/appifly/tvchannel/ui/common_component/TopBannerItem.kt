@@ -109,7 +109,6 @@ fun TopBannerItem(dataList: List<BannerDto>) {
             Row {
                 RegularChannelItem(
                     modifier = Modifier.size(48.dp),
-                    isRegularItem = false,
                     item = ChannelDto(iconUrl = dataList[page].iconUrl)
                 )
                 SpacerWidth(10)

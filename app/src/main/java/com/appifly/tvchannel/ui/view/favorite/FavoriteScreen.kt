@@ -14,12 +14,14 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.R
@@ -33,8 +35,19 @@ import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
-fun FavoriteScreen(categoryViewModel: CategoryViewModel,channelViewModel: ChannelViewModel) {
+fun FavoriteScreen(categoryViewModel: CategoryViewModel, channelViewModel: ChannelViewModel) {
 
+
+    LaunchedEffect(key1 = channelViewModel.favoriteChannelList.observeAsState().value, block = {
+        if (!channelViewModel.favoriteChannelList.value.isNullOrEmpty()) {
+            channelViewModel.favoriteChannelList.value?.let {
+                categoryViewModel.setFavoriteCategory(
+                    it
+                )
+            }
+
+        }
+    })
     val context = LocalContext.current
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -52,7 +65,7 @@ fun FavoriteScreen(categoryViewModel: CategoryViewModel,channelViewModel: Channe
         }
 
         item {
-            categoryViewModel.categoryData?.observeAsState()?.value?.let {
+            categoryViewModel.favoriteCategoryList.observeAsState().value?.let {
                 LazyVerticalGrid(
                     modifier = Modifier.height(((200 * 6) / 2).dp),
                     columns = GridCells.Fixed(2),
@@ -66,7 +79,7 @@ fun FavoriteScreen(categoryViewModel: CategoryViewModel,channelViewModel: Channe
                         bottom = 4.dp
                     )
                 ) {
-                    items(it,key = {it.id}) {item->
+                    items(it, ) { item ->
 
                         Column {
                             Card(
@@ -87,16 +100,31 @@ fun FavoriteScreen(categoryViewModel: CategoryViewModel,channelViewModel: Channe
                                         bottom = 4.dp
                                     )
                                 ) {
-                                    items(3) {
-                                        RegularChannelItem(
-                                            modifier = Modifier.height(70.dp), borderC = lightBackground,
-                                            cardColor = lightBackground, isRegularItem = false
-                                        )
+                                    val favListofCat = ArrayList<ChannelDto>()
+                                    if (!channelViewModel.favoriteChannelList.value.isNullOrEmpty()) {
+                                        for (data in channelViewModel.favoriteChannelList.value!!) {
+                                            if (item.id == data.catId) {
+                                                favListofCat.add(data)
+                                            }
+                                        }
+
+                                        items(favListofCat) {
+                                            RegularChannelItem(
+                                                item = it,
+                                                modifier = Modifier.height(70.dp),
+                                                borderC = lightBackground,
+                                                cardColor = lightBackground,
+                                            )
+                                        }
                                     }
+
 
                                 }
                             }
-                            TextView12_W400(value = item.name?:"N/A", color = MaterialTheme.colorScheme.onTertiary)
+                            TextView12_W400(
+                                value = item.name ?: "N/A",
+                                color = MaterialTheme.colorScheme.onTertiary
+                            )
                         }
                     }
 

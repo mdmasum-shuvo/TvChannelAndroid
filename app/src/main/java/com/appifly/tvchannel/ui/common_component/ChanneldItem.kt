@@ -47,18 +47,9 @@ import com.appifly.tvchannel.ui.theme.gradientColor2
 @Composable
 fun FrequentlyPlayedItem(
     item: ChannelDto,
-    isFavorite: Boolean = false,
     onItemClick: (ChannelDto) -> Unit = { },
-    onFavClick: (Int) -> Unit
 ) {
-    val painter =
-        rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current)
-                .data(data = item.iconUrl)
-                .apply(block = fun ImageRequest.Builder.() {
 
-                }).build()
-        )
     Column(
 
     ) {
@@ -92,14 +83,6 @@ fun FrequentlyPlayedItem(
 
                 }
 
-                Box(modifier = Modifier
-                    .clickable {
-                        onFavClick(item.id!!)
-                    }
-                    .align(Alignment.BottomEnd)
-                    .padding(end = 8.dp, bottom = 8.dp)) {
-                    GradientFavIcon(isFavorite)
-                }
             }
 
         }
@@ -112,12 +95,10 @@ fun FrequentlyPlayedItem(
 @Composable
 fun RegularChannelItem(
     item: ChannelDto? = null,
-    isRegularItem: Boolean = true,
     modifier: Modifier = Modifier.size(80.dp),
     borderC: Color = borderColor,
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onItemClick: (ChannelDto) -> Unit = { },
-    onFavClick: (Int) -> Unit={}
 ) {
     val painter =
         rememberAsyncImagePainter(
@@ -151,18 +132,6 @@ fun RegularChannelItem(
                     contentScale = ContentScale.Fit,
                     contentDescription = "ImageRequest example",
                 )
-            }
-            if (isRegularItem) {
-                Box(
-                    modifier = Modifier
-                        .clickable {
-                            onFavClick(item?.id!!)
-                        }
-                        .align(Alignment.BottomEnd)
-                        .padding(end = 8.dp, bottom = 8.dp)
-                ) {
-                    GradientFavIcon(item?.isFavorite)
-                }
             }
 
         }

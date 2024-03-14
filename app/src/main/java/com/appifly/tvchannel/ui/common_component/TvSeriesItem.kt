@@ -70,17 +70,8 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
         modifier = Modifier.fillMaxWidth()
     ) { page ->
 
-        val painter =
-            rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(data = dataList[page].imageUrl)
-                    .apply(block = fun ImageRequest.Builder.() {
-
-                    }).build()
-            )
         Column(
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
-
         ) {
             Card(
                 shape = MaterialTheme.shapes.medium,
@@ -116,7 +107,6 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
             Row {
                 RegularChannelItem(
                     modifier = Modifier.size(48.dp),
-                    isRegularItem = false,
                     item = ChannelDto(iconUrl = dataList[page].iconUrl)
                 )
                 SpacerWidth(10)

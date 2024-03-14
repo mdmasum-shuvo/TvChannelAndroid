@@ -44,8 +44,6 @@ fun ChannelScreen(
 
         MainTopBar()
 
-
-
         viewModel.categoryData?.observeAsState()?.value?.let {
 
             LaunchedEffect(key1 = true, block = {
@@ -87,10 +85,10 @@ fun ChannelScreen(
                     RegularChannelItem(
                         item = item,
                         modifier = Modifier.height(100.dp),
-                        onItemClick = {},
-                        onFavClick = { channelId ->
-                            channelViewModel.setFavoriteChannel(channelId)
-                        })
+                        onItemClick = { item ->
+                            channelViewModel.addTOFrequentChannel(item.id!!)
+                        },
+                    )
                 }
 
             }
