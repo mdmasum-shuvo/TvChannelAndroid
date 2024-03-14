@@ -1,14 +1,5 @@
 package com.appifly.tvchannel.routing
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.outlined.PlayArrow
-import androidx.compose.material.icons.sharp.PlayArrow
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.appifly.tvchannel.R
 
 /**
@@ -20,7 +11,6 @@ import com.appifly.tvchannel.R
  */
 
 
-const val CATEGORY_SCREEN = "CATEGORY_SCREEN"
 const val CHANNEL_SCREEN = "CHANNEL_SCREEN"
 const val HOME_SCREEN = "HOME_SCREEN"
 const val FAVORITE_SCREEN = "FAVORITE_SCREEN"
@@ -30,7 +20,6 @@ const val FAVORITE_LIST_SCREEN = "FAVORITE_LIST_SCREEN"
 sealed class Routing(
     val routeName: String, val title: String? = "", val drawable: Int = R.drawable.bottom_home_icon
 ) {
-    data object CategoryScreen : Routing(routeName = CATEGORY_SCREEN)
     data object FavoriteChannelListScreen : Routing(routeName = FAVORITE_LIST_SCREEN)
     data object FavoriteScreen : Routing(routeName = FAVORITE_SCREEN,title = "Favorite", drawable =R.drawable.bottom_fav_icon )
     data object MenuScreen : Routing(routeName = MENU_SCREEN,title = "Menu", drawable =R.drawable.bottom_menu_icon)
