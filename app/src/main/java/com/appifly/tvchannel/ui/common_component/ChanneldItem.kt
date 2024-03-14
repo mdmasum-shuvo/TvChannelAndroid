@@ -2,14 +2,12 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,7 +18,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,10 +32,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
-import com.appifly.app_data_source.dto.CategoryDto
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
@@ -97,7 +92,7 @@ fun FrequentlyPlayedItem(
 @Composable
 fun RegularChannelItem(
     item: ChannelDto? = null,
-    isRegularItem: Boolean = false,
+    isFavoriteItem: Boolean = false,
     modifier: Modifier = Modifier.size(80.dp),
     borderC: Color = borderColor,
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer,
@@ -130,7 +125,7 @@ fun RegularChannelItem(
                     contentDescription = "ImageRequest example",
                 )
             }
-            if (isRegularItem) {
+            if (isFavoriteItem) {
                 Box(
                     modifier = Modifier
                         .clickable {
@@ -139,7 +134,7 @@ fun RegularChannelItem(
                         .align(Alignment.BottomEnd)
                         .padding(end = 8.dp, bottom = 8.dp)
                 ) {
-                    GradientFavIcon(item?.isFavorite)
+                    GradientFavIcon()
                 }
             }
         }
@@ -149,7 +144,7 @@ fun RegularChannelItem(
 }
 
 @Composable
-fun GradientFavIcon(isFavorite: Boolean?) {
+fun GradientFavIcon() {
     val gradient = Brush.linearGradient(
         colors = listOf(
             gradientColor1,
@@ -168,7 +163,7 @@ fun GradientFavIcon(isFavorite: Boolean?) {
                     drawRect(gradient, blendMode = BlendMode.SrcAtop)
                 }
             },
-        imageVector = if (isFavorite == true) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+        imageVector = Icons.Default.Favorite,
         contentDescription = null,
     )
 }

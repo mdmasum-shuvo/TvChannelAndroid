@@ -81,4 +81,14 @@ class ChannelViewModel @Inject constructor(
         }
     }
 
+    fun removeFavoriteChannel(chanelId: Int) {
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                val countRow= favoriteDao.deleteItem(chanelId)
+
+                // callChannelDataByCatId()
+            }
+        }
+    }
+
 }

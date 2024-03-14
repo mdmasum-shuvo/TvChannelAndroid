@@ -107,7 +107,7 @@ private fun MainScreenView(
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
 
-                    FavoriteChannelListScreen()
+                    FavoriteChannelListScreen(channelViewModel)
                 }
             }
         }
