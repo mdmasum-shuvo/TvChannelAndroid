@@ -8,6 +8,4 @@ import com.appifly.cachemanager.LocalDbConstant
 data class FavoriteEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int=0,
-    val channelId: Int,
-    val catId: Int,
-)
+    val channelId: Int)

@@ -61,7 +61,7 @@ class ChannelViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                val countRow= favoriteDao.countRow(channelDto.id!!)
                 if (countRow==0.toLong()){
-                    val count = favoriteDao.insert(FavoriteEntity(channelId = channelDto.id!!, catId = channelDto.catId!!))
+                    val count = favoriteDao.insert(FavoriteEntity(channelId = channelDto.id!!))
 
                 }
                 // callChannelDataByCatId()

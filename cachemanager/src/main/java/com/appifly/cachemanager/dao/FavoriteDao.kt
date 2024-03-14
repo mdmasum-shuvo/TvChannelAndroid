@@ -22,4 +22,7 @@ interface FavoriteDao {
     suspend fun deleteItem(channelId: Int):Int
     @Query("select catId,channel_table.id,name,iconUrl,liveUrl from channel_table  left join favorite_table where favorite_table.channelId=channel_table.id")
      fun getAllFavoriteChannel(): LiveData<List<ChannelEntity>>
+
+     @Query("select catId,channel_table.id,name,iconUrl,liveUrl from channel_table  left join favorite_table where favorite_table.channelId=channel_table.id AND channel_table.catId=:categoryId")
+     fun getAllFavoriteChannelByCat(categoryId:Int): LiveData<List<ChannelEntity>>
 }
