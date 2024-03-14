@@ -14,6 +14,8 @@ interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(favoriteEntity: FavoriteEntity):Long
 
+    @Query("SELECT COUNT(*) FROM FAVORITE_TABLE WHERE channelId=:channelId")
+    suspend fun countRow(channelId:Int):Long
     @Query("select catId,channel_table.id,name,iconUrl,liveUrl from channel_table  left join favorite_table where favorite_table.channelId=channel_table.id")
      fun getAllFavoriteChannel(): LiveData<List<ChannelEntity>>
 }

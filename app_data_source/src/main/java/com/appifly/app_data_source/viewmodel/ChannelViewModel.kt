@@ -59,8 +59,11 @@ class ChannelViewModel @Inject constructor(
     fun setFavoriteChannel(chanelId: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val count = favoriteDao.insert(FavoriteEntity(channelId = chanelId))
-                Log.e("count_favorite", "Count:$count")
+               val countRow= favoriteDao.countRow(chanelId)
+                if (countRow==0.toLong()){
+                    val count = favoriteDao.insert(FavoriteEntity(channelId = chanelId))
+
+                }
                 // callChannelDataByCatId()
             }
         }
@@ -69,8 +72,10 @@ class ChannelViewModel @Inject constructor(
     fun addTOFrequentChannel(chanelId: Int) {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
-                val count = frequentlyDao.insert(FrequentlyEntity(channelId = chanelId))
-                Log.e("count_favorite", "Count:$count")
+                val countRow= frequentlyDao.countRow(chanelId)
+                if (countRow==0.toLong()){
+                    val count = frequentlyDao.insert(FrequentlyEntity(channelId = chanelId))
+                }
                 // callChannelDataByCatId()
             }
         }

@@ -14,6 +14,9 @@ interface FrequentlyDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(frequentlyEntity: FrequentlyEntity):Long
 
+    @Query("SELECT COUNT(*) FROM FREQUENTLY_PLAYED_TABLE WHERE channelId=:channelId")
+    suspend fun countRow(channelId:Int):Long
+
     @Query("select catId,channel_table.id,name,iconUrl,liveUrl from channel_table  left join frequently_played_table where frequently_played_table.channelId=channel_table.id")
     fun getAllFrequentlyPlayedChannel(): LiveData<List<ChannelEntity>>
 
