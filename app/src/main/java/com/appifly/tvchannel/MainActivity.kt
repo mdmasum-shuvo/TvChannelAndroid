@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -28,6 +30,7 @@ import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.category.CategoryScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
+import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
@@ -66,10 +69,12 @@ private fun MainScreenView(
 ) {
     val navController = rememberNavController()
     hiltViewModel<MainViewModel>()
+    val showBottomNav = remember { mutableStateOf(false) }
+
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
     val homeViewModel:HomeViewModel= hiltViewModel()
-    Scaffold(bottomBar = { BottomNavigation(navController) }) { paddingValues ->
+    Scaffold(bottomBar = {if (showBottomNav.value) BottomNavigation(navController,homeViewModel) }) { paddingValues ->
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
                 navController = navController,
@@ -77,19 +82,32 @@ private fun MainScreenView(
             ) {
                 // Auth
                 composable(Routing.HomeScreen.routeName) {
+                    showBottomNav.value = true
+
                     HomeScreen(categoryViewModel,channelViewModel,homeViewModel)
                 }
 
                 composable(Routing.MenuScreen.routeName) {
+                    showBottomNav.value = true
+
                     MenuScreen()
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
+                    showBottomNav.value = true
+
                     ChannelScreen(categoryViewModel,channelViewModel)
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
-                    FavoriteScreen(categoryViewModel,channelViewModel)
+                    showBottomNav.value = true
+
+                    FavoriteScreen(navController,categoryViewModel,channelViewModel)
+                }
+                composable(Routing.FavoriteChannelListScreen.routeName) {
+                    showBottomNav.value = false
+
+                    FavoriteChannelListScreen()
                 }
             }
         }

@@ -97,10 +97,12 @@ fun FrequentlyPlayedItem(
 @Composable
 fun RegularChannelItem(
     item: ChannelDto? = null,
+    isRegularItem: Boolean = false,
     modifier: Modifier = Modifier.size(80.dp),
     borderC: Color = borderColor,
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onItemClick: (ChannelDto) -> Unit = { },
+    onFavClick: (Int) -> Unit = {}
 ) {
 
     Card(
@@ -128,7 +130,18 @@ fun RegularChannelItem(
                     contentDescription = "ImageRequest example",
                 )
             }
-
+            if (isRegularItem) {
+                Box(
+                    modifier = Modifier
+                        .clickable {
+                            onFavClick(item?.id!!)
+                        }
+                        .align(Alignment.BottomEnd)
+                        .padding(end = 8.dp, bottom = 8.dp)
+                ) {
+                    GradientFavIcon(item?.isFavorite)
+                }
+            }
         }
 
     }

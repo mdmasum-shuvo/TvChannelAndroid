@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,23 +30,37 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 
 @Composable
-fun MainTopBar() {
+fun MainTopBar(isBackEnable:Boolean=false) {
 
     Box(
 
         modifier = Modifier.height(60.dp)
     ) {
+        if (isBackEnable){
+            Box(
+                modifier = Modifier
+                    .padding(start = 16.dp)
+                    .align(Alignment.CenterStart)
+            ){
+                Icon(
+                    Icons.AutoMirrored.Filled.ArrowBack, tint =MaterialTheme.colorScheme.secondary,
+                    contentDescription = "back icon",
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+
+
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier
                 .align(Alignment.Center)
                 .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
         ) {
             ImageComponent(
                 drawableId = R.drawable.app_logo,
                 modifier = Modifier
-                    .height(40.dp)
+                    .height(38.dp)
                     .width(51.dp)
             )
         }

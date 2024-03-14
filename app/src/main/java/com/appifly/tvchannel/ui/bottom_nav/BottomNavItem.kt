@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.common_component.TextView14_W400
@@ -45,10 +46,10 @@ import com.appifly.tvchannel.ui.theme.gradientColor2
 
 
 @Composable
-fun BottomNavigation(navController: NavController) {
+fun BottomNavigation(navController: NavController,homeViewModel: HomeViewModel) {
 
     var navigationSelectedItem by remember {
-        mutableStateOf(0)
+        mutableStateOf(homeViewModel.selectedIndex)
     }
     val items = listOf(
         Routing.HomeScreen,
@@ -81,6 +82,7 @@ fun BottomNavigation(navController: NavController) {
                     },
                     onClick = {
                         navigationSelectedItem = index
+                        homeViewModel.selectedIndex=index
                         navController.navigate(navigationItem.routeName!!) {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true

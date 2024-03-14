@@ -13,7 +13,7 @@ class HomeViewModel @Inject constructor(
     tvShowDao: TvShowDao, bannerDao: BannerDao
 ) : ViewModel() {
 
-
+    var selectedIndex:Int=0
     val bannerListLiveData = bannerDao.getAllBanner()?.map { banner -> banner.map { it.toDto() } }
     val tvShowListLiveData = tvShowDao.getAllTvShow()?.map { tvShow -> tvShow.map { it.toDto() } }
 

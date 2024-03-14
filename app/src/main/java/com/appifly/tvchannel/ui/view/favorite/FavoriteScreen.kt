@@ -1,6 +1,7 @@
 package com.appifly.tvchannel.ui.view.favorite
 
 import android.content.res.Configuration
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -21,10 +22,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
@@ -33,9 +36,14 @@ import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.darkThemeTextColor
 import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
+import okhttp3.Route
 
 @Composable
-fun FavoriteScreen(categoryViewModel: CategoryViewModel, channelViewModel: ChannelViewModel) {
+fun FavoriteScreen(
+    navController: NavController,
+    categoryViewModel: CategoryViewModel,
+    channelViewModel: ChannelViewModel
+) {
 
 
     LaunchedEffect(key1 = channelViewModel.favoriteChannelList.observeAsState().value, block = {
@@ -79,10 +87,11 @@ fun FavoriteScreen(categoryViewModel: CategoryViewModel, channelViewModel: Chann
                         bottom = 4.dp
                     )
                 ) {
-                    items(it, ) { item ->
+                    items(it, key = { it.id }) { item ->
 
                         Column {
                             Card(
+                                modifier = Modifier.clickable { navController.navigate(Routing.FavoriteChannelListScreen.routeName) },
                                 shape = MaterialTheme.shapes.medium,
                                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
