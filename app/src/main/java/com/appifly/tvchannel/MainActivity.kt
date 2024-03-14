@@ -29,6 +29,7 @@ import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.category.CategoryScreen
+import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
@@ -84,7 +85,7 @@ private fun MainScreenView(
                 composable(Routing.HomeScreen.routeName) {
                     showBottomNav.value = true
 
-                    HomeScreen(categoryViewModel,channelViewModel,homeViewModel)
+                    HomeScreen(navController,categoryViewModel,channelViewModel,homeViewModel)
                 }
 
                 composable(Routing.MenuScreen.routeName) {
@@ -108,6 +109,11 @@ private fun MainScreenView(
                     showBottomNav.value = false
 
                     FavoriteChannelListScreen(channelViewModel)
+                }
+                composable(Routing.ChannelDetailScreen.routeName) {
+                    showBottomNav.value = false
+
+                    ChannelDetailScreen()
                 }
             }
         }
