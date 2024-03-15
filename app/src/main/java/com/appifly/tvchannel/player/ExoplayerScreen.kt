@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,8 +29,11 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.Timeline
+import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import com.google.android.exoplayer2.ui.StyledPlayerView
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
+
 
 @Composable
 fun ExoPlayerScreen(
@@ -45,7 +49,6 @@ fun ExoPlayerScreen(
     }
 
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
-
 
 
     var videoUrl = url
@@ -89,16 +92,18 @@ fun ExoPlayerScreen(
             modifier = modifier.wrapContentHeight(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-           
+
             DisposableEffect(AndroidView(factory = { playerView })) {
                 val observer = LifecycleEventObserver { owner, event ->
                     when (event) {
                         Lifecycle.Event.ON_PAUSE -> {
                             exoPlayer.pause()
                         }
+
                         Lifecycle.Event.ON_RESUME -> {
                             exoPlayer.play()
                         }
+
                         else -> {}
                     }
                 }
@@ -113,10 +118,13 @@ fun ExoPlayerScreen(
             }
         }
         if (loading.value) {
-            Column(modifier = Modifier
-                .fillMaxSize()
-                .align(Alignment.Center)
-            , horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Loader()
             }
         }

@@ -79,7 +79,7 @@ private fun MainScreenView(
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
                 navController = navController,
-                startDestination = Routing.HomeScreen.routeName
+                startDestination = Routing.ChannelDetailScreen.routeName
             ) {
                 // Auth
                 composable(Routing.HomeScreen.routeName) {
@@ -113,7 +113,7 @@ private fun MainScreenView(
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
 
-                    ChannelDetailScreen()
+                    ChannelDetailScreen(categoryViewModel,channelViewModel)
                 }
             }
         }
