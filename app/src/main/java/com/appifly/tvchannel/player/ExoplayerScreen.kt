@@ -77,7 +77,7 @@ fun ExoPlayerScreen(
 
     LaunchedEffect(key1 = true) {
         playerView.player = exoPlayer
-        playerView.player?.repeatMode = Player.REPEAT_MODE_ALL
+        exoPlayer.repeatMode = Player.REPEAT_MODE_ALL
         exoPlayer.prepare()
         exoPlayer.playWhenReady = true
     }
