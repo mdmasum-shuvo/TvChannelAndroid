@@ -69,12 +69,14 @@ fun ExoPlayerScreen(
 
     AndroidView(
         factory = { context ->
-            PlayerView(context).apply {
+            StyledPlayerView(context).apply {
                 player = exoPlayer
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                useController = false
+                RESIZE_MODE_FILL
             }
         },
     )
@@ -139,14 +141,6 @@ fun ExoPlayerScreen(
     }
 
     exoPlayer.addListener(object : Player.Listener {
-        override fun onTimelineChanged(timeline: Timeline, reason: Int) {
-            super.onTimelineChanged(timeline, reason)
-
-        }
-
-        override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
-            super.onPlayWhenReadyChanged(playWhenReady, reason)
-        }
 
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
