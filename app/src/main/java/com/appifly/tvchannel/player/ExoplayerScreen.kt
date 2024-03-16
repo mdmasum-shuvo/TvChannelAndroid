@@ -75,14 +75,14 @@ fun ExoPlayerScreen(
     }
 
     AndroidView(
-        factory = { context ->
-            PlayerView(context).apply {
+        factory = {
+            PlayerView(it).apply {
                 player = exoPlayer
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
-                useController = false
+                useController = true
                 RESIZE_MODE_FILL
             }
         },
