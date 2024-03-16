@@ -32,7 +32,10 @@ import androidx.lifecycle.LiveData
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.PlayerView
 import com.appifly.tvchannel.ui.common_component.Loader
@@ -83,8 +86,17 @@ fun ExoPlayerScreen(
 
     LaunchedEffect(videoUrl.observeAsState().value) {
         if (videoUrl.value != null) {
-            val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl.value))
-            exoPlayer.setMediaItem(mediaItem)
+            val defaultDataSourceFactory = DefaultDataSource.Factory(context)
+            val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
+                context,
+                defaultDataSourceFactory
+            )
+            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(MediaItem.fromUri(Uri.parse(videoUrl.value)))
+
+           exoPlayer.setMediaSource(source)
+           // val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl.value))
+           // exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
             exoPlayer.play()
         }
