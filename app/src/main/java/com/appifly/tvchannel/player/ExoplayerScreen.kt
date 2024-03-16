@@ -35,6 +35,8 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.hls.HlsMediaSource
+import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.PlayerView
@@ -59,7 +61,9 @@ fun ExoPlayerScreen(
     }
 
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
-    val exoPlayer = remember { ExoPlayer.Builder(context).build() }
+    val exoPlayer = remember { ExoPlayer.Builder(context).build().apply {
+
+    } }
 
     // Set up observer for video URI changes
 
@@ -91,12 +95,14 @@ fun ExoPlayerScreen(
                 context,
                 defaultDataSourceFactory
             )
-            val source = ProgressiveMediaSource.Factory(dataSourceFactory)
-                .createMediaSource(MediaItem.fromUri(Uri.parse(videoUrl.value)))
+            val source = if (videoUrl.value!!.contains("m3u8"))
+                getHlsMediaSource(dataSourceFactory,videoUrl.value!!)
+            else
+                getProgressiveMediaSource(dataSourceFactory,videoUrl.value!!)
 
            exoPlayer.setMediaSource(source)
-           // val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl.value))
-           // exoPlayer.setMediaItem(mediaItem)
+       /*     val mediaItem = MediaItem.fromUri(videoUrl.value!!)
+            exoPlayer.setMediaItem(mediaItem)*/
             exoPlayer.prepare()
             exoPlayer.play()
         }
@@ -183,4 +189,19 @@ fun ExoPlayerScreen(
         }
     })
 
+}
+
+
+@OptIn(UnstableApi::class)
+private fun getHlsMediaSource(dataSourceFactory:DataSource.Factory,mediaUrl:String): MediaSource {
+    // Create a HLS media source pointing to a playlist uri.
+    return HlsMediaSource.Factory(dataSourceFactory).
+    createMediaSource(MediaItem.fromUri(mediaUrl))
+}
+
+@UnstableApi
+private fun getProgressiveMediaSource(dataSourceFactory:DataSource.Factory, mediaUrl:String): MediaSource{
+    // Create a Regular media source pointing to a playlist uri.
+    return ProgressiveMediaSource.Factory(dataSourceFactory)
+        .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
 }
