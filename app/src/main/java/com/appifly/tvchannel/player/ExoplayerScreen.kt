@@ -42,14 +42,14 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
 @Composable
 fun ExoPlayerScreen(
-    videoUrl: LiveData<String> ,
+    videoUrl: LiveData<String>,
 
     modifier: Modifier = Modifier,
 ) {
     val loading = remember {
         mutableStateOf(true)
     }
-    val context= LocalContext.current
+    val context = LocalContext.current
 
     val isPlayFinished = remember {
         mutableStateOf(false)
@@ -83,7 +83,7 @@ fun ExoPlayerScreen(
 
     LaunchedEffect(videoUrl.observeAsState().value) {
         if (videoUrl.value != null) {
-            val mediaItem =MediaItem.fromUri(Uri.parse(videoUrl.value))
+            val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl.value))
             exoPlayer.setMediaItem(mediaItem)
             exoPlayer.prepare()
             exoPlayer.play()
