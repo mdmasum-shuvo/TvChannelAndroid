@@ -3,7 +3,9 @@ package com.appifly.tvchannel.player
 import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
+import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,17 +26,21 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.Timeline
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DataSource
+import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.ui.AspectRatioFrameLayout
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
+import androidx.media3.ui.PlayerView
 import com.appifly.tvchannel.ui.common_component.Loader
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Timeline
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
-import com.google.android.exoplayer2.ui.StyledPlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
 
+@OptIn(UnstableApi::class)
 @Composable
 fun ExoPlayerScreen(
     url: String? = null,
@@ -53,17 +59,25 @@ fun ExoPlayerScreen(
 
     var videoUrl = url
     val context = LocalContext.current
-    val exoPlayer = ExoPlayer.Builder(context).build().also { exoPlayer ->
-        exoPlayer.trackSelectionParameters = exoPlayer.trackSelectionParameters
-            .buildUpon()
-            .setMaxVideoSizeSd()
+    val exoPlayer =remember {
+        ExoPlayer.Builder(context)
             .build()
+            .apply {
+                val defaultDataSourceFactory = DefaultDataSource.Factory(context)
+                val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
+                    context,
+                    defaultDataSourceFactory
+                )
+                val source = ProgressiveMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(MediaItem.fromUri(videoUrl!!))
+
+                setMediaSource(source)
+                prepare()
+            }
     }
-    val mediaItem = MediaItem.fromUri(Uri.parse(videoUrl ?: ""))
 
-    exoPlayer.setMediaItem(mediaItem)
 
-    val playerView = StyledPlayerView(context).apply {
+    val playerView = PlayerView(context).apply {
         layoutParams =
             FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -93,28 +107,19 @@ fun ExoPlayerScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            DisposableEffect(AndroidView(factory = { playerView })) {
-                val observer = LifecycleEventObserver { owner, event ->
-                    when (event) {
-                        Lifecycle.Event.ON_PAUSE -> {
-                            exoPlayer.pause()
-                        }
+            DisposableEffect(
+                AndroidView(factory = {
+                    PlayerView(context).apply {
+                        hideController()
+                        useController = false
+                        resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
 
-                        Lifecycle.Event.ON_RESUME -> {
-                            exoPlayer.play()
-                        }
-
-                        else -> {}
+                        player = exoPlayer
+                        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
                     }
-                }
-                val lifecycle = lifecycleOwner.value.lifecycle
-                lifecycle.addObserver(observer)
-                onDispose {
-                    exoPlayer.stop()
-                    exoPlayer.release()
-                    lifecycle.removeObserver(observer)
-                }
-
+                })
+            ) {
+                onDispose { exoPlayer.release() }
             }
         }
         if (loading.value) {
@@ -138,6 +143,7 @@ fun ExoPlayerScreen(
 
         override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
             super.onPlayWhenReadyChanged(playWhenReady, reason)
+            Log.e("exoplayer","")
         }
 
         override fun onPlaybackStateChanged(playbackState: Int) {

@@ -47,7 +47,7 @@ fun ChannelDetailScreen(viewModel: CategoryViewModel, channelViewModel: ChannelV
             .fillMaxWidth()
             .weight(.9f, fill = true)){
             ExoPlayerScreen(
-                url = "https://abplivetv.akamaized.net/hls/live/2043010/hindi/master.m3u8"
+                url = "http://198.244.188.94/panorama/livestream/playlist.m3u8"
             )
 //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
         }
