@@ -47,7 +47,7 @@ fun ChannelDetailScreen(viewModel: CategoryViewModel, channelViewModel: ChannelV
             .fillMaxWidth()
             .weight(.9f, fill = true)){
             ExoPlayerScreen(
-                url = "https://abplivetv.akamaized.net/hls/live/2043010/hindi/master.m3u8"
+                videoUrl = viewModel.videoUrl
             )
 //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
         }
@@ -75,6 +75,7 @@ fun ChannelDetailScreen(viewModel: CategoryViewModel, channelViewModel: ChannelV
                             item = item,
                             modifier = Modifier.height(100.dp),
                             onItemClick = { item ->
+                                viewModel.setUrl(item.liveUrl!!)
                                 channelViewModel.addTOFrequentChannel(item.id!!)
                             },
                         )
