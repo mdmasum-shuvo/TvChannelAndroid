@@ -36,6 +36,7 @@ import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
+import com.appifly.tvchannel.ui.theme.dimens
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -86,7 +87,7 @@ fun TopBannerItem(dataList: List<BannerDto>) {
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                 modifier = Modifier
-                    .height(200.dp)
+                    .height(MaterialTheme.dimens.bannerHeight)
                     .fillMaxWidth(),
 
                 border = BorderStroke(width = 1.dp, color = borderColor)
@@ -105,13 +106,13 @@ fun TopBannerItem(dataList: List<BannerDto>) {
 
 
             }
-            SpacerHeight(12)
+            SpacerHeight( MaterialTheme.dimens.stdDimen12)
             Row {
                 RegularChannelItem(
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
                     item = ChannelDto(iconUrl = dataList[page].iconUrl)
                 )
-                SpacerWidth(10)
+                SpacerWidth( MaterialTheme.dimens.stdDimen10)
 
                 Column {
                     TextView14_W500(value = dataList[page].title)

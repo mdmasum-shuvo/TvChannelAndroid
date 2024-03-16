@@ -34,6 +34,7 @@ import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.common_component.TextView12_W400
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.darkThemeTextColor
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 import okhttp3.Route
@@ -65,7 +66,7 @@ fun FavoriteScreen(
             MainTopBar()
         }
         item {
-            SpacerHeight(height = 16)
+            SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
 
         }
         item {

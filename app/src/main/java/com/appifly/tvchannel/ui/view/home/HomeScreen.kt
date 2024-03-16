@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -35,6 +36,7 @@ import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.common_component.TopBannerItem
 import com.appifly.tvchannel.ui.common_component.TvSeriesItem
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
@@ -54,7 +56,7 @@ fun HomeScreen(
     ) {
 
         MainTopBar()
-        SpacerHeight(height = 16)
+        SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
 
 
 
@@ -94,7 +96,7 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = MaterialTheme.dimens.stdDimen24)
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
                             FrequentlyPlayedItem(
@@ -122,7 +124,7 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom =MaterialTheme.dimens.stdDimen24)
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
                             FrequentlyPlayedItem(
@@ -149,7 +151,7 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom =MaterialTheme.dimens.stdDimen24)
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
                             RegularChannelItem(item, onItemClick = {
@@ -185,7 +187,7 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 24.dp)
+                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom =MaterialTheme.dimens.stdDimen24)
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
                             FrequentlyPlayedItem(

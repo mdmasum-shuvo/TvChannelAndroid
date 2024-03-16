@@ -36,6 +36,7 @@ import com.appifly.app_data_source.dto.TvShowDto
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
+import com.appifly.tvchannel.ui.theme.dimens
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -78,7 +79,7 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                 modifier = Modifier
-                    .height(180.dp)
+                    .height(MaterialTheme.dimens.tvShowHeight)
                     .fillMaxWidth(),
                 border = BorderStroke(width = 1.dp, color = borderColor)
             ) {
@@ -103,13 +104,13 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
                 }
 
             }
-            SpacerHeight(12)
+            SpacerHeight( MaterialTheme.dimens.stdDimen12)
             Row {
                 RegularChannelItem(
-                    modifier = Modifier.size(48.dp),
+                    modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
                     item = ChannelDto(iconUrl = dataList[page].iconUrl)
                 )
-                SpacerWidth(10)
+                SpacerWidth( MaterialTheme.dimens.stdDimen10)
 
                 Column {
                     TextView16_W500(value = dataList[page].title)

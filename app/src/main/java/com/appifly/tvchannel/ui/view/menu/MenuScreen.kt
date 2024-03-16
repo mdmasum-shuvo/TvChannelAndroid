@@ -3,6 +3,7 @@ package com.appifly.tvchannel.ui.view.menu
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -12,6 +13,7 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 
 
@@ -27,7 +29,7 @@ fun MenuScreen() {
         }
 
         item {
-            SpacerHeight(height = 16)
+            SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
         }
         item {
             MenuItem(drawableId = R.drawable.theme, "App theme", "Action, Adventure, Thrill")

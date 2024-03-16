@@ -29,6 +29,7 @@ import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
 
 @Composable
@@ -72,7 +73,7 @@ fun CategoryItem(
                     .padding(12.dp)
             ) {
                 AsyncImage(
-                    modifier = Modifier.size(30.dp),
+                    modifier = Modifier.size(MaterialTheme.dimens.categorySize),
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(item.imageUrl).diskCachePolicy(CachePolicy.ENABLED)
                         .build(),

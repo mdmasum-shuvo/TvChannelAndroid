@@ -89,25 +89,7 @@ fun TextView14_W400_Gradient(
         maxLines = maxLine
     )
 }
-@Composable
-fun TextView12_W500(
-    modifier: Modifier = Modifier,
-    value: String,
-    color: Color = MaterialTheme.colorScheme.tertiary,
-    textAlign: TextAlign = TextAlign.Start,
-    overflow: TextOverflow = TextOverflow.Visible,
-    maxLine: Int = 1
-) {
-    Text(
-        modifier = modifier,
-        text = value,
-        color = color,
-        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.W500, fontSize = 12.sp),
-        textAlign = textAlign,
-        overflow = overflow,
-        maxLines = maxLine
-    )
-}
+
 
 @Composable
 fun TextView14_W500(

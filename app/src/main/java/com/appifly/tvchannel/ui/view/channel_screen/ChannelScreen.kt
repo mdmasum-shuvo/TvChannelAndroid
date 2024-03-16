@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
@@ -26,6 +27,7 @@ import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
@@ -84,7 +86,7 @@ fun ChannelScreen(
                 items(items = it, key = { it.id!! }) { item ->
                     RegularChannelItem(
                         item = item,
-                        modifier = Modifier.height(100.dp),
+                        modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                         onItemClick = { item ->
                             channelViewModel.addTOFrequentChannel(item.id!!)
                         },

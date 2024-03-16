@@ -37,6 +37,7 @@ import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
 import com.appifly.tvchannel.ui.theme.gradientColor2
 
@@ -55,8 +56,8 @@ fun FrequentlyPlayedItem(
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             modifier = Modifier
                 .clickable { onItemClick(item) }
-                .height(90.dp)
-                .width(130.dp),
+                .height(MaterialTheme.dimens.channelLargeHeight)
+                .width(MaterialTheme.dimens.channelLargeWidth),
             border = BorderStroke(width = 1.dp, color = borderColor)
         ) {
 
@@ -93,7 +94,7 @@ fun FrequentlyPlayedItem(
 fun RegularChannelItem(
     item: ChannelDto? = null,
     isFavoriteItem: Boolean = false,
-    modifier: Modifier = Modifier.size(80.dp),
+    modifier: Modifier = Modifier.size(MaterialTheme.dimens.channelSmall),
     borderC: Color = borderColor,
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer,
     onItemClick: (ChannelDto) -> Unit = { },

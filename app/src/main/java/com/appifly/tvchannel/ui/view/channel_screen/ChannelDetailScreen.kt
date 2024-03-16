@@ -30,11 +30,11 @@ import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 fun ChannelDetailScreen(viewModel: CategoryViewModel, channelViewModel: ChannelViewModel) {
     val context = LocalContext.current
 
-    LaunchedEffect(key1 = true, block ={
+    LaunchedEffect(key1 = true, block = {
         channelViewModel.catId = 1
         channelViewModel.callChannelDataByCatId()
         viewModel.setCategoryName("Name")
-    } )
+    })
     Column(
         modifier = Modifier
             .fillMaxWidth(),
@@ -43,17 +43,22 @@ fun ChannelDetailScreen(viewModel: CategoryViewModel, channelViewModel: ChannelV
 
         MainTopBar(isBackEnable = true)
 
-        Box ( modifier = Modifier
-            .fillMaxWidth()
-            .weight(.9f, fill = true)){
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(.9f, fill = true)
+        ) {
             ExoPlayerScreen(
                 videoUrl = viewModel.videoUrl
             )
-//http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
+            //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
+            // https://mediashohayprod-aase.streaming.media.azure.net/26a9dc05-ea5b-4f23-a3bb-cc48d96e605b/video-24-1687293003062-media-24.ism/manifest(format=m3u8-aapl)
         }
 
-        Column(modifier = Modifier
-            .weight(2f, fill = true)) {
+        Column(
+            modifier = Modifier
+                .weight(2f, fill = true)
+        ) {
             channelViewModel.channelData.observeAsState().value?.let {
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 

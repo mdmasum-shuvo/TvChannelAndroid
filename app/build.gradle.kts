@@ -138,8 +138,9 @@ dependencies {
     implementation ("androidx.core:core-splashscreen:1.0.1")
     implementation ("com.google.accompanist:accompanist-flowlayout:0.20.0")
     //admob
-    implementation("com.google.android.gms:play-services-ads:22.6.0")
-
+    implementation("com.google.android.gms:play-services-ads:23.0.0")
+    //WindowSizeClass
+    implementation ("androidx.compose.material3:material3-window-size-class:1.2.1")
 }
 
 // Allow references to generated code

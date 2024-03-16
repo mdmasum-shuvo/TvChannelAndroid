@@ -8,7 +8,7 @@ import androidx.compose.ui.unit.sp
 
 // Set of Material typography styles to start with
 // Set of Material typography styles to start with
-val Typography = Typography(
+val CompactTypography = Typography(
 
 
     headlineLarge = TextStyle(
@@ -16,21 +16,6 @@ val Typography = Typography(
         fontWeight = FontWeight.W500,
         fontSize = 22.sp,
         letterSpacing = 0.5.sp,
-    ),
-
-
-    headlineMedium = TextStyle(
-        fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W500,
-        fontSize = 18.sp,
-        letterSpacing = 0.5.sp
-    ),
-
-    headlineSmall = TextStyle(
-        fontFamily = fonts_ballo_da,
-        fontWeight = FontWeight.W500,
-        fontSize = 18.sp,
-        letterSpacing = 0.5.sp
     ),
 
     titleLarge = TextStyle(
@@ -45,10 +30,42 @@ val Typography = Typography(
         fontSize = 14.sp,
         letterSpacing = 0.5.sp
     ),
-    bodyLarge = TextStyle(
+
+    bodyMedium = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W400,
+        fontSize = 14.sp,
+        letterSpacing = 0.1.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp,
+    )
+
+
+)
+val CompactMediumTypography = Typography(
+
+
+    headlineLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 22.sp,
+        letterSpacing = 0.5.sp,
+    ),
+
+    titleLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
         fontSize = 16.sp,
+        letterSpacing = 0.0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp,
+        letterSpacing = 0.5.sp
     ),
 
     bodyMedium = TextStyle(
@@ -63,20 +80,78 @@ val Typography = Typography(
         fontSize = 12.sp,
     )
 
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+
+)
+val CompactSmallTypography = Typography(
+
+
+    headlineLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 20.sp,
     ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+
+    titleLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp,
+        letterSpacing = 0.0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 12.sp,
+        letterSpacing = 0.1.sp
+    ),
+
+    bodyMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp,
+        letterSpacing = 0.1.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 10.sp,
     )
-    */
+
+
+)
+val ExpandedTypography = Typography(
+
+
+    headlineLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 22.sp,
+        letterSpacing = 0.5.sp,
+    ),
+
+    titleLarge = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 16.sp,
+        letterSpacing = 0.0.sp
+    ),
+    titleMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W500,
+        fontSize = 14.sp,
+        letterSpacing = 0.5.sp
+    ),
+
+    bodyMedium = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 14.sp,
+        letterSpacing = 0.1.sp
+    ),
+    bodySmall = TextStyle(
+        fontFamily = fonts_ballo_da,
+        fontWeight = FontWeight.W400,
+        fontSize = 12.sp,
+    )
+
+
 )

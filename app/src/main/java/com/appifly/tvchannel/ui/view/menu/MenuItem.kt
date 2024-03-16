@@ -26,6 +26,7 @@ import com.appifly.tvchannel.ui.common_component.SpacerWidth
 import com.appifly.tvchannel.ui.common_component.TextView10_W400
 import com.appifly.tvchannel.ui.common_component.TextView14_W400
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.theme.dimens
 
 @Composable
 fun MenuItem(drawableId: Int, title: String, subTitle: String) {
@@ -40,7 +41,7 @@ fun MenuItem(drawableId: Int, title: String, subTitle: String) {
            Row(
                modifier = Modifier
                    .fillMaxWidth()
-                   .padding(horizontal = 16.dp, vertical = 12.dp),
+                   .padding(horizontal = MaterialTheme.dimens.stdDimen16, vertical = MaterialTheme.dimens.stdDimen12),
                horizontalArrangement = Arrangement.SpaceBetween,
                verticalAlignment = Alignment.CenterVertically,
 
@@ -49,8 +50,8 @@ fun MenuItem(drawableId: Int, title: String, subTitle: String) {
                Row(
                    verticalAlignment = Alignment.CenterVertically,
                ) {
-                   ImageComponent(drawableId = drawableId, modifier = Modifier.size(24.dp))
-                   SpacerWidth(width = 8)
+                   ImageComponent(drawableId = drawableId, modifier = Modifier.size(MaterialTheme.dimens.stdDimen24))
+                   SpacerWidth(width = MaterialTheme.dimens.stdDimen8)
                    Column {
                        TextView14_W400(value = title)
                        TextView10_W400(value = subTitle)
