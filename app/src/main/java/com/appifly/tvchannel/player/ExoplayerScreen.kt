@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +42,8 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.PlayerView
 import com.appifly.tvchannel.ui.common_component.Loader
-
+import com.appifly.tvchannel.ui.theme.darkBackground
+import com.appifly.tvchannel.ui.theme.darkThemeTextColor
 
 
 @OptIn(UnstableApi::class)
@@ -114,7 +116,7 @@ fun ExoPlayerScreen(
     ) {
 
         Column(
-            modifier = modifier.wrapContentHeight(),
+            modifier = modifier.wrapContentHeight().fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
