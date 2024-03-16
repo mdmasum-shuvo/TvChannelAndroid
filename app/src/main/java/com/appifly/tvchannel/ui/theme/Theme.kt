@@ -1,8 +1,10 @@
 package com.appifly.tvchannel.ui.theme
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.os.Build
 import android.util.Log
+import android.view.View
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -77,6 +79,7 @@ fun TvChannelTheme(
     val window = calculateWindowSizeClass(activity = activity)
     val config = LocalConfiguration.current
 
+
     var typography = CompactTypography
     var appDimens = CompactDimens
 
@@ -135,3 +138,4 @@ fun TvChannelTheme(
 val MaterialTheme.dimens
     @Composable
     get() = LocalAppDimens.current
+

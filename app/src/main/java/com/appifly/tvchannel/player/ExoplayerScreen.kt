@@ -112,13 +112,9 @@ fun ExoPlayerScreen(
 
     Box(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
+            .background(darkBackground)
     ) {
 
-        Column(
-            modifier = modifier.wrapContentHeight().fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
 
             DisposableEffect(key1 = Unit) {
                 val observer = LifecycleEventObserver { owner, event ->
@@ -143,7 +139,7 @@ fun ExoPlayerScreen(
                 }
 
             }
-        }
+
         if (loading.value) {
             Column(
                 modifier = Modifier

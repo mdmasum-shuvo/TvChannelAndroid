@@ -17,8 +17,10 @@ data class Dimens(
     val stdDimen12: Dp = 0.dp,
     val stdDimen10: Dp = 0.dp,
     val stdDimen8: Dp = 0.dp,
+    val gridCellsChannel: Int = 0,
+    val gridCellsFavorite: Int = 0
 
-    )
+)
 
 val CompactSmallDimens = Dimens(
     bannerHeight = 180.dp,
@@ -34,6 +36,9 @@ val CompactSmallDimens = Dimens(
     stdDimen12 = 10.dp,
     stdDimen10 = 8.dp,
     stdDimen8 = 6.dp,
+    gridCellsChannel = 3,
+    gridCellsFavorite = 2
+
 
 )
 
@@ -51,7 +56,8 @@ val CompactMediumDimens = Dimens(
     stdDimen12 = 12.dp,
     stdDimen10 = 10.dp,
     stdDimen8 = 8.dp,
-
+    gridCellsChannel = 3,
+    gridCellsFavorite = 2
     )
 
 val CompactDimens = Dimens(
@@ -66,8 +72,9 @@ val CompactDimens = Dimens(
     stdDimen24 = 24.dp,
     stdDimen16 = 16.dp,
     stdDimen12 = 12.dp,
-    stdDimen10 = 10.dp,    stdDimen8 = 8.dp,
-
+    stdDimen10 = 10.dp, stdDimen8 = 8.dp,
+    gridCellsChannel = 3,
+    gridCellsFavorite = 2
     )
 
 val MediumDimens = Dimens(
@@ -82,8 +89,9 @@ val MediumDimens = Dimens(
     stdDimen24 = 24.dp,
     stdDimen16 = 16.dp,
     stdDimen12 = 12.dp,
-    stdDimen10 = 10.dp,    stdDimen8 = 8.dp,
-
+    stdDimen10 = 10.dp, stdDimen8 = 8.dp,
+    gridCellsChannel = 3,
+    gridCellsFavorite = 2
     )
 
 val ExpandedDimens = Dimens(
@@ -91,13 +99,14 @@ val ExpandedDimens = Dimens(
     tvShowHeight = 180.dp,
     channelLargeHeight = 90.dp,
     channelLargeWidth = 130.dp,
-    channelMedium = 100.dp,
+    channelMedium = 130.dp,
     channelSmall = 80.dp,
     channelExtraSmall = 48.dp,
     categorySize = 30.dp,
     stdDimen24 = 24.dp,
     stdDimen16 = 16.dp,
     stdDimen12 = 12.dp,
-    stdDimen10 = 10.dp,    stdDimen8 = 8.dp,
-
+    stdDimen10 = 10.dp, stdDimen8 = 8.dp,
+    gridCellsChannel = 5,
+    gridCellsFavorite = 4
     )

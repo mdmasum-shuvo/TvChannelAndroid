@@ -41,7 +41,7 @@ fun ChannelScreen(
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.Start
     ) {
 
         MainTopBar()
@@ -72,9 +72,9 @@ fun ChannelScreen(
 
             LazyVerticalGrid(
                 modifier = Modifier.height(((112 * 10) / 2).dp),
-                columns = GridCells.Fixed(3),
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
+                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
                 userScrollEnabled = false,
                 contentPadding = PaddingValues(
                     start = 12.dp,
