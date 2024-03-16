@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -28,18 +29,17 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LiveData
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
+import androidx.media3.ui.PlayerView
 import com.appifly.tvchannel.ui.common_component.Loader
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.Timeline
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
-import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.ui.StyledPlayerView
-import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 
 
+
+@OptIn(UnstableApi::class)
 @Composable
 fun ExoPlayerScreen(
     videoUrl: LiveData<String>,
@@ -69,7 +69,7 @@ fun ExoPlayerScreen(
 
     AndroidView(
         factory = { context ->
-            StyledPlayerView(context).apply {
+            PlayerView(context).apply {
                 player = exoPlayer
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -89,9 +89,6 @@ fun ExoPlayerScreen(
             exoPlayer.play()
         }
     }
-
-
-
 
     Box(
         modifier = Modifier

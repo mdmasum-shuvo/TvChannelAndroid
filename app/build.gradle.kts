@@ -97,7 +97,10 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("com.google.android.exoplayer:exoplayer:2.19.1")
+    val mediaVersion="1.0.1"
+    implementation ("androidx.media3:media3-exoplayer:$mediaVersion")
+    implementation ("androidx.media3:media3-ui:$mediaVersion")
+    implementation ("androidx.media3:media3-exoplayer-dash:$mediaVersion")
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
     implementation("androidx.hilt:hilt-navigation-compose:${rootProject.extra.get("version_hilt_navigation")}")
