@@ -5,10 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -29,7 +27,7 @@ import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
-import com.appifly.tvchannel.ui.common_component.FrequentlyPlayedItem
+import com.appifly.tvchannel.ui.common_component.LargeChannelItem
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
@@ -58,15 +56,9 @@ fun HomeScreen(
         MainTopBar()
         SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
 
-
-
-
         homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
             TopBannerItem(it)
         }
-
-
-
 
         viewModel.categoryData?.observeAsState()?.value?.let {
 
@@ -84,8 +76,6 @@ fun HomeScreen(
             }
         }
 
-
-
         if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
             channelViewModel.channelData.observeAsState().value?.let {
                 Column(horizontalAlignment = Alignment.Start) {
@@ -96,16 +86,19 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = MaterialTheme.dimens.stdDimen24)
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            top = 10.dp,
+                            bottom = MaterialTheme.dimens.stdDimen24
+                        )
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
-                            FrequentlyPlayedItem(
+                            LargeChannelItem(
                                 item,
                             ) { clickedItem ->
                                 channelViewModel.addTOFrequentChannel(clickedItem.id!!)
                                 channelViewModel.setSelectedChannel(clickedItem)
                                 navController.navigate(Routing.ChannelDetailScreen.routeName)
-
                             }
                         }
                     }
@@ -124,14 +117,18 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom =MaterialTheme.dimens.stdDimen24)
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            top = 10.dp,
+                            bottom = MaterialTheme.dimens.stdDimen24
+                        )
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
-                            FrequentlyPlayedItem(
+                            LargeChannelItem(
                                 item,
-                                onItemClick = { item ->
-                                    channelViewModel.addTOFrequentChannel(item.id!!)
-
+                                onItemClick = { clickedItem ->
+                                    channelViewModel.addTOFrequentChannel(clickedItem.id!!)
+                                    channelViewModel.setSelectedChannel(clickedItem)
                                     navController.navigate(Routing.ChannelDetailScreen.routeName)
                                 },
                             )
@@ -151,11 +148,16 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom =MaterialTheme.dimens.stdDimen24)
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            top = 10.dp,
+                            bottom = MaterialTheme.dimens.stdDimen24
+                        )
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
-                            RegularChannelItem(item, onItemClick = {
-                                channelViewModel.addTOFrequentChannel(item.id!!)
+                            RegularChannelItem(item, onItemClick = { clickedItem ->
+                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
+                                channelViewModel.setSelectedChannel(clickedItem)
                                 navController.navigate(Routing.ChannelDetailScreen.routeName)
                             })
                         }
@@ -185,12 +187,19 @@ fun HomeScreen(
 
                     LazyRow(
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom =MaterialTheme.dimens.stdDimen24)
+                        modifier = Modifier.padding(
+                            start = 16.dp,
+                            top = 10.dp,
+                            bottom = MaterialTheme.dimens.stdDimen24
+                        )
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
-                            FrequentlyPlayedItem(
+                            LargeChannelItem(
                                 item,
-                                onItemClick = { item -> },
+                                onItemClick = { clickedItem ->
+                                    channelViewModel.setSelectedChannel(clickedItem)
+                                    navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                },
                             )
                         }
                     }

@@ -43,7 +43,7 @@ import com.appifly.tvchannel.ui.theme.gradientColor1
 import com.appifly.tvchannel.ui.theme.gradientColor2
 
 @Composable
-fun FrequentlyPlayedItem(
+fun LargeChannelItem(
     item: ChannelDto,
     onItemClick: (ChannelDto) -> Unit = { },
 ) {

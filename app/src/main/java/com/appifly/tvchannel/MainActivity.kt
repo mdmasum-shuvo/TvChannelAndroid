@@ -98,18 +98,17 @@ private fun MainScreenView(
                 composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
-                    ChannelScreen(categoryViewModel,channelViewModel)
+                    ChannelScreen(categoryViewModel,channelViewModel,navController)
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
-
                     FavoriteScreen(navController,categoryViewModel,channelViewModel)
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
 
-                    FavoriteChannelListScreen(channelViewModel)
+                    FavoriteChannelListScreen(channelViewModel,navController)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
