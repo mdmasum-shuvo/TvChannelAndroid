@@ -1,6 +1,14 @@
 package com.appifly.tvchannel.ui.view.home
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.os.Build
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
@@ -37,6 +46,7 @@ import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -45,6 +55,16 @@ fun HomeScreen(
     homeViewModel: HomeViewModel
 ) {
     val context = LocalContext.current
+    val permission = Manifest.permission.POST_NOTIFICATIONS
+    val launcher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {
+  
+    }
+    LaunchedEffect(key1 = true, block = {
+
+        checkAndRequestCameraPermission(context, permission, launcher)
+    })
     val selectedIndex = remember { mutableIntStateOf(0) }
     Column(
         modifier = Modifier
@@ -214,5 +234,20 @@ fun HomeScreen(
 fun PreviewHomeSceen() {
     TvChannelTheme {
         //  HomeScreen()
+    }
+}
+
+
+fun checkAndRequestCameraPermission(
+    context: Context,
+    permission: String,
+    launcher: ManagedActivityResultLauncher<String, Boolean>
+) {
+    val permissionCheckResult = ContextCompat.checkSelfPermission(context, permission)
+    if (permissionCheckResult == PackageManager.PERMISSION_GRANTED) {
+        // Open camera because permission is already granted
+    } else {
+        // Request a permission
+        launcher.launch(permission)
     }
 }
