@@ -38,9 +38,11 @@ import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.common_component.SpacerWidth
 import com.appifly.tvchannel.ui.common_component.TextView12_W400
 import com.appifly.tvchannel.ui.common_component.TextView14_W500
+import com.appifly.tvchannel.ui.common_component.TextView18_W500
 import com.appifly.tvchannel.ui.theme.ScreenOrientation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
+import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
@@ -96,7 +98,7 @@ fun ChannelDetailScreen(
                                 ?: "N/A"
                         )
                         TextView12_W400(
-                            value = "This is channel detail",
+                            value = "${viewModel.channelCategoryName.observeAsState().value} Channel",
                             color = MaterialTheme.colorScheme.onTertiary
                         )
                     }
@@ -104,11 +106,11 @@ fun ChannelDetailScreen(
                 channelViewModel.isFavoriteChannel.observeAsState().value?.let {
                     GradientFavIcon(
                         size = 24.dp,
-                        isFavorite =it
+                        isFavorite = it
                     ) { isFav ->
                         if (isFav) {
                             channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
-                        }else{
+                        } else {
                             channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
 
                         }
@@ -162,9 +164,19 @@ fun ChannelDetailScreen(
     } else {
         hideSystemUI(activity)
 
-        ExoPlayerScreen(
-            videoUrl = channelViewModel.selectedChannel
-        )
+        Box {
+            ExoPlayerScreen(
+                videoUrl = channelViewModel.selectedChannel
+            )
+
+            Box(modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(start = 16.dp, top = 16.dp)) {
+                TextView18_W500(
+                    value = channelViewModel.selectedChannel.observeAsState().value?.name ?: "N/A", color = lightBackground
+                )
+            }
+        }
     }
 }
 

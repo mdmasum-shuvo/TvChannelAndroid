@@ -41,6 +41,7 @@ import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
 import androidx.media3.ui.PlayerView
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.common_component.Loader
@@ -52,8 +53,6 @@ import com.appifly.tvchannel.ui.theme.darkThemeTextColor
 @Composable
 fun ExoPlayerScreen(
     videoUrl: LiveData<ChannelDto>,
-
-    modifier: Modifier = Modifier,
 ) {
     val loading = remember {
         mutableStateOf(true)
@@ -84,8 +83,8 @@ fun ExoPlayerScreen(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
-                useController = true
-                RESIZE_MODE_FIT
+                useController = false
+                RESIZE_MODE_FILL
             }
         },
     )
