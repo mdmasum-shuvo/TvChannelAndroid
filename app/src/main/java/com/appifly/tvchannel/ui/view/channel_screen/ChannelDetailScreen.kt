@@ -49,6 +49,7 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.player.ExoPlayerScreen
+import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -183,6 +184,9 @@ fun ChannelDetailScreen(
                     }
                 }
             }
+            SpacerHeight(MaterialTheme.dimens.stdDimen12)
+
+            AdmobBanner()
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
             Column(

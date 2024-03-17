@@ -28,6 +28,7 @@ import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
+import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
@@ -66,7 +67,7 @@ fun FavoriteScreen(
             MainTopBar()
         }
         item {
-            SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
+            SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
 
         }
         item {
@@ -140,8 +141,9 @@ fun FavoriteScreen(
 
                 }
             }
-
-
+        }
+        item {
+            AdmobBannerAdaptive()
         }
     }
 }

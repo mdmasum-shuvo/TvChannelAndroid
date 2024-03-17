@@ -35,6 +35,7 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
+import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.LargeChannelItem
 import com.appifly.tvchannel.ui.common_component.MainTopBar
@@ -157,6 +158,7 @@ fun HomeScreen(
                 }
             }
         }
+        AdmobBannerAdaptive()
 
         if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
             channelViewModel.popularChannelList?.observeAsState()?.value?.let {

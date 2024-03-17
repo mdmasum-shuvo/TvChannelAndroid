@@ -58,7 +58,7 @@ val CompactMediumDimens = Dimens(
     stdDimen8 = 8.dp,
     gridCellsChannel = 3,
     gridCellsFavorite = 2,
-    mediumWeightTv=1f
+    mediumWeightTv=1.3f
 )
 
 val CompactDimens = Dimens(
@@ -94,7 +94,7 @@ val MediumDimens = Dimens(
     stdDimen10 = 10.dp, stdDimen8 = 8.dp,
     gridCellsChannel = 5,
     gridCellsFavorite = 4,
-    mediumWeightTv=1.6f
+    mediumWeightTv=1.9f
 )
 
 val ExpandedDimens = Dimens(

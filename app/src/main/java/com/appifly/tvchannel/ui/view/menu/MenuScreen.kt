@@ -9,7 +9,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
@@ -32,7 +34,7 @@ fun MenuScreen() {
             SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
         }
         item {
-            MenuItem(drawableId = R.drawable.theme, "App theme", "Action, Adventure, Thrill")
+            MenuItem(drawableId = R.drawable.theme, "App theme", "Dark or Light Mode")
         }
         item {
             MenuItem(drawableId = R.drawable.share_icon, "Share the App", "Share the app with your friends")
@@ -46,8 +48,13 @@ fun MenuScreen() {
         item {
             MenuItem(drawableId = R.drawable.rate_icon, "Rate Us", "Rate our app on google play store")
         }
+        item {
+            AdmobBannerAdaptive()
+
+        }
 
     }
+
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
