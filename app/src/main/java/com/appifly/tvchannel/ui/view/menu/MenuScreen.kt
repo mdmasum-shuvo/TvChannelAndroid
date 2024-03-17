@@ -34,19 +34,19 @@ fun MenuScreen() {
             SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
         }
         item {
-            MenuItem(drawableId = R.drawable.theme, "App theme", "Dark or Light Mode")
+            MenuItem(drawableId = R.drawable.theme, context.getString(R.string.app_theme),  context.getString(R.string.dark_or_light))
         }
         item {
-            MenuItem(drawableId = R.drawable.share_icon, "Share the App", "Share the app with your friends")
+            MenuItem(drawableId = R.drawable.share_icon, context.getString(R.string.share_app), context.getString(R.string.share_app_dec))
         }
         item {
-            MenuItem(drawableId = R.drawable.about_us_icon, "About Us", "Social links, policy")
+            MenuItem(drawableId = R.drawable.about_us_icon, context.getString(R.string.about_us),context.getString(R.string.about_us_desc) )
         }
         item {
-            MenuItem(drawableId = R.drawable.more_icon, "More Apps", "Other apps from AppiFly")
+            MenuItem(drawableId = R.drawable.more_icon, context.getString(R.string.more_app),context.getString(R.string.more_app_desc) )
         }
         item {
-            MenuItem(drawableId = R.drawable.rate_icon, "Rate Us", "Rate our app on google play store")
+            MenuItem(drawableId = R.drawable.rate_icon, context.getString(R.string.rate_us),context.getString(R.string.rate_us_desc) )
         }
         item {
             AdmobBannerAdaptive()
