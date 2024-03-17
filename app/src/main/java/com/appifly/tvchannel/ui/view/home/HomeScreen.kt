@@ -101,12 +101,12 @@ fun HomeScreen(
                         items(items = it, key = { it.id!! }) { item ->
                             FrequentlyPlayedItem(
                                 item,
-                                onItemClick = { item ->
-                                    channelViewModel.addTOFrequentChannel(item.id!!)
-                                    navController.navigate(Routing.ChannelDetailScreen.routeName)
+                            ) { clickedItem ->
+                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
+                                channelViewModel.setSelectedChannel(clickedItem)
+                                navController.navigate(Routing.ChannelDetailScreen.routeName)
 
-                                },
-                            )
+                            }
                         }
                     }
                 }
@@ -178,8 +178,6 @@ fun HomeScreen(
         if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
             channelViewModel.favoriteChannelList.observeAsState().value?.let {
                 Column(horizontalAlignment = Alignment.Start) {
-
-
                     HeaderText(
                         context.getString(R.string.favorites),
                         context.getString(R.string.see_all)
@@ -199,8 +197,6 @@ fun HomeScreen(
                 }
             }
         }
-
-
     }
 }
 

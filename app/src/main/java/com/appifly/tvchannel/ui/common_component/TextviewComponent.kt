@@ -26,7 +26,6 @@ fun TextView18_W500(
         color = color,
         style = MaterialTheme.typography.headlineLarge.copy(
             fontFamily = fonts_ballo_da,
-            fontSize = 18.sp,
             fontWeight = FontWeight.W500
         ),
         textAlign = textAlign,

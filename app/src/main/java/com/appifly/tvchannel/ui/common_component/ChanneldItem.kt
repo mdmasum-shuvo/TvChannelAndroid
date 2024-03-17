@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
@@ -145,7 +146,7 @@ fun RegularChannelItem(
 }
 
 @Composable
-fun GradientFavIcon() {
+fun GradientFavIcon(size: Dp = 16.dp, isFavorite: Boolean = true,onFavClick: (Boolean) -> Unit={}) {
     val gradient = Brush.linearGradient(
         colors = listOf(
             gradientColor1,
@@ -155,8 +156,8 @@ fun GradientFavIcon() {
         end = Offset(12f, 52f),
     )
     Icon(
-        modifier = Modifier
-            .size(16.dp)
+        modifier = Modifier.clickable { onFavClick(isFavorite) }
+            .size(size)
             .graphicsLayer(alpha = 0.99f)
             .drawWithCache {
                 onDrawWithContent {
@@ -164,7 +165,7 @@ fun GradientFavIcon() {
                     drawRect(gradient, blendMode = BlendMode.SrcAtop)
                 }
             },
-        imageVector = Icons.Default.Favorite,
+        imageVector = if (isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
         contentDescription = null,
     )
 }

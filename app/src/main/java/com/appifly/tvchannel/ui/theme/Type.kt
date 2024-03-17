@@ -21,26 +21,26 @@ val CompactTypography = Typography(
     titleLarge = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W500,
-        fontSize = 16.sp,
+        fontSize = 20.sp,
         letterSpacing = 0.0.sp
     ),
     titleMedium = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W500,
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         letterSpacing = 0.5.sp
     ),
 
     bodyMedium = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W400,
-        fontSize = 14.sp,
+        fontSize = 18.sp,
         letterSpacing = 0.1.sp
     ),
     bodySmall = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W400,
-        fontSize = 12.sp,
+        fontSize = 16.sp,
     )
 
 
@@ -51,7 +51,7 @@ val CompactMediumTypography = Typography(
     headlineLarge = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W500,
-        fontSize = 22.sp,
+        fontSize = 18.sp,
         letterSpacing = 0.5.sp,
     ),
 

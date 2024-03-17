@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -20,6 +21,7 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
+import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 
@@ -48,7 +50,7 @@ fun FavoriteChannelListScreen(
 
                     LazyVerticalGrid(
                         modifier = Modifier.height(((112 * 10) / 2).dp),
-                        columns = GridCells.Fixed(3),
+                        columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         userScrollEnabled = false,

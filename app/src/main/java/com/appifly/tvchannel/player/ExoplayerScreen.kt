@@ -42,6 +42,7 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
 import androidx.media3.ui.PlayerView
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.darkBackground
 import com.appifly.tvchannel.ui.theme.darkThemeTextColor
@@ -50,7 +51,7 @@ import com.appifly.tvchannel.ui.theme.darkThemeTextColor
 @OptIn(UnstableApi::class)
 @Composable
 fun ExoPlayerScreen(
-    videoUrl: LiveData<String>,
+    videoUrl: LiveData<ChannelDto>,
 
     modifier: Modifier = Modifier,
 ) {
@@ -96,10 +97,10 @@ fun ExoPlayerScreen(
                 context,
                 defaultDataSourceFactory
             )
-            val source = if (videoUrl.value!!.contains("m3u8"))
-                getHlsMediaSource(dataSourceFactory,videoUrl.value!!)
+            val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
+                getHlsMediaSource(dataSourceFactory,videoUrl.value!!.liveUrl!!)
             else
-                getProgressiveMediaSource(dataSourceFactory,videoUrl.value!!)
+                getProgressiveMediaSource(dataSourceFactory,videoUrl.value!!.liveUrl!!)
 
            exoPlayer.setMediaSource(source)
        /*     val mediaItem = MediaItem.fromUri(videoUrl.value!!)

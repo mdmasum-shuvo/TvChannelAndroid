@@ -16,4 +16,8 @@ interface CategoryDao {
     @Query("SELECT * FROM ${LocalDbConstant.CATEGORY_TABLE}")
      fun getAllCategory(): LiveData<List<CategoryEntity>>?
 
+
+     @Query("SELECT name FROM ${LocalDbConstant.CATEGORY_TABLE} WHERE id=:id")
+     suspend fun getCategoryNameById(id:Int): String?
+
 }
