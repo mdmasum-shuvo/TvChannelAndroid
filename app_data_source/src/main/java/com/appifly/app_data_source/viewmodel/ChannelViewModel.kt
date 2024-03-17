@@ -89,6 +89,10 @@ class ChannelViewModel @Inject constructor(
                     withContext(Dispatchers.Main) {
                         _isFavoriteChannel.value = true
                     }
+                }else{
+                    withContext(Dispatchers.Main) {
+                        _isFavoriteChannel.value = false
+                    }
                 }
                 // callChannelDataByCatId()
             }

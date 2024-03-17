@@ -101,18 +101,20 @@ fun ChannelDetailScreen(
                         )
                     }
                 }
+                channelViewModel.isFavoriteChannel.observeAsState().value?.let {
+                    GradientFavIcon(
+                        size = 24.dp,
+                        isFavorite =it
+                    ) { isFav ->
+                        if (isFav) {
+                            channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
+                        }else{
+                            channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
 
-                GradientFavIcon(
-                    size = 24.dp,
-                    isFavorite = channelViewModel.isFavoriteChannel.observeAsState().value!!
-                ) { isFav ->
-                    if (isFav) {
-                        channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
-                    }else{
-                        channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
-
+                        }
                     }
                 }
+
 
             }
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
@@ -144,6 +146,7 @@ fun ChannelDetailScreen(
                                 modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                                 onItemClick = { clickedItem ->
                                     channelViewModel.setSelectedChannel(clickedItem)
+                                    channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
                                     channelViewModel.addTOFrequentChannel(clickedItem.id!!)
                                 },
                             )
