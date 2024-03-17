@@ -35,11 +35,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            isMinifyEnabled = true
+            consumerProguardFiles("proguard-rules.pro")
         }
     }
     compileOptions {
@@ -51,8 +48,6 @@ android {
     }
 }
 fun getBaseUrl(): String {
-
-
     return "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"
 }
 
