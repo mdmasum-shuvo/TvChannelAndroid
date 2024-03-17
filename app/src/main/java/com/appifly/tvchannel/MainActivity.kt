@@ -31,7 +31,6 @@ import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
-import com.appifly.tvchannel.ui.view.category.CategoryScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
@@ -45,6 +44,8 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
+
+private var mInterstitialAd: InterstitialAd? = null
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -91,12 +92,7 @@ private fun MainScreenView(
                 navController = navController,
                 startDestination = Routing.HomeScreen.routeName
             ) {
-                // Auth
-                composable(Routing.HomeScreen.routeName) {
-                    showBottomNav.value = true
 
-                    HomeScreen(navController,categoryViewModel,channelViewModel,homeViewModel)
-                }
 
                 composable(Routing.MenuScreen.routeName) {
                     showBottomNav.value = true
@@ -133,5 +129,54 @@ private fun MainScreenView(
 
 
 
+private fun loadInterstitialAdd(activity: Activity,) {
+    val adRequest = AdRequest.Builder().build()
+
+    InterstitialAd.load(
+        activity,
+        BuildConfig.INTERSTITIAL_ADD_ID,
+        adRequest,
+        object : InterstitialAdLoadCallback() {
+            override fun onAdFailedToLoad(adError: LoadAdError) {
+                adError?.toString()?.let { Log.d(ContentValues.TAG, it) }
+                mInterstitialAd = null
+            }
+
+            override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.d(ContentValues.TAG, "Ad was loaded.")
+                mInterstitialAd = interstitialAd
+                //mInterstitialAd!!.show(this@MainActivity)
+            }
+        })
+    mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+        override fun onAdClicked() {
+            // Called when a click is recorded for an ad.
+            Log.d(ContentValues.TAG, "Ad was clicked.")
+        }
+
+        override fun onAdDismissedFullScreenContent() {
+            // Called when ad is dismissed.
+            Log.d(ContentValues.TAG, "Ad dismissed fullscreen content.")
+            mInterstitialAd = null
+        }
+
+        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+            // Called when ad fails to show.
+            Log.e(ContentValues.TAG, "Ad failed to show fullscreen content.")
+            mInterstitialAd = null
+        }
+
+        override fun onAdImpression() {
+            // Called when an impression is recorded for an ad.
+            Log.d(ContentValues.TAG, "Ad recorded an impression.")
+        }
+
+        override fun onAdShowedFullScreenContent() {
+            // Called when ad is shown.
+            Log.d(ContentValues.TAG, "Ad showed fullscreen content.")
+        }
+    }
+
+}
 
 
