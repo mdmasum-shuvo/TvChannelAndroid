@@ -2,11 +2,8 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
@@ -23,11 +20,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
-import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
@@ -38,12 +33,7 @@ fun CategoryItem(
     selectedIndex: MutableState<Int>,
     index: Int = 0, onItemClick: () -> Unit
 ) {
-    val painter =
-        rememberAsyncImagePainter(
-            ImageRequest.Builder(LocalContext.current).data(data = item.imageUrl)
-                .apply(block = fun ImageRequest.Builder.() {
-                }).build()
-        )
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -83,7 +73,7 @@ fun CategoryItem(
                 )
             }
         }
-        TextView12_W400(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
+        TextView12W400(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
 
     }
 }
@@ -92,6 +82,5 @@ fun CategoryItem(
 @Composable
 fun PreviewCategoryItem() {
     TvChannelTheme {
-        //CategoryItem(CategoryDto(1, "Drama", ""), {})
     }
 }

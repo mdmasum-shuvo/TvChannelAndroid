@@ -2,7 +2,6 @@ package com.appifly.tvchannel.ui.view.channel_screen
 
 import android.app.Activity
 import android.content.res.Configuration
-import android.view.View
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -39,22 +38,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.R
-import com.appifly.tvchannel.player.ExoPlayerScreen
+import com.appifly.tvchannel.player.PlayerScreen
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.common_component.SpacerWidth
-import com.appifly.tvchannel.ui.common_component.TextView12_W400
-import com.appifly.tvchannel.ui.common_component.TextView14_W500
-import com.appifly.tvchannel.ui.common_component.TextView18_W500
+import com.appifly.tvchannel.ui.common_component.TextView12W400
+import com.appifly.tvchannel.ui.common_component.TextView14W500
+import com.appifly.tvchannel.ui.common_component.TextView18W500
 import com.appifly.tvchannel.ui.theme.ScreenOrientation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.darkBackground
@@ -106,7 +108,7 @@ fun ChannelDetailScreen(
                     .fillMaxWidth()
                     .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
             ) {
-                ExoPlayerScreen(
+                PlayerScreen(
                     videoUrl = channelViewModel.selectedChannel,
                     isFullScreen = false, navigateBack = {
                         navController.popBackStack()
@@ -158,11 +160,11 @@ fun ChannelDetailScreen(
                     SpacerWidth(MaterialTheme.dimens.stdDimen10)
 
                     Column {
-                        TextView14_W500(
+                        TextView14W500(
                             value = channelViewModel.selectedChannel.observeAsState().value?.name
                                 ?: "N/A"
                         )
-                        TextView12_W400(
+                        TextView12W400(
                             value = "${viewModel.channelCategoryName.observeAsState().value} Channel",
                             color = MaterialTheme.colorScheme.onTertiary
                         )
@@ -230,7 +232,7 @@ fun ChannelDetailScreen(
         hideSystemUI(activity)
 
         Box {
-            ExoPlayerScreen(
+            PlayerScreen(
                 videoUrl = channelViewModel.selectedChannel,
                 isFullScreen = true,
             ) {
@@ -249,7 +251,7 @@ fun ChannelDetailScreen(
                             .align(Alignment.TopStart)
                             .padding(start = 16.dp, top = 16.dp)
                     ) {
-                        TextView18_W500(
+                        TextView18W500(
                             value = channelViewModel.selectedChannel.observeAsState().value?.name
                                 ?: "N/A",
                             color = lightBackground
@@ -279,15 +281,12 @@ fun ChannelDetailScreen(
 }
 
 private fun hideSystemUI(activity: Activity) {
-    val decorView = activity.window.decorView
-    val uiOptions = decorView.systemUiVisibility
-    var newUiOptions = uiOptions
-    newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_LOW_PROFILE
-    newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_FULLSCREEN
-    newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-    newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE
-    newUiOptions = newUiOptions or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-    decorView.systemUiVisibility = newUiOptions
+    // Configure the behavior of the hidden system bars
+    val windowInsetsController = WindowCompat.getInsetsController(activity.window, activity.window.decorView)
+    windowInsetsController.systemBarsBehavior =
+        WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+    // Hide both the status bar and the navigation bar
+    windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)

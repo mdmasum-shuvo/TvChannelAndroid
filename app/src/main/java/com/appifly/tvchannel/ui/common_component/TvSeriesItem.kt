@@ -3,7 +3,6 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,12 +27,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.dto.TvShowDto
-import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
@@ -44,7 +41,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun TvSeriesItem(dataList: List<TvShowDto>) {
     val sliderList = dataList.size
-    val configuration = LocalConfiguration.current
 
     val pagerState = rememberPagerState { sliderList }
     val scope = rememberCoroutineScope()
@@ -61,7 +57,6 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
                 pagerState.animateScrollToPage(0)
             }
 
-            // pagerState.animateScrollToItem(currentIndex.value)
         }
 
     }
@@ -113,8 +108,8 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
                 SpacerWidth( MaterialTheme.dimens.stdDimen10)
 
                 Column {
-                    TextView16_W500(value = dataList[page].title)
-                    TextView12_W400(
+                    TextView16W500(value = dataList[page].title)
+                    TextView12W400(
                         value = dataList[page].date ?: "N/A",
                         color = MaterialTheme.colorScheme.onTertiary
                     )

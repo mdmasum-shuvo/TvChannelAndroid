@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
-import androidx.compose.material.icons.outlined.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -23,8 +22,8 @@ import androidx.compose.ui.unit.dp
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.ImageComponent
 import com.appifly.tvchannel.ui.common_component.SpacerWidth
-import com.appifly.tvchannel.ui.common_component.TextView10_W400
-import com.appifly.tvchannel.ui.common_component.TextView14_W400
+import com.appifly.tvchannel.ui.common_component.TextView10W400
+import com.appifly.tvchannel.ui.common_component.TextView14W400
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 
@@ -53,8 +52,8 @@ fun MenuItem(drawableId: Int, title: String, subTitle: String) {
                    ImageComponent(drawableId = drawableId, modifier = Modifier.size(MaterialTheme.dimens.stdDimen24))
                    SpacerWidth(width = MaterialTheme.dimens.stdDimen8)
                    Column {
-                       TextView14_W400(value = title)
-                       TextView10_W400(value = subTitle)
+                       TextView14W400(value = title)
+                       TextView10W400(value = subTitle)
                    }
                }
 

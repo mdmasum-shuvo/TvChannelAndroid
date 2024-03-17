@@ -32,13 +32,11 @@ import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
-import com.appifly.tvchannel.ui.common_component.TextView12_W400
+import com.appifly.tvchannel.ui.common_component.TextView12W400
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
-import com.appifly.tvchannel.ui.theme.darkThemeTextColor
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
-import okhttp3.Route
 
 @Composable
 fun FavoriteScreen(
@@ -132,7 +130,7 @@ fun FavoriteScreen(
 
                                 }
                             }
-                            TextView12_W400(
+                            TextView12W400(
                                 value = item.name ?: "N/A",
                                 color = MaterialTheme.colorScheme.onTertiary
                             )

@@ -85,7 +85,7 @@ fun LargeChannelItem(
             }
 
         }
-        TextView14_W500(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
+        TextView14W500(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
 
     }
 
@@ -174,7 +174,6 @@ fun GradientFavIcon(size: Dp = 16.dp, isFavorite: Boolean = true,onFavClick: (Bo
 @Composable
 fun PreviewFrequentlyPlayedItem() {
     TvChannelTheme {
-        //FrequentlyPlayedItem(ChannelDto(1, 1, "", "", ""))
 
         //GradientFavIcon()
 

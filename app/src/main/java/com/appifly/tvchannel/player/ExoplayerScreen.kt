@@ -3,7 +3,6 @@ package com.appifly.tvchannel.player
 import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
@@ -12,10 +11,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +22,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -42,19 +36,16 @@ import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
-import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
-import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
 import androidx.media3.ui.PlayerView
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.darkBackground
-import com.appifly.tvchannel.ui.theme.darkThemeTextColor
 import com.appifly.tvchannel.utils.setPortrait
 
 
 @OptIn(UnstableApi::class)
 @Composable
-fun ExoPlayerScreen(
+fun PlayerScreen(
     videoUrl: LiveData<ChannelDto>,
     isFullScreen: Boolean,
     navigateBack: (() -> Unit)? = null,
@@ -64,11 +55,11 @@ fun ExoPlayerScreen(
     val context = LocalContext.current
 
     BackHandler {
-        if (isFullScreen) {
+        if (isFullScreen)
             context.setPortrait()
-        } else {
+        else
             navigateBack?.invoke()
-        }
+
     }
     val loading = remember {
         mutableStateOf(true)
@@ -118,8 +109,6 @@ fun ExoPlayerScreen(
                 getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
 
             exoPlayer.setMediaSource(source)
-            /*     val mediaItem = MediaItem.fromUri(videoUrl.value!!)
-                 exoPlayer.setMediaItem(mediaItem)*/
             exoPlayer.prepare()
             exoPlayer.play()
         }
@@ -132,7 +121,7 @@ fun ExoPlayerScreen(
 
 
         DisposableEffect(key1 = Unit) {
-            val observer = LifecycleEventObserver { owner, event ->
+            val observer = LifecycleEventObserver { _, event ->
                 when (event) {
                     Lifecycle.Event.ON_PAUSE -> {
                         exoPlayer.pause()
@@ -142,7 +131,9 @@ fun ExoPlayerScreen(
                         exoPlayer.play()
                     }
 
-                    else -> {}
+                    else -> {
+                        exoPlayer.pause()
+                    }
                 }
             }
             val lifecycle = lifecycleOwner.value.lifecycle
@@ -172,22 +163,26 @@ fun ExoPlayerScreen(
 
         override fun onPlaybackStateChanged(playbackState: Int) {
             super.onPlaybackStateChanged(playbackState)
-            if (playbackState == ExoPlayer.STATE_ENDED) {
-                exoPlayer.stop()
-                exoPlayer.release()
-                Log.e("player_loading", " state Finished")
-                isPlayFinished.value = true
-            } else if (playbackState == ExoPlayer.STATE_READY) {
-                loading.value = false
-                Log.e("player_loading", " state ready")
-            }
+            when (playbackState) {
+                ExoPlayer.STATE_ENDED -> {
+                    exoPlayer.stop()
+                    exoPlayer.release()
+                    Log.e("player_loading", " state Finished")
+                    isPlayFinished.value = true
+                }
 
-            if (playbackState == ExoPlayer.STATE_BUFFERING) {
-                Log.e("player_loading", " state buffer")
-                loading.value = true
-            } else {
-                Log.e("player_loading", " state buffer done")
-                loading.value = false
+                ExoPlayer.STATE_READY -> {
+                    loading.value = false
+                }
+
+                ExoPlayer.STATE_BUFFERING -> {
+                    loading.value = true
+
+                }
+
+                else -> {
+                    loading.value = false
+                }
             }
 
 
@@ -195,10 +190,7 @@ fun ExoPlayerScreen(
 
         override fun onIsLoadingChanged(isLoading: Boolean) {
             super.onIsLoadingChanged(isLoading)
-            if (isLoading) {
-                Log.e("player_loading", "loading exoplayer")
-                // loading.value = isLoading
-            }
+
         }
     })
 

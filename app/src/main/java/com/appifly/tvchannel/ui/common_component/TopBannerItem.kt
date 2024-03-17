@@ -5,7 +5,6 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,17 +22,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.BannerDto
 import com.appifly.app_data_source.dto.ChannelDto
-import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
@@ -44,7 +40,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun TopBannerItem(dataList: List<BannerDto>) {
     val sliderList = dataList.size
-    val configuration = LocalConfiguration.current
 
     val pagerState = rememberPagerState { sliderList }
     val scope = rememberCoroutineScope()
@@ -61,7 +56,6 @@ fun TopBannerItem(dataList: List<BannerDto>) {
                 pagerState.animateScrollToPage(0)
             }
 
-            // pagerState.animateScrollToItem(currentIndex.value)
         }
 
     }
@@ -70,14 +64,7 @@ fun TopBannerItem(dataList: List<BannerDto>) {
         state = pagerState,
         modifier = Modifier.fillMaxWidth()
     ) { page ->
-        val painter =
-            rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current)
-                    .data(data = dataList[page].imageUrl)
-                    .apply(block = fun ImageRequest.Builder.() {
 
-                    }).build()
-            )
         Column(
             modifier = Modifier.padding(start = 32.dp, end = 32.dp)
 
@@ -115,8 +102,8 @@ fun TopBannerItem(dataList: List<BannerDto>) {
                 SpacerWidth( MaterialTheme.dimens.stdDimen10)
 
                 Column {
-                    TextView14_W500(value = dataList[page].title)
-                    TextView12_W400(
+                    TextView14W500(value = dataList[page].title)
+                    TextView12W400(
                         value = dataList[page].date ?: "N/A",
                         color = MaterialTheme.colorScheme.onTertiary
                     )
