@@ -2,12 +2,14 @@ package com.appifly.tvchannel
 
 import android.app.Activity
 import android.content.ContentValues
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -61,7 +63,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreenView()
+                    MainScreenView(activity = this)
                 }
             }
 
@@ -75,9 +77,10 @@ class MainActivity : ComponentActivity() {
 /**
  * @Composable fun for start destination and navigation to screen
  */
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MainScreenView(
-
+    activity: Activity
 ) {
     val navController = rememberNavController()
     hiltViewModel<MainViewModel>()
@@ -85,8 +88,13 @@ private fun MainScreenView(
 
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
-    val homeViewModel:HomeViewModel= hiltViewModel()
-    Scaffold(bottomBar = {if (showBottomNav.value) BottomNavigation(navController,homeViewModel) }) { paddingValues ->
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    Scaffold(bottomBar = {
+        if (showBottomNav.value) BottomNavigation(
+            navController,
+            homeViewModel
+        )
+    }) { paddingValues ->
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
                 navController = navController,
@@ -100,25 +108,35 @@ private fun MainScreenView(
                     MenuScreen()
                 }
 
+                composable(Routing.HomeScreen.routeName) {
+                    showBottomNav.value = true
+
+                    HomeScreen(navController=navController, viewModel = categoryViewModel,channelViewModel=channelViewModel,homeViewModel= homeViewModel)
+                }
+
                 composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
-                    ChannelScreen(categoryViewModel,channelViewModel,navController)
+                    ChannelScreen(categoryViewModel, channelViewModel, navController)
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
-                    FavoriteScreen(navController,categoryViewModel,channelViewModel)
+                    FavoriteScreen(navController, categoryViewModel, channelViewModel)
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
 
-                    FavoriteChannelListScreen(channelViewModel,navController)
+                    FavoriteChannelListScreen(channelViewModel, navController)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-
-                    ChannelDetailScreen(categoryViewModel,channelViewModel, navController = navController)
+                    mInterstitialAd?.show(activity)
+                    ChannelDetailScreen(
+                        categoryViewModel,
+                        channelViewModel,
+                        navController = navController
+                    )
                 }
             }
         }
@@ -128,8 +146,7 @@ private fun MainScreenView(
 }
 
 
-
-private fun loadInterstitialAdd(activity: Activity,) {
+private fun loadInterstitialAdd(activity: Activity) {
     val adRequest = AdRequest.Builder().build()
 
     InterstitialAd.load(
