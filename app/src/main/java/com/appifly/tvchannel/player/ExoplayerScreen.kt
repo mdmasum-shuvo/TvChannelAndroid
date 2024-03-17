@@ -40,6 +40,7 @@ import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FIT
 import androidx.media3.ui.PlayerView
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.darkBackground
@@ -63,9 +64,7 @@ fun ExoPlayerScreen(
     }
 
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
-    val exoPlayer = remember { ExoPlayer.Builder(context).build().apply {
-
-    } }
+    val exoPlayer = remember { ExoPlayer.Builder(context).build()}
 
     // Set up observer for video URI changes
 
@@ -85,7 +84,7 @@ fun ExoPlayerScreen(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 useController = true
-                RESIZE_MODE_FILL
+                RESIZE_MODE_FIT
             }
         },
     )
