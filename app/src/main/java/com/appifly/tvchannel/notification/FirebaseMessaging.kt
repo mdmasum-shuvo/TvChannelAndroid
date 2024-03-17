@@ -31,6 +31,8 @@ class FirebaseMessaging :FirebaseMessagingService() {
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             Log.d(TAG, "Message Notification Body: ${it.body},imgUrl: ${it.imageUrl}")
+            val notificationServiceView=NotificationServiceView(applicationContext,it.body.toString(),it.body.toString(),it.imageUrl)
+            notificationServiceView.showExpandableNotification()
         }
 
         // Also if you intend on generating your own notifications as a result of a received FCM

@@ -6,4 +6,6 @@
     <string name="favorites_screen_title">Favorites</string>
     <string name="popular_channel">Popular Channel</string>
     <string name="tv_shows">TV Shows</string>
+    <string name="notification_channel_id">tv_notification_channel</string>
+    <string name="notification_channel_name">tv_notification_channel_name</string>
 </resources>
