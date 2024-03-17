@@ -3,11 +3,18 @@ package com.appifly.tvchannel.ui.view.channel_screen
 import android.app.Activity
 import android.content.res.Configuration
 import android.view.View
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -17,19 +24,30 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.MainActivity
+import com.appifly.tvchannel.R
 import com.appifly.tvchannel.player.ExoPlayerScreen
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
 import com.appifly.tvchannel.ui.common_component.MainTopBar
@@ -41,17 +59,32 @@ import com.appifly.tvchannel.ui.common_component.TextView14_W500
 import com.appifly.tvchannel.ui.common_component.TextView18_W500
 import com.appifly.tvchannel.ui.theme.ScreenOrientation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.theme.darkBackground
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
+import com.appifly.tvchannel.utils.Constants.PLAYER_CONTROLS_VISIBILITY
+import com.appifly.tvchannel.utils.setLandscape
+import com.appifly.tvchannel.utils.setPortrait
+import kotlinx.coroutines.delay
+
 
 @Composable
 fun ChannelDetailScreen(
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
     activity: Activity = LocalContext.current as MainActivity,
+    navController: NavController
 ) {
+    val context = LocalContext.current
 
+    var shouldShowControls by remember { mutableStateOf(false) }
+    LaunchedEffect(key1 = shouldShowControls) {
+        if (shouldShowControls) {
+            delay(PLAYER_CONTROLS_VISIBILITY)
+            shouldShowControls = false
+        }
+    }
     LaunchedEffect(key1 = true, block = {
         channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
         channelViewModel.callChannelDataByCatId()
@@ -66,7 +99,9 @@ fun ChannelDetailScreen(
             horizontalAlignment = Alignment.Start
         ) {
 
-            MainTopBar(isBackEnable = true)
+            MainTopBar(isBackEnable = true, navigateBack = {
+                navController.popBackStack()
+            })
 
             Box(
                 modifier = Modifier
@@ -74,8 +109,40 @@ fun ChannelDetailScreen(
                     .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
             ) {
                 ExoPlayerScreen(
-                    videoUrl = channelViewModel.selectedChannel
-                )
+                    videoUrl = channelViewModel.selectedChannel,
+                    isFullScreen = false, navigateBack = {
+                        navController.popBackStack()
+                    }
+                ) {
+                    shouldShowControls = shouldShowControls.not()
+
+                }
+                this@Column.AnimatedVisibility(
+                    modifier = Modifier.fillMaxSize(),
+                    visible = shouldShowControls,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Box(
+                        modifier = Modifier.background(darkBackground.copy(alpha = 0.6f))
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(end = 16.dp, bottom = 16.dp)
+                        ) {
+                            Image(
+                                modifier = Modifier
+                                    .clickable { context.setLandscape() },
+                                contentScale = ContentScale.Crop,
+                                painter = painterResource(
+                                    id = R.drawable.full_screen_entry
+                                ),
+                                contentDescription = ""
+                            )
+                        }
+                    }
+                }
                 //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
                 //https://mediashohayprod-aase.streaming.media.azure.net/26a9dc05-ea5b-4f23-a3bb-cc48d96e605b/video-24-1687293003062-media-24.ism/manifest(format=m3u8-aapl)
             }
@@ -112,12 +179,9 @@ fun ChannelDetailScreen(
                             channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
                         } else {
                             channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
-
                         }
                     }
                 }
-
-
             }
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
@@ -166,15 +230,48 @@ fun ChannelDetailScreen(
 
         Box {
             ExoPlayerScreen(
-                videoUrl = channelViewModel.selectedChannel
-            )
+                videoUrl = channelViewModel.selectedChannel,
+                isFullScreen = true,
+            ) {
+                shouldShowControls = shouldShowControls.not()
+            }
+            AnimatedVisibility(
+                modifier = Modifier.fillMaxSize(),
+                visible = shouldShowControls,
+                enter = fadeIn(),
+                exit = fadeOut()
+            ) {
+                Box(modifier = Modifier.fillMaxSize()  .background(darkBackground.copy(alpha = 0.6f))) {
+                    Box(
+                        modifier = Modifier
 
-            Box(modifier = Modifier
-                .align(Alignment.TopStart)
-                .padding(start = 16.dp, top = 16.dp)) {
-                TextView18_W500(
-                    value = channelViewModel.selectedChannel.observeAsState().value?.name ?: "N/A", color = lightBackground
-                )
+                            .align(Alignment.TopStart)
+                            .padding(start = 16.dp, top = 16.dp)
+                    ) {
+                        TextView18_W500(
+                            value = channelViewModel.selectedChannel.observeAsState().value?.name
+                                ?: "N/A",
+                            color = lightBackground
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(end = 32.dp, bottom = 32.dp)
+                    ) {
+                        Image(
+                            modifier = Modifier
+                                .clickable { context.setPortrait() },
+                            contentScale = ContentScale.Crop,
+                            painter = painterResource(
+                                id = R.drawable.full_screen_exit
+                            ),
+                            contentDescription = ""
+                        )
+                    }
+                }
+
             }
         }
     }

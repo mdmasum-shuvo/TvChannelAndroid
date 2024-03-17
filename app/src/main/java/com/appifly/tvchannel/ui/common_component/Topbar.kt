@@ -3,6 +3,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -30,20 +31,26 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 
 @Composable
-fun MainTopBar(isBackEnable:Boolean=false) {
+fun MainTopBar(
+    isBackEnable: Boolean = false, navigateBack: (() -> Unit)? = null,
+) {
 
     Box(
 
         modifier = Modifier.height(60.dp)
     ) {
-        if (isBackEnable){
+        if (isBackEnable) {
             Box(
-                modifier = Modifier
+                modifier = Modifier.clickable {
+                    if (navigateBack != null) {
+                        navigateBack()
+                    }
+                }
                     .padding(start = 16.dp)
                     .align(Alignment.CenterStart)
-            ){
+            ) {
                 Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack, tint =MaterialTheme.colorScheme.secondary,
+                    Icons.AutoMirrored.Filled.ArrowBack, tint = MaterialTheme.colorScheme.secondary,
                     contentDescription = "back icon",
                     modifier = Modifier.size(24.dp)
                 )
@@ -71,7 +78,7 @@ fun MainTopBar(isBackEnable:Boolean=false) {
                 .align(Alignment.CenterEnd)
         ) {
             Icon(
-                Icons.Filled.Search, tint =MaterialTheme.colorScheme.secondary,
+                Icons.Filled.Search, tint = MaterialTheme.colorScheme.secondary,
                 contentDescription = "search icon",
                 modifier = Modifier.size(24.dp)
             )

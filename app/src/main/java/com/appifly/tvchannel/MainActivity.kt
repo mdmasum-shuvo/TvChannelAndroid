@@ -114,7 +114,7 @@ private fun MainScreenView(
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
 
-                    ChannelDetailScreen(categoryViewModel,channelViewModel)
+                    ChannelDetailScreen(categoryViewModel,channelViewModel, navController = navController)
                 }
             }
         }

@@ -4,8 +4,10 @@ import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,24 +49,37 @@ import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.darkBackground
 import com.appifly.tvchannel.ui.theme.darkThemeTextColor
+import com.appifly.tvchannel.utils.setPortrait
 
 
 @OptIn(UnstableApi::class)
 @Composable
 fun ExoPlayerScreen(
     videoUrl: LiveData<ChannelDto>,
+    isFullScreen: Boolean,
+    navigateBack: (() -> Unit)? = null,
+    onPlayerClick: () -> Unit = {}
+
 ) {
+    val context = LocalContext.current
+
+    BackHandler {
+        if (isFullScreen) {
+            context.setPortrait()
+        } else {
+            navigateBack?.invoke()
+        }
+    }
     val loading = remember {
         mutableStateOf(true)
     }
-    val context = LocalContext.current
 
     val isPlayFinished = remember {
         mutableStateOf(false)
     }
 
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
-    val exoPlayer = remember { ExoPlayer.Builder(context).build()}
+    val exoPlayer = remember { ExoPlayer.Builder(context).build() }
 
     // Set up observer for video URI changes
 
@@ -76,6 +91,7 @@ fun ExoPlayerScreen(
     }
 
     AndroidView(
+        modifier = Modifier.clickable { onPlayerClick() },
         factory = {
             PlayerView(it).apply {
                 player = exoPlayer
@@ -97,13 +113,13 @@ fun ExoPlayerScreen(
                 defaultDataSourceFactory
             )
             val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
-                getHlsMediaSource(dataSourceFactory,videoUrl.value!!.liveUrl!!)
+                getHlsMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
             else
-                getProgressiveMediaSource(dataSourceFactory,videoUrl.value!!.liveUrl!!)
+                getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
 
-           exoPlayer.setMediaSource(source)
-       /*     val mediaItem = MediaItem.fromUri(videoUrl.value!!)
-            exoPlayer.setMediaItem(mediaItem)*/
+            exoPlayer.setMediaSource(source)
+            /*     val mediaItem = MediaItem.fromUri(videoUrl.value!!)
+                 exoPlayer.setMediaItem(mediaItem)*/
             exoPlayer.prepare()
             exoPlayer.play()
         }
@@ -115,29 +131,29 @@ fun ExoPlayerScreen(
     ) {
 
 
-            DisposableEffect(key1 = Unit) {
-                val observer = LifecycleEventObserver { owner, event ->
-                    when (event) {
-                        Lifecycle.Event.ON_PAUSE -> {
-                            exoPlayer.pause()
-                        }
-
-                        Lifecycle.Event.ON_RESUME -> {
-                            exoPlayer.play()
-                        }
-
-                        else -> {}
+        DisposableEffect(key1 = Unit) {
+            val observer = LifecycleEventObserver { owner, event ->
+                when (event) {
+                    Lifecycle.Event.ON_PAUSE -> {
+                        exoPlayer.pause()
                     }
-                }
-                val lifecycle = lifecycleOwner.value.lifecycle
-                lifecycle.addObserver(observer)
-                onDispose {
-                    exoPlayer.stop()
-                    exoPlayer.release()
-                    lifecycle.removeObserver(observer)
-                }
 
+                    Lifecycle.Event.ON_RESUME -> {
+                        exoPlayer.play()
+                    }
+
+                    else -> {}
+                }
             }
+            val lifecycle = lifecycleOwner.value.lifecycle
+            lifecycle.addObserver(observer)
+            onDispose {
+                exoPlayer.stop()
+                exoPlayer.release()
+                lifecycle.removeObserver(observer)
+            }
+
+        }
 
         if (loading.value) {
             Column(
@@ -190,14 +206,19 @@ fun ExoPlayerScreen(
 
 
 @OptIn(UnstableApi::class)
-private fun getHlsMediaSource(dataSourceFactory:DataSource.Factory,mediaUrl:String): MediaSource {
+private fun getHlsMediaSource(
+    dataSourceFactory: DataSource.Factory,
+    mediaUrl: String
+): MediaSource {
     // Create a HLS media source pointing to a playlist uri.
-    return HlsMediaSource.Factory(dataSourceFactory).
-    createMediaSource(MediaItem.fromUri(mediaUrl))
+    return HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(mediaUrl))
 }
 
 @UnstableApi
-private fun getProgressiveMediaSource(dataSourceFactory:DataSource.Factory, mediaUrl:String): MediaSource{
+private fun getProgressiveMediaSource(
+    dataSourceFactory: DataSource.Factory,
+    mediaUrl: String
+): MediaSource {
     // Create a Regular media source pointing to a playlist uri.
     return ProgressiveMediaSource.Factory(dataSourceFactory)
         .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
