@@ -1,6 +1,9 @@
 package com.appifly.tvchannel
 
+import android.app.Activity
+import android.content.ContentValues
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import androidx.activity.ComponentActivity
@@ -35,6 +38,12 @@ import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
+import com.google.android.gms.ads.AdError
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.FullScreenContentCallback
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -121,6 +130,8 @@ private fun MainScreenView(
     }
 
 }
+
+
 
 
 
