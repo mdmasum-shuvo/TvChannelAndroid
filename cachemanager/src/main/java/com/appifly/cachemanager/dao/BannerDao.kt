@@ -14,6 +14,6 @@ interface BannerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(list: List<BannerEntity>)
 
-    @Query("select  banner_table.imageUrl,banner_table.date,banner_table.title,banner_table.channelId,channel_table.iconUrl from banner_table  LEFT JOIN channel_table Where banner_table.channelId=channel_table.id")
+    @Query("select  banner_table.imageUrl,banner_table.date,banner_table.title,banner_table.channelId,channel_table.iconUrl,channel_table.catId,channel_table.name ,channel_table.liveUrl from banner_table  LEFT JOIN channel_table Where banner_table.channelId=channel_table.id")
     fun getAllBanner(): LiveData<List<BannerChannelJoin>>?
 }

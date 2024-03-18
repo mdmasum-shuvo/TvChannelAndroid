@@ -30,11 +30,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
+import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.LargeChannelItem
@@ -60,7 +62,7 @@ fun HomeScreen(
     val launcher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) {
-  
+
     }
     LaunchedEffect(key1 = true, block = {
 
@@ -78,7 +80,9 @@ fun HomeScreen(
         SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
 
         homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
-            TopBannerItem(it)
+            TopBannerItem(it) { clickedItem ->
+                gotoChannelDetail(channelViewModel, clickedItem, navController)
+            }
         }
 
         viewModel.categoryData?.observeAsState()?.value?.let {
@@ -117,9 +121,8 @@ fun HomeScreen(
                             LargeChannelItem(
                                 item,
                             ) { clickedItem ->
-                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
-                                channelViewModel.setSelectedChannel(clickedItem)
-                                navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                gotoChannelDetail(channelViewModel, clickedItem, navController)
+
                             }
                         }
                     }
@@ -148,9 +151,8 @@ fun HomeScreen(
                             LargeChannelItem(
                                 item,
                                 onItemClick = { clickedItem ->
-                                    channelViewModel.addTOFrequentChannel(clickedItem.id!!)
-                                    channelViewModel.setSelectedChannel(clickedItem)
-                                    navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+
                                 },
                             )
                         }
@@ -178,16 +180,15 @@ fun HomeScreen(
                     ) {
                         items(items = it, key = { it.id!! }) { item ->
                             RegularChannelItem(item, onItemClick = { clickedItem ->
-                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
-                                channelViewModel.setSelectedChannel(clickedItem)
-                                navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                gotoChannelDetail(channelViewModel, clickedItem, navController)
+
                             })
                         }
                     }
                 }
             }
         }
-
+        AdmobBanner()
 
         if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
             homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
@@ -195,7 +196,9 @@ fun HomeScreen(
                     context.getString(R.string.tv_shows),
                     context.getString(R.string.see_all)
                 )
-                TvSeriesItem(it)
+                TvSeriesItem(it) { clickedItem ->
+                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+                }
             }
         }
 
@@ -219,8 +222,7 @@ fun HomeScreen(
                             LargeChannelItem(
                                 item,
                                 onItemClick = { clickedItem ->
-                                    channelViewModel.setSelectedChannel(clickedItem)
-                                    navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
                                 },
                             )
                         }
@@ -229,6 +231,17 @@ fun HomeScreen(
             }
         }
     }
+}
+
+fun gotoChannelDetail(
+    channelViewModel: ChannelViewModel,
+    clickedItem: ChannelDto,
+    navController: NavController
+) {
+
+    channelViewModel.addTOFrequentChannel(clickedItem.id!!)
+    channelViewModel.setSelectedChannel(clickedItem)
+    navController.navigate(Routing.ChannelDetailScreen.routeName)
 }
 
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)

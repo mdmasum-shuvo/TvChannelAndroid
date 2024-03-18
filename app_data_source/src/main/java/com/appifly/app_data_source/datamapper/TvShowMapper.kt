@@ -1,6 +1,7 @@
 package com.appifly.app_data_source.datamapper
 
 import com.appifly.app_data_source.dto.BannerDto
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.dto.TvShowDto
 import com.appifly.cachemanager.model.BannerChannelJoin
 import com.appifly.cachemanager.model.TvShowChannelJoin
@@ -27,6 +28,19 @@ fun TvShowChannelJoin.toDto(): TvShowDto {
         date = date,
         imageUrl = BuildConfig.ICON_BASE_URL_DRIVE + imageUrl,
         channelId = channelId,
-        iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl
+        iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
+        liveUrl = liveUrl,
+        channelName = name,
+        catId = catId
+    )
+}
+
+fun TvShowDto.toDto(): ChannelDto {
+    return ChannelDto(
+        id = channelId,
+        iconUrl = iconUrl,
+        liveUrl = liveUrl,
+        name = channelName,
+        catId = catId
     )
 }

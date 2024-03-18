@@ -9,5 +9,8 @@ data class BannerDto(
     val date: String?,
     val imageUrl: String,
     val channelId: Int,
-    val iconUrl: String
+    val iconUrl: String,
+    val liveUrl: String,
+    val catId: Int,
+    val channelName: String
 )

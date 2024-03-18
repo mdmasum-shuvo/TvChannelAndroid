@@ -73,9 +73,9 @@ fun FavoriteScreen(
         }
 
         item {
-            categoryViewModel.favoriteCategoryList.observeAsState().value?.let {
+            categoryViewModel.favoriteCategoryList.observeAsState().value?.let { it ->
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((200 * 6) / 2).dp),
+                    modifier = Modifier.height(((200 * it.size) / 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsFavorite),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -87,7 +87,7 @@ fun FavoriteScreen(
                         bottom = 4.dp
                     )
                 ) {
-                    items(it, key = { it.id }) { item ->
+                    items(it, key = {item-> item.id }) { item ->
 
                         Column {
                             Card(

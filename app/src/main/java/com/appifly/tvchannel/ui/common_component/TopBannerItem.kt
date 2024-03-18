@@ -5,6 +5,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.app_data_source.dto.BannerDto
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
@@ -38,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TopBannerItem(dataList: List<BannerDto>) {
+fun TopBannerItem(dataList: List<BannerDto>, onItemClick: (ChannelDto) -> Unit = { }) {
     val sliderList = dataList.size
 
     val pagerState = rememberPagerState { sliderList }
@@ -66,7 +68,9 @@ fun TopBannerItem(dataList: List<BannerDto>) {
     ) { page ->
 
         Column(
-            modifier = Modifier.padding(start = 32.dp, end = 32.dp)
+            modifier = Modifier.padding(start = 32.dp, end = 32.dp).clickable {
+                onItemClick(dataList[page].toDto())
+            }
 
         ) {
             Card(

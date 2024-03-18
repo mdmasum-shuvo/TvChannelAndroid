@@ -3,6 +3,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,13 +23,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.dto.TvShowDto
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
@@ -39,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TvSeriesItem(dataList: List<TvShowDto>) {
+fun TvSeriesItem(dataList: List<TvShowDto>, onItemClick: (ChannelDto) -> Unit = { }) {
     val sliderList = dataList.size
 
     val pagerState = rememberPagerState { sliderList }
@@ -67,7 +68,9 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
     ) { page ->
 
         Column(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 32.dp).clickable {
+                onItemClick(dataList[page].toDto())
+            }
         ) {
             Card(
                 shape = MaterialTheme.shapes.medium,
@@ -115,9 +118,7 @@ fun TvSeriesItem(dataList: List<TvShowDto>) {
                     )
                 }
 
-
             }
-
         }
     }
 

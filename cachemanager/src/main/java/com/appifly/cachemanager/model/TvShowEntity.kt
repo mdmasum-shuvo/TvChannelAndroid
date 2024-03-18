@@ -20,5 +20,8 @@ data class TvShowChannelJoin(
     val date: String?,
     val imageUrl: String?,
     val channelId: Int,
-    val iconUrl:String
+    val iconUrl:String,
+    val name:String,
+    val catId:Int,
+    val liveUrl: String
 )

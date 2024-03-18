@@ -39,7 +39,9 @@ fun FavoriteChannelListScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        MainTopBar(isBackEnable = true)
+        MainTopBar(isBackEnable = true){
+            navController.navigateUp()
+        }
 
         if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
             channelViewModel.favoriteChannelList.observeAsState().value?.let {
