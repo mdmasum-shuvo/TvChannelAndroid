@@ -36,6 +36,7 @@ import com.appifly.tvchannel.ui.common_component.TextView12W400
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.lightBackground
+import com.appifly.tvchannel.ui.view.home.gotoChannelDetail
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
@@ -109,20 +110,23 @@ fun FavoriteScreen(
                                         bottom = 4.dp
                                     )
                                 ) {
-                                    val favListofCat = ArrayList<ChannelDto>()
+                                    val favListOfCat = ArrayList<ChannelDto>()
                                     if (!channelViewModel.favoriteChannelList.value.isNullOrEmpty()) {
                                         for (data in channelViewModel.favoriteChannelList.value!!) {
                                             if (item.id == data.catId) {
-                                                favListofCat.add(data)
+                                                favListOfCat.add(data)
                                             }
                                         }
 
-                                        items(favListofCat) {
+                                        items(favListOfCat) {
                                             RegularChannelItem(
                                                 item = it,
                                                 modifier = Modifier.height(70.dp),
                                                 borderC = lightBackground,
-                                                cardColor = lightBackground,
+                                                cardColor = lightBackground, onItemClick = {clickedItem->
+                                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+
+                                                }
                                             )
                                         }
                                     }
