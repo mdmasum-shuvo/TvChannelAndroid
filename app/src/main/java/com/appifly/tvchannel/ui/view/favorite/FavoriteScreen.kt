@@ -75,7 +75,7 @@ fun FavoriteScreen(
             HeaderText(title = context.getString(R.string.favorites_screen_title))
             categoryViewModel.favoriteCategoryList.observeAsState().value?.let { list ->
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((330 * list.size) / 2).dp),
+                    modifier = Modifier.height(((400 * list.size) / 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsFavorite),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
