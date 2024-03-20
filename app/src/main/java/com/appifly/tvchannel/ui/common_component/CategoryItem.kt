@@ -26,6 +26,7 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.CategoryDto
+import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
@@ -37,6 +38,7 @@ fun CategoryItem(
     selectedIndex: MutableState<Int>,
     index: Int = 0, onItemClick: () -> Unit
 ) {
+    val context= LocalContext.current
     val showShimmer = remember { mutableStateOf(true) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -73,9 +75,13 @@ fun CategoryItem(
                         .build(),
 
                     contentScale = ContentScale.Crop,
-                    contentDescription = "ImageRequest example",
+                    contentDescription = context.getString(R.string.load_network_image),
                     onSuccess = {
                         showShimmer.value=false
+                    }
+                    , onError = {
+                        showShimmer.value=false
+
                     }
                 )
             }

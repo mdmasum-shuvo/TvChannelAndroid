@@ -5,6 +5,7 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,6 +21,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -32,16 +35,20 @@ import coil.request.ImageRequest
 import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.app_data_source.dto.BannerDto
 import com.appifly.app_data_source.dto.ChannelDto
+import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
+import com.appifly.tvchannel.utils.ShimmerEffect
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TopBannerItem(dataList: List<BannerDto>, onItemClick: (ChannelDto) -> Unit = { }) {
+    val context= LocalContext.current
     val sliderList = dataList.size
+    val showShimmer = remember { mutableStateOf(true) }
 
     val pagerState = rememberPagerState { sliderList }
     val scope = rememberCoroutineScope()
@@ -84,7 +91,7 @@ fun TopBannerItem(dataList: List<BannerDto>, onItemClick: (ChannelDto) -> Unit =
                 border = BorderStroke(width = 1.dp, color = borderColor)
             ) {
                 AsyncImage(
-                    modifier = Modifier
+                    modifier = Modifier.background(ShimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
                         .fillMaxSize(),
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(dataList[page].imageUrl).diskCachePolicy(CachePolicy.ENABLED)
@@ -92,7 +99,14 @@ fun TopBannerItem(dataList: List<BannerDto>, onItemClick: (ChannelDto) -> Unit =
                         .build(),
 
                     contentScale = ContentScale.Crop,
-                    contentDescription = "ImageRequest example",
+                    contentDescription = context.getString(R.string.load_network_image),
+                    onSuccess = {
+                        showShimmer.value=false
+                    }
+                    , onError = {
+                        showShimmer.value=false
+
+                    }
                 )
 
 
