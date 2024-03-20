@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,6 +20,8 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -36,18 +39,22 @@ import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
 import com.appifly.app_data_source.dto.ChannelDto
+import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
 import com.appifly.tvchannel.ui.theme.gradientColor2
+import com.appifly.tvchannel.utils.ShimmerEffect
 
 @Composable
 fun LargeChannelItem(
     item: ChannelDto,
     onItemClick: (ChannelDto) -> Unit = { },
 ) {
+    val showShimmer = remember { mutableStateOf(true) }
 
+    val context= LocalContext.current
     Column(
 
     ) {
@@ -62,7 +69,14 @@ fun LargeChannelItem(
             border = BorderStroke(width = 1.dp, color = borderColor)
         ) {
 
-            Box {
+            Box(
+                modifier = Modifier.background(
+                    ShimmerEffect(
+                        targetValue = 1300f,
+                        showShimmer = showShimmer.value
+                    )
+                )
+            ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
@@ -76,7 +90,12 @@ fun LargeChannelItem(
                             .diskCachePolicy(CachePolicy.ENABLED)
                             .build(),
                         contentScale = ContentScale.Fit,
-                        contentDescription = "ImageRequest example",
+                        contentDescription =context.getString(R.string.load_network_image) ,
+                        onSuccess = {
+                            showShimmer.value = false
+                        }, onError = {
+                            showShimmer.value = false
+                        }
                     )
 
 
@@ -101,7 +120,8 @@ fun RegularChannelItem(
     onItemClick: (ChannelDto) -> Unit = { },
     onFavClick: (Int) -> Unit = {}
 ) {
-
+    val showShimmer = remember { mutableStateOf(true) }
+    val context= LocalContext.current
     Card(
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(containerColor = cardColor),
@@ -110,7 +130,14 @@ fun RegularChannelItem(
         border = BorderStroke(width = 1.dp, color = borderC)
     ) {
 
-        Box {
+        Box(
+            modifier = Modifier.background(
+                ShimmerEffect(
+                    targetValue = 1300f,
+                    showShimmer = showShimmer.value
+                )
+            )
+        ) {
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
@@ -124,7 +151,10 @@ fun RegularChannelItem(
                         .data(item?.iconUrl).diskCachePolicy(CachePolicy.ENABLED)
                         .build(),
                     contentScale = ContentScale.Fit,
-                    contentDescription = "ImageRequest example",
+                    contentDescription =context.getString(R.string.load_network_image) ,
+                    onSuccess = {
+                        showShimmer.value = false
+                    }
                 )
             }
             if (isFavoriteItem) {
@@ -146,7 +176,11 @@ fun RegularChannelItem(
 }
 
 @Composable
-fun GradientFavIcon(size: Dp = 16.dp, isFavorite: Boolean = true,onFavClick: (Boolean) -> Unit={}) {
+fun GradientFavIcon(
+    size: Dp = 16.dp,
+    isFavorite: Boolean = true,
+    onFavClick: (Boolean) -> Unit = {}
+) {
     val gradient = Brush.linearGradient(
         colors = listOf(
             gradientColor1,
@@ -156,7 +190,8 @@ fun GradientFavIcon(size: Dp = 16.dp, isFavorite: Boolean = true,onFavClick: (Bo
         end = Offset(12f, 52f),
     )
     Icon(
-        modifier = Modifier.clickable { onFavClick(isFavorite) }
+        modifier = Modifier
+            .clickable { onFavClick(isFavorite) }
             .size(size)
             .graphicsLayer(alpha = 0.99f)
             .drawWithCache {

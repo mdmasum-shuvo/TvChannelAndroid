@@ -16,4 +16,5 @@
     <string name="more_app_desc">Other apps from AppiFly</string>
     <string name="rate_us">Rate Us</string>
     <string name="rate_us_desc">Rate our app on google play store</string>
+    <string name="load_network_image">load network image</string>
 </resources>

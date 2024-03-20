@@ -2,6 +2,7 @@ package com.appifly.tvchannel.ui.common_component
 
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -13,6 +14,8 @@ import androidx.compose.material3.CardDefaults.cardColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -26,6 +29,7 @@ import com.appifly.app_data_source.dto.CategoryDto
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
+import com.appifly.tvchannel.utils.ShimmerEffect
 
 @Composable
 fun CategoryItem(
@@ -33,7 +37,7 @@ fun CategoryItem(
     selectedIndex: MutableState<Int>,
     index: Int = 0, onItemClick: () -> Unit
 ) {
-
+    val showShimmer = remember { mutableStateOf(true) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -59,7 +63,7 @@ fun CategoryItem(
             }
         ) {
             Box(
-                modifier = Modifier
+                modifier = Modifier.background(ShimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
                     .padding(12.dp)
             ) {
                 AsyncImage(
@@ -70,6 +74,9 @@ fun CategoryItem(
 
                     contentScale = ContentScale.Crop,
                     contentDescription = "ImageRequest example",
+                    onSuccess = {
+                        showShimmer.value=false
+                    }
                 )
             }
         }

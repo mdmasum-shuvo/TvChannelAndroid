@@ -32,58 +32,59 @@ fun FavoriteChannelListScreen(
     channelViewModel: ChannelViewModel, navController: NavController
 ) {
     val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
+    Column {
         MainTopBar(isBackEnable = true){
             navController.navigateUp()
         }
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
-        if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
-            channelViewModel.favoriteChannelList.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
+            if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
+                channelViewModel.favoriteChannelList.observeAsState().value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
 
-                    HeaderText(
-                        context.getString(R.string.favorites),
-                        ""
-                    )
-
-                    LazyVerticalGrid(
-                        modifier = Modifier.height(((112 * 10) / 2).dp),
-                        columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        userScrollEnabled = false,
-                        contentPadding = PaddingValues(
-                            start = 12.dp,
-                            top = 10.dp,
-                            end = 12.dp,
-                            bottom = 16.dp
+                        HeaderText(
+                            context.getString(R.string.favorites),
+                            ""
                         )
-                    ) {
-                        items(items = it, key = { it.id!! }) { item ->
-                            RegularChannelItem(
-                                item = item,
-                                isFavoriteItem = true,
-                                modifier = Modifier.height(100.dp),
-                                onItemClick = { clickedItem ->
-                                    channelViewModel.setSelectedChannel(clickedItem)
-                                    navController.navigate(Routing.ChannelDetailScreen.routeName)
-                                },
-                                onFavClick = { id ->
-                                    channelViewModel.removeFavoriteChannel(id)
-                                }
-                            )
-                        }
 
+                        LazyVerticalGrid(
+                            modifier = Modifier.height(((112 * 10) / 2).dp),
+                            columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
+                            userScrollEnabled = false,
+                            contentPadding = PaddingValues(
+                                start = 12.dp,
+                                top = 10.dp,
+                                end = 12.dp,
+                                bottom = 16.dp
+                            )
+                        ) {
+                            items(items = it, key = { it.id!! }) { item ->
+                                RegularChannelItem(
+                                    item = item,
+                                    isFavoriteItem = true,
+                                    modifier = Modifier.height(100.dp),
+                                    onItemClick = { clickedItem ->
+                                        channelViewModel.setSelectedChannel(clickedItem)
+                                        navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                    },
+                                    onFavClick = { id ->
+                                        channelViewModel.removeFavoriteChannel(id)
+                                    }
+                                )
+                            }
+
+                        }
                     }
                 }
             }
-        }
 
+        }
     }
 }

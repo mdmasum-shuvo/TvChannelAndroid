@@ -69,162 +69,173 @@ fun HomeScreen(
         checkAndRequestCameraPermission(context, permission, launcher)
     })
     val selectedIndex = remember { mutableIntStateOf(0) }
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.Start
-    ) {
-
+    Column {
         MainTopBar()
-        SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
 
-        homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
-            TopBannerItem(it) { clickedItem ->
-                gotoChannelDetail(channelViewModel, clickedItem, navController)
-            }
-        }
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.Start
+        ) {
 
-        viewModel.categoryData?.observeAsState()?.value?.let {
+            SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
 
-            LaunchedEffect(key1 = true, block = {
-                if (it.isNotEmpty()) {
-                    channelViewModel.catId = it[0].id
-                    channelViewModel.callChannelDataByCatId()
-                    viewModel.setCategoryName(it[0].name)
+            homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
+                TopBannerItem(it) { clickedItem ->
+                    gotoChannelDetail(channelViewModel, clickedItem, navController)
                 }
-            })
-            CategoryListSection(it, selectedIndex) { item ->
-                channelViewModel.catId = item.id
-                channelViewModel.callChannelDataByCatId()
-                viewModel.setCategoryName(item.name)
             }
-        }
 
-        if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
-            channelViewModel.channelData.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
-                    HeaderText(
-                        viewModel.channelCategoryName.observeAsState().value,
-                        context.getString(R.string.see_all)
-                    )
+            viewModel.categoryData?.observeAsState()?.value?.let {
 
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            top = 10.dp,
-                            bottom = MaterialTheme.dimens.stdDimen24
+                LaunchedEffect(key1 = true, block = {
+                    if (it.isNotEmpty()) {
+                        channelViewModel.catId = it[0].id
+                        channelViewModel.callChannelDataByCatId()
+                        viewModel.setCategoryName(it[0].name)
+                    }
+                })
+                CategoryListSection(it, selectedIndex) { item ->
+                    channelViewModel.catId = item.id
+                    channelViewModel.callChannelDataByCatId()
+                    viewModel.setCategoryName(item.name)
+                }
+            }
+
+            if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
+                channelViewModel.channelData.observeAsState().value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            viewModel.channelCategoryName.observeAsState().value,
+                            context.getString(R.string.see_all)
                         )
-                    ) {
-                        items(items = it, key = { it.id!! }) { item ->
-                            LargeChannelItem(
-                                item,
-                            ) { clickedItem ->
-                                gotoChannelDetail(channelViewModel, clickedItem, navController)
 
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 10.dp,
+                                bottom = MaterialTheme.dimens.stdDimen24
+                            )
+                        ) {
+                            items(items = it, key = { it.id!! }) { item ->
+                                LargeChannelItem(
+                                    item,
+                                ) { clickedItem ->
+                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            if (!channelViewModel.frequentlyPlayedChannelList.observeAsState().value.isNullOrEmpty()) {
+                channelViewModel.frequentlyPlayedChannelList.observeAsState().value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            context.getString(R.string.frequently_played),
+                            context.getString(R.string.see_all)
+                        )
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 10.dp,
+                                bottom = MaterialTheme.dimens.stdDimen24
+                            )
+                        ) {
+                            items(items = it, key = { it.id!! }) { item ->
+                                LargeChannelItem(
+                                    item,
+                                    onItemClick = { clickedItem ->
+                                        gotoChannelDetail(
+                                            channelViewModel,
+                                            clickedItem,
+                                            navController
+                                        )
+
+                                    },
+                                )
                             }
                         }
                     }
                 }
-
             }
-        }
+            AdmobBannerAdaptive()
 
-        if (!channelViewModel.frequentlyPlayedChannelList.observeAsState().value.isNullOrEmpty()) {
-            channelViewModel.frequentlyPlayedChannelList.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
-                    HeaderText(
-                        context.getString(R.string.frequently_played),
-                        context.getString(R.string.see_all)
-                    )
-
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            top = 10.dp,
-                            bottom = MaterialTheme.dimens.stdDimen24
+            if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
+                channelViewModel.popularChannelList?.observeAsState()?.value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            context.getString(R.string.popular_channel),
+                            context.getString(R.string.see_all)
                         )
-                    ) {
-                        items(items = it, key = { it.id!! }) { item ->
-                            LargeChannelItem(
-                                item,
-                                onItemClick = { clickedItem ->
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 10.dp,
+                                bottom = MaterialTheme.dimens.stdDimen24
+                            )
+                        ) {
+                            items(items = it, key = { it.id!! }) { item ->
+                                RegularChannelItem(item, onItemClick = { clickedItem ->
                                     gotoChannelDetail(channelViewModel, clickedItem, navController)
 
-                                },
-                            )
+                                })
+                            }
                         }
                     }
                 }
             }
-        }
-        AdmobBannerAdaptive()
+            AdmobBanner()
 
-        if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
-            channelViewModel.popularChannelList?.observeAsState()?.value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
+            if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
+                homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
                     HeaderText(
-                        context.getString(R.string.popular_channel),
+                        context.getString(R.string.tv_shows),
                         context.getString(R.string.see_all)
                     )
-
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            top = 10.dp,
-                            bottom = MaterialTheme.dimens.stdDimen24
-                        )
-                    ) {
-                        items(items = it, key = { it.id!! }) { item ->
-                            RegularChannelItem(item, onItemClick = { clickedItem ->
-                                gotoChannelDetail(channelViewModel, clickedItem, navController)
-
-                            })
-                        }
+                    TvSeriesItem(it) { clickedItem ->
+                        gotoChannelDetail(channelViewModel, clickedItem, navController)
                     }
                 }
             }
-        }
-        AdmobBanner()
 
-        if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
-            homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
-                HeaderText(
-                    context.getString(R.string.tv_shows),
-                    context.getString(R.string.see_all)
-                )
-                TvSeriesItem(it) { clickedItem ->
-                    gotoChannelDetail(channelViewModel, clickedItem, navController)
-                }
-            }
-        }
-
-        if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
-            channelViewModel.favoriteChannelList.observeAsState().value?.let {
-                Column(horizontalAlignment = Alignment.Start) {
-                    HeaderText(
-                        context.getString(R.string.favorites),
-                        context.getString(R.string.see_all)
-                    )
-
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(
-                            start = 16.dp,
-                            top = 10.dp,
-                            bottom = MaterialTheme.dimens.stdDimen24
+            if (!channelViewModel.favoriteChannelList.observeAsState().value.isNullOrEmpty()) {
+                channelViewModel.favoriteChannelList.observeAsState().value?.let {
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            context.getString(R.string.favorites),
+                            context.getString(R.string.see_all)
                         )
-                    ) {
-                        items(items = it, key = { it.id!! }) { item ->
-                            LargeChannelItem(
-                                item,
-                                onItemClick = { clickedItem ->
-                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
-                                },
+
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 10.dp,
+                                bottom = MaterialTheme.dimens.stdDimen24
                             )
+                        ) {
+                            items(items = it, key = { it.id!! }) { item ->
+                                LargeChannelItem(
+                                    item,
+                                    onItemClick = { clickedItem ->
+                                        gotoChannelDetail(
+                                            channelViewModel,
+                                            clickedItem,
+                                            navController
+                                        )
+                                    },
+                                )
+                            }
                         }
                     }
                 }

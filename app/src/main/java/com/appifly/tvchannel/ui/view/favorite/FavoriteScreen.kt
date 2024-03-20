@@ -56,23 +56,26 @@ fun FavoriteScreen(
                     it
                 )
             }
-
         }
     })
     val context = LocalContext.current
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Column {
+        MainTopBar()
 
-            MainTopBar()
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+
+            SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
+            AdmobBannerAdaptive()
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
             HeaderText(title = context.getString(R.string.favorites_screen_title))
             categoryViewModel.favoriteCategoryList.observeAsState().value?.let { list ->
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((250 * list.size) / 2).dp),
+                    modifier = Modifier.height(((330 * list.size) / 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsFavorite),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -84,7 +87,7 @@ fun FavoriteScreen(
                         bottom = 4.dp
                     )
                 ) {
-                    items(list, key = {item-> item.id }) { item ->
+                    items(list, key = { item -> item.id }) { item ->
 
                         Column {
                             Card(
@@ -119,8 +122,13 @@ fun FavoriteScreen(
                                                 item = it,
                                                 modifier = Modifier.height(70.dp),
                                                 borderC = lightBackground,
-                                                cardColor = lightBackground, onItemClick = {clickedItem->
-                                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+                                                cardColor = lightBackground,
+                                                onItemClick = { clickedItem ->
+                                                    gotoChannelDetail(
+                                                        channelViewModel,
+                                                        clickedItem,
+                                                        navController
+                                                    )
 
                                                 }
                                             )
@@ -141,8 +149,7 @@ fun FavoriteScreen(
             }
 
 
-            AdmobBannerAdaptive()
-        
+        }
     }
 }
 

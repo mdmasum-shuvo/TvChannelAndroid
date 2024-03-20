@@ -39,67 +39,70 @@ fun ChannelScreen(
 ) {
     val selectedIndex = remember { mutableIntStateOf(0) }
 
-    Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.Start
-    ) {
-
+    Column {
         MainTopBar()
 
-        viewModel.categoryData?.observeAsState()?.value?.let {
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.Start
+        ) {
 
-            LaunchedEffect(key1 = true, block = {
-                if (it.isNotEmpty()) {
-                    channelViewModel.catId = it[0].id
+
+            viewModel.categoryData?.observeAsState()?.value?.let {
+
+                LaunchedEffect(key1 = true, block = {
+                    if (it.isNotEmpty()) {
+                        channelViewModel.catId = it[0].id
+                        channelViewModel.callChannelDataByCatId()
+                        viewModel.setCategoryName(it[0].name)
+                    }
+                })
+
+                CategoryListSection(it, selectedIndex) { item ->
+                    channelViewModel.catId = item.id
                     channelViewModel.callChannelDataByCatId()
-                    viewModel.setCategoryName(it[0].name)
+                    viewModel.setCategoryName(item.name)
+
                 }
-            })
-
-            CategoryListSection(it, selectedIndex) { item ->
-                channelViewModel.catId = item.id
-                channelViewModel.callChannelDataByCatId()
-                viewModel.setCategoryName(item.name)
-
             }
-        }
 
 
 
 
-        channelViewModel.channelData.observeAsState().value?.let {
-            HeaderText(viewModel.channelCategoryName.observeAsState().value)
+            channelViewModel.channelData.observeAsState().value?.let {
+                HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
-            LazyVerticalGrid(
-                modifier = Modifier.height(((112 * 10) / 2).dp),
-                columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
-                horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
-                userScrollEnabled = false,
-                contentPadding = PaddingValues(
-                    start = 12.dp,
-                    top = 10.dp,
-                    end = 12.dp,
-                    bottom = 16.dp
-                )
-            ) {
-                items(items = it, key = { it.id!! }) { item ->
-                    RegularChannelItem(
-                        item = item,
-                        modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
-                        onItemClick = { clickedItem ->
-                            channelViewModel.addTOFrequentChannel(clickedItem.id!!)
-                            channelViewModel.setSelectedChannel(clickedItem)
-                            navController.navigate(Routing.ChannelDetailScreen.routeName)
-                        },
+                LazyVerticalGrid(
+                    modifier = Modifier.height(((112 * 10) / 2).dp),
+                    columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
+                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
+                    userScrollEnabled = false,
+                    contentPadding = PaddingValues(
+                        start = 12.dp,
+                        top = 10.dp,
+                        end = 12.dp,
+                        bottom = 16.dp
                     )
+                ) {
+                    items(items = it, key = { it.id!! }) { item ->
+                        RegularChannelItem(
+                            item = item,
+                            modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
+                            onItemClick = { clickedItem ->
+                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
+                                channelViewModel.setSelectedChannel(clickedItem)
+                                navController.navigate(Routing.ChannelDetailScreen.routeName)
+                            },
+                        )
+                    }
+
                 }
-
             }
-        }
 
+        }
     }
 
 }
