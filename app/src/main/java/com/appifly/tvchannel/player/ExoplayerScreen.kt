@@ -72,14 +72,6 @@ fun PlayerScreen(
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
     val exoPlayer = remember { ExoPlayer.Builder(context).build() }
 
-    // Set up observer for video URI changes
-
-    DisposableEffect(key1 = Unit) {
-        // Clean up the ExoPlayer when the composable is disposed
-        onDispose {
-            exoPlayer.release()
-        }
-    }
 
     AndroidView(
         modifier = Modifier.clickable { onPlayerClick() },
@@ -118,7 +110,6 @@ fun PlayerScreen(
         modifier = Modifier
             .background(darkBackground)
     ) {
-
 
         DisposableEffect(key1 = Unit) {
             val observer = LifecycleEventObserver { _, event ->
@@ -184,14 +175,8 @@ fun PlayerScreen(
                     loading.value = false
                 }
             }
-
-
         }
 
-        override fun onIsLoadingChanged(isLoading: Boolean) {
-            super.onIsLoadingChanged(isLoading)
-
-        }
     })
 
 }

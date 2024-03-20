@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -58,25 +60,19 @@ fun FavoriteScreen(
         }
     })
     val context = LocalContext.current
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
+
             MainTopBar()
-        }
-        item {
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
-
-        }
-        item {
             HeaderText(title = context.getString(R.string.favorites_screen_title))
-        }
-
-        item {
-            categoryViewModel.favoriteCategoryList.observeAsState().value?.let { it ->
+            categoryViewModel.favoriteCategoryList.observeAsState().value?.let { list ->
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((200 * it.size) / 2).dp),
+                    modifier = Modifier.height(((250 * list.size) / 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsFavorite),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -88,7 +84,7 @@ fun FavoriteScreen(
                         bottom = 4.dp
                     )
                 ) {
-                    items(it, key = {item-> item.id }) { item ->
+                    items(list, key = {item-> item.id }) { item ->
 
                         Column {
                             Card(
@@ -143,10 +139,10 @@ fun FavoriteScreen(
 
                 }
             }
-        }
-        item {
+
+
             AdmobBannerAdaptive()
-        }
+        
     }
 }
 

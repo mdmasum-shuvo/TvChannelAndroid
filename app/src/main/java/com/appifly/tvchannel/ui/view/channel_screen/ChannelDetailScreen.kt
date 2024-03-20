@@ -101,7 +101,7 @@ fun ChannelDetailScreen(
         ) {
 
             MainTopBar(isBackEnable = true, navigateBack = {
-                navController.navigateUp()
+                navController.popBackStack()
             })
 
             Box(
