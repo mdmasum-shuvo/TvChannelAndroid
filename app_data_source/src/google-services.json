@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "484479441344",
+    "project_id": "codecanyon-live-d5c10",
+    "storage_bucket": "codecanyon-live-d5c10.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484479441344:android:10c4c2849d258c8302d025",
+        "android_client_info": {
+          "package_name": "com.appifly.tvchannel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWo9HuVVZtpq8vX_H2Hv34CUTJBhMADNs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

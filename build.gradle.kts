@@ -6,6 +6,8 @@ buildscript {
     val version_hilt_navigation by rootProject.extra { "1.1.0"}
     val version_room  by rootProject.extra { "2.6.1"}
     val coroutines_version  by rootProject.extra { "1.5.1"}
+    val appUpdateVersion  by rootProject.extra { "2.1.0"}
+
     //OR
     //extra.set("ktorVersion", "1.2.3")
 

@@ -34,7 +34,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            //signingConfig = signingConfigs.getByName("debug")
         }
     }
     compileOptions {
@@ -70,6 +70,10 @@ android {
         create("pro") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel"
+            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
+            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
+            buildConfigField("String","NATIVE_ADD_ID","\"" + "ca-app-pub-3940256099942544/2247696110"+ "\"")
+            buildConfigField("String","REWARDED_AD","\"" + "ca-app-pub-3940256099942544/5224354917"+ "\"")
 
         }
     }
@@ -142,6 +146,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-ads:23.0.0")
     //WindowSizeClass
     implementation ("androidx.compose.material3:material3-window-size-class:1.2.1")
+    implementation ("com.google.android.play:app-update:${rootProject.extra.get("appUpdateVersion")}")
+    implementation ("com.google.android.play:app-update-ktx:${rootProject.extra.get("appUpdateVersion")}")
 }
 
 // Allow references to generated code
