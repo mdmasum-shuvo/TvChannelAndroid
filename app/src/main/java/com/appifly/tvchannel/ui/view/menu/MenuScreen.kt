@@ -1,6 +1,8 @@
 package com.appifly.tvchannel.ui.view.menu
 
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -9,14 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
-import com.appifly.tvchannel.ui.view.home.HomeScreen
+import com.appifly.tvchannel.utils.AppUtils
 
 
 @Composable
@@ -34,19 +36,36 @@ fun MenuScreen() {
             SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
         }
         item {
-            MenuItem(drawableId = R.drawable.theme, context.getString(R.string.app_theme),  context.getString(R.string.dark_or_light))
+            MenuItem(drawableId = R.drawable.theme, context.getString(R.string.app_theme),  context.getString(R.string.dark_or_light)){
+
+            }
         }
         item {
-            MenuItem(drawableId = R.drawable.share_icon, context.getString(R.string.share_app), context.getString(R.string.share_app_dec))
+            MenuItem(drawableId = R.drawable.share_icon, context.getString(R.string.share_app), context.getString(R.string.share_app_dec)){
+                AppUtils.shareApp(context)
+            }
         }
         item {
-            MenuItem(drawableId = R.drawable.about_us_icon, context.getString(R.string.about_us),context.getString(R.string.about_us_desc) )
+            MenuItem(drawableId = R.drawable.about_us_icon, context.getString(R.string.about_us),context.getString(R.string.about_us_desc) ){
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data =
+                    Uri.parse("https://support.shohay.health/")
+                ContextCompat.startActivity(context, openURL, null)
+            }
         }
         item {
-            MenuItem(drawableId = R.drawable.more_icon, context.getString(R.string.more_app),context.getString(R.string.more_app_desc) )
+            MenuItem(drawableId = R.drawable.more_icon, context.getString(R.string.more_app),context.getString(R.string.more_app_desc) ){
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data =
+                    Uri.parse("https://support.shohay.health/")
+                ContextCompat.startActivity(context, openURL, null)
+            }
         }
         item {
-            MenuItem(drawableId = R.drawable.rate_icon, context.getString(R.string.rate_us),context.getString(R.string.rate_us_desc) )
+            MenuItem(drawableId = R.drawable.rate_icon, context.getString(R.string.rate_us),context.getString(R.string.rate_us_desc) ){
+                AppUtils.rateThisApp(context)
+
+            }
         }
         item {
             AdmobBannerAdaptive()
