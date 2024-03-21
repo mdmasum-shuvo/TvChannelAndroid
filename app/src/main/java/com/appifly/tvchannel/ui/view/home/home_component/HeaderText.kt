@@ -1,6 +1,8 @@
 package com.appifly.tvchannel.ui.view.home.home_component
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,7 +14,7 @@ import com.appifly.tvchannel.ui.common_component.TextView14W400Gradient
 import com.appifly.tvchannel.ui.common_component.TextView18W500
 
 @Composable
-fun HeaderText(title: String?, subTitle: String?="") {
+fun HeaderText(title: String?, subTitle: String?="",onSeeAllClick: () -> Unit={}) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
@@ -21,6 +23,8 @@ fun HeaderText(title: String?, subTitle: String?="") {
             .padding(horizontal = 16.dp)
     ) {
         TextView18W500(value = title ?: "")
-        TextView14W400Gradient(value = subTitle ?: "")
+        Box(modifier = Modifier.clickable { onSeeAllClick() }) {
+            TextView14W400Gradient(value = subTitle ?: "")
+        }
     }
 }

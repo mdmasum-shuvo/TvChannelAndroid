@@ -45,6 +45,7 @@ import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.player.PlayerScreen
@@ -64,7 +65,7 @@ import com.appifly.tvchannel.ui.theme.darkBackground
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
-import com.appifly.tvchannel.utils.AppUtils.hideSystemUI
+import com.appifly.tvchannel.utils.AppUtils
 import com.appifly.tvchannel.utils.Constants.PLAYER_CONTROLS_VISIBILITY
 import com.appifly.tvchannel.utils.setLandscape
 import com.appifly.tvchannel.utils.setPortrait
@@ -72,9 +73,10 @@ import kotlinx.coroutines.delay
 
 
 @Composable
-fun ChannelDetailScreen(
+fun SeeAllChannelScreen(
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
+    seeAllChannelViewModel: SeeAllChannelViewModel,
     activity: Activity = LocalContext.current as MainActivity,
     navController: NavController
 ) {
@@ -88,11 +90,9 @@ fun ChannelDetailScreen(
         }
     }
     LaunchedEffect(key1 = true, block = {
-        channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
-        channelViewModel.callChannelDataByCatId()
-        channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
-        viewModel.getCategoryNameById(channelViewModel.catId)
+        viewModel.setCategoryName(seeAllChannelViewModel.dataListTitle)
     })
+
     if (ScreenOrientation == Configuration.ORIENTATION_PORTRAIT) {
 
         Column(
@@ -195,7 +195,7 @@ fun ChannelDetailScreen(
                     .verticalScroll(rememberScrollState())
                     .weight(2f, fill = true)
             ) {
-                channelViewModel.channelData.observeAsState().value?.let {
+                seeAllChannelViewModel.channelData.observeAsState().value?.let {
                     HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                     LazyVerticalGrid(
@@ -231,7 +231,7 @@ fun ChannelDetailScreen(
 
         }
     } else {
-        hideSystemUI(activity)
+        AppUtils.hideSystemUI(activity)
 
         Box {
             PlayerScreen(
@@ -246,7 +246,9 @@ fun ChannelDetailScreen(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                Box(modifier = Modifier.fillMaxSize()  .background(darkBackground.copy(alpha = 0.6f))) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(darkBackground.copy(alpha = 0.6f))) {
                     Box(
                         modifier = Modifier
 
@@ -283,10 +285,4 @@ fun ChannelDetailScreen(
 }
 
 
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-fun PreviewChannelDetailScreen() {
-    TvChannelTheme {
-        //ChannelDetailScreen()
-    }
-}
+

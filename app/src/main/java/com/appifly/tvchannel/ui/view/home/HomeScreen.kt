@@ -34,6 +34,7 @@ import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
+import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
@@ -55,7 +56,8 @@ fun HomeScreen(
     navController: NavController,
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    seeAllChannelViewModel: SeeAllChannelViewModel
 ) {
     val context = LocalContext.current
     val permission = Manifest.permission.POST_NOTIFICATIONS
@@ -109,7 +111,11 @@ fun HomeScreen(
                         HeaderText(
                             viewModel.channelCategoryName.observeAsState().value,
                             context.getString(R.string.see_all)
-                        )
+                        ){
+                            seeAllChannelViewModel.setSeeAllChannelList(it,"All Channel")
+                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
+
+                        }
 
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -139,7 +145,12 @@ fun HomeScreen(
                         HeaderText(
                             context.getString(R.string.frequently_played),
                             context.getString(R.string.see_all)
-                        )
+                        ){
+                            seeAllChannelViewModel.setSeeAllChannelList(it,"Popular Channel")
+
+                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
+
+                        }
 
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -174,7 +185,11 @@ fun HomeScreen(
                         HeaderText(
                             context.getString(R.string.popular_channel),
                             context.getString(R.string.see_all)
-                        )
+                        ){
+                            seeAllChannelViewModel.setSeeAllChannelList(it,"Popular Channel")
+                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
+
+                        }
 
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -214,7 +229,10 @@ fun HomeScreen(
                         HeaderText(
                             context.getString(R.string.favorites),
                             context.getString(R.string.see_all)
-                        )
+                        ){
+                            seeAllChannelViewModel.setSeeAllChannelList(it,"Favorite Cannel")
+                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
+                        }
 
                         LazyRow(
                             horizontalArrangement = Arrangement.spacedBy(12.dp),

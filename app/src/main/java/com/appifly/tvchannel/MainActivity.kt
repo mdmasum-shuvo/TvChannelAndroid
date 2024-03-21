@@ -33,11 +33,13 @@ import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
+import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
+import com.appifly.tvchannel.ui.view.channel_screen.SeeAllChannelScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
@@ -162,6 +164,7 @@ private fun MainScreenView(
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
+    val seeAllChannelViewModel:SeeAllChannelViewModel= hiltViewModel()
     Scaffold(bottomBar = {
         if (showBottomNav.value) BottomNavigation(
             navController,
@@ -184,7 +187,7 @@ private fun MainScreenView(
                 composable(Routing.HomeScreen.routeName) {
                     showBottomNav.value = true
 
-                    HomeScreen(navController=navController, viewModel = categoryViewModel,channelViewModel=channelViewModel,homeViewModel= homeViewModel)
+                    HomeScreen(navController=navController, viewModel = categoryViewModel,channelViewModel=channelViewModel,homeViewModel= homeViewModel,seeAllChannelViewModel=seeAllChannelViewModel)
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
@@ -208,6 +211,17 @@ private fun MainScreenView(
                     ChannelDetailScreen(
                         categoryViewModel,
                         channelViewModel,
+                        navController = navController
+                    )
+                }
+
+                composable(Routing.SeeAllChannelScreen.routeName) {
+                    showBottomNav.value = false
+                    mInterstitialAd?.show(activity)
+                    SeeAllChannelScreen(
+                        categoryViewModel,
+                        channelViewModel,
+                        seeAllChannelViewModel,
                         navController = navController
                     )
                 }
