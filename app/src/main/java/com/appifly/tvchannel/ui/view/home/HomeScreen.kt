@@ -3,14 +3,15 @@ package com.appifly.tvchannel.ui.view.home
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
-import android.content.res.Configuration
 import android.os.Build
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -26,7 +27,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -41,12 +41,12 @@ import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.LargeChannelItem
+import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.common_component.TopBannerItem
 import com.appifly.tvchannel.ui.common_component.TvSeriesItem
-import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
@@ -67,12 +67,13 @@ fun HomeScreen(
 
     }
     LaunchedEffect(key1 = true, block = {
-
         checkAndRequestCameraPermission(context, permission, launcher)
     })
     val selectedIndex = remember { mutableIntStateOf(0) }
     Column {
-        MainTopBar()
+        MainTopBar(onSearchIconClick = {
+            navController.navigate(Routing.SearchScreen.routeName)
+        })
 
         Column(
             modifier = Modifier
@@ -111,8 +112,11 @@ fun HomeScreen(
                         HeaderText(
                             viewModel.channelCategoryName.observeAsState().value,
                             context.getString(R.string.see_all)
-                        ){
-                            seeAllChannelViewModel.setSeeAllChannelList(it,"All Channel")
+                        ) {
+                            seeAllChannelViewModel.setSeeAllChannelList(
+                                it,
+                                context.getString(R.string.all_channel)
+                            )
                             navController.navigate(Routing.SeeAllChannelScreen.routeName)
 
                         }
@@ -129,7 +133,11 @@ fun HomeScreen(
                                 LargeChannelItem(
                                     item,
                                 ) { clickedItem ->
-                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+                                    gotoChannelDetail(
+                                        channelViewModel,
+                                        clickedItem,
+                                        navController
+                                    )
 
                                 }
                             }
@@ -145,11 +153,12 @@ fun HomeScreen(
                         HeaderText(
                             context.getString(R.string.frequently_played),
                             context.getString(R.string.see_all)
-                        ){
-                            seeAllChannelViewModel.setSeeAllChannelList(it,"Popular Channel")
-
+                        ) {
+                            seeAllChannelViewModel.setSeeAllChannelList(
+                                it,
+                                context.getString(R.string.frequently_played)
+                            )
                             navController.navigate(Routing.SeeAllChannelScreen.routeName)
-
                         }
 
                         LazyRow(
@@ -185,8 +194,11 @@ fun HomeScreen(
                         HeaderText(
                             context.getString(R.string.popular_channel),
                             context.getString(R.string.see_all)
-                        ){
-                            seeAllChannelViewModel.setSeeAllChannelList(it,"Popular Channel")
+                        ) {
+                            seeAllChannelViewModel.setSeeAllChannelList(
+                                it,
+                                context.getString(R.string.popular_channel)
+                            )
                             navController.navigate(Routing.SeeAllChannelScreen.routeName)
 
                         }
@@ -201,7 +213,11 @@ fun HomeScreen(
                         ) {
                             items(items = it, key = { it.id!! }) { item ->
                                 RegularChannelItem(item, onItemClick = { clickedItem ->
-                                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+                                    gotoChannelDetail(
+                                        channelViewModel,
+                                        clickedItem,
+                                        navController
+                                    )
 
                                 })
                             }
@@ -215,11 +231,9 @@ fun HomeScreen(
                 homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {
                     HeaderText(
                         context.getString(R.string.tv_shows),
-                        context.getString(R.string.see_all)
+                        ""
                     )
-                    TvSeriesItem(it) { clickedItem ->
-                        gotoChannelDetail(channelViewModel, clickedItem, navController)
-                    }
+                    TvSeriesItem(it)
                 }
             }
 
@@ -229,8 +243,11 @@ fun HomeScreen(
                         HeaderText(
                             context.getString(R.string.favorites),
                             context.getString(R.string.see_all)
-                        ){
-                            seeAllChannelViewModel.setSeeAllChannelList(it,"Favorite Cannel")
+                        ) {
+                            seeAllChannelViewModel.setSeeAllChannelList(
+                                it,
+                                context.getString(R.string.favorites)
+                            )
                             navController.navigate(Routing.SeeAllChannelScreen.routeName)
                         }
 
@@ -271,14 +288,6 @@ fun gotoChannelDetail(
     channelViewModel.addTOFrequentChannel(clickedItem.id!!)
     channelViewModel.setSelectedChannel(clickedItem)
     navController.navigate(Routing.ChannelDetailScreen.routeName)
-}
-
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-fun PreviewHomeSceen() {
-    TvChannelTheme {
-        //  HomeScreen()
-    }
 }
 
 

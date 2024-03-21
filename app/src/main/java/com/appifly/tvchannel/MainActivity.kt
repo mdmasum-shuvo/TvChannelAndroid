@@ -44,6 +44,7 @@ import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
+import com.appifly.tvchannel.ui.view.search.SearchScreen
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -212,6 +213,14 @@ private fun MainScreenView(
                         categoryViewModel,
                         channelViewModel,
                         navController = navController
+                    )
+                }
+
+                composable(Routing.SearchScreen.routeName) {
+                    showBottomNav.value = false
+                    mInterstitialAd?.show(activity)
+                    SearchScreen(
+
                     )
                 }
 

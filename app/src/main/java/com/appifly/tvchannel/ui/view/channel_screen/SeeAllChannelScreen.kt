@@ -117,7 +117,6 @@ fun SeeAllChannelScreen(
                     }
                 ) {
                     shouldShowControls = shouldShowControls.not()
-
                 }
                 this@Column.AnimatedVisibility(
                     modifier = Modifier.fillMaxSize(),
@@ -140,13 +139,12 @@ fun SeeAllChannelScreen(
                                 painter = painterResource(
                                     id = R.drawable.full_screen_entry
                                 ),
+
                                 contentDescription = ""
                             )
                         }
                     }
                 }
-                //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
-                //https://mediashohayprod-aase.streaming.media.azure.net/26a9dc05-ea5b-4f23-a3bb-cc48d96e605b/video-24-1687293003062-media-24.ism/manifest(format=m3u8-aapl)
             }
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
             Row(

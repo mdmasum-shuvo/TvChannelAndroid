@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewScreenSizes
 import androidx.compose.ui.unit.dp
@@ -26,9 +27,10 @@ import com.appifly.tvchannel.ui.theme.TvChannelTheme
 
 @Composable
 fun MainTopBar(
-    isBackEnable: Boolean = false, navigateBack: (() -> Unit)? = null,
+    isBackEnable: Boolean = false, navigateBack: (() -> Unit)? = null, onSearchIconClick: (() -> Unit) = {},
 ) {
 
+    val context= LocalContext.current
     Box(
 
         modifier = Modifier.height(60.dp)
@@ -67,13 +69,13 @@ fun MainTopBar(
         }
 
         Box(
-            modifier = Modifier
+            modifier = Modifier.clickable { onSearchIconClick() }
                 .padding(end = 16.dp)
                 .align(Alignment.CenterEnd)
         ) {
             Icon(
                 Icons.Filled.Search, tint = MaterialTheme.colorScheme.secondary,
-                contentDescription = "search icon",
+                contentDescription =context.getString(R.string.search_icon_description) ,
                 modifier = Modifier.size(24.dp)
             )
 
