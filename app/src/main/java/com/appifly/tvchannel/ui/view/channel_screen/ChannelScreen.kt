@@ -35,12 +35,12 @@ import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 @Composable
 fun ChannelScreen(
     viewModel: CategoryViewModel,
-    channelViewModel: ChannelViewModel,navController:NavController
+    channelViewModel: ChannelViewModel, navController: NavController
 ) {
     val selectedIndex = remember { mutableIntStateOf(0) }
 
     Column {
-        MainTopBar()
+        MainTopBar(onSearchIconClick = { navController.navigate(Routing.SearchScreen.routeName) })
 
         Column(
             modifier = Modifier
@@ -87,7 +87,7 @@ fun ChannelScreen(
                         bottom = 16.dp
                     )
                 ) {
-                    items(items = it, key = {item-> item.id!! }) { item ->
+                    items(items = it, key = { item -> item.id!! }) { item ->
                         RegularChannelItem(
                             item = item,
                             modifier = Modifier.height(MaterialTheme.dimens.channelMedium),

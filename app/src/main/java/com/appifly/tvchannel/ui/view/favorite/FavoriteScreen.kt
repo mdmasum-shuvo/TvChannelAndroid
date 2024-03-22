@@ -60,7 +60,7 @@ fun FavoriteScreen(
     })
     val context = LocalContext.current
     Column {
-        MainTopBar()
+        MainTopBar(onSearchIconClick = {navController.navigate(Routing.SearchScreen.routeName) })
 
         Column(
             modifier = Modifier

@@ -12,7 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
@@ -22,14 +24,14 @@ import com.appifly.tvchannel.utils.AppUtils
 
 
 @Composable
-fun MenuScreen() {
+fun MenuScreen(navController: NavController) {
     val context = LocalContext.current
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            MainTopBar()
+            MainTopBar(onSearchIconClick = {navController.navigate(Routing.SearchScreen.routeName) })
         }
 
         item {
@@ -79,7 +81,8 @@ fun MenuScreen() {
 @Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewMenuScreen() {
+    val context= LocalContext.current
     TvChannelTheme {
-        MenuScreen()
+        MenuScreen(NavController(context))
     }
 }

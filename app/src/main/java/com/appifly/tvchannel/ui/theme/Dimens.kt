@@ -97,18 +97,19 @@ val MediumDimens = Dimens(
     channelLargeHeight = 90.dp,
     channelLargeWidth = 130.dp,
     channelMedium = 130.dp,
-    channelSmall = 100.dp,
+    channelSmall = 80.dp,
     channelExtraSmall = 68.dp,
     categorySize = 50.dp,
     stdDimen24 = 24.dp,
     stdDimen16 = 16.dp,
     stdDimen12 = 12.dp,
-    stdDimen10 = 10.dp, stdDimen8 = 8.dp,
+    stdDimen10 = 10.dp,
+    stdDimen8 = 8.dp,
     gridCellsChannel = 5,
     gridCellsFavorite = 4,
     mediumWeightTv = 1.9f,
     gridItemHeight = 112,
-    gridFavCatHeight = 420,
+    gridFavCatHeight = 450,
     gridFavHeight = 94
 )
 
@@ -129,6 +130,6 @@ val ExpandedDimens = Dimens(
     gridCellsFavorite = 4,
     mediumWeightTv = .9f,
     gridItemHeight = 112,
-    gridFavCatHeight = 420,
+    gridFavCatHeight = 430,
     gridFavHeight = 94
 )

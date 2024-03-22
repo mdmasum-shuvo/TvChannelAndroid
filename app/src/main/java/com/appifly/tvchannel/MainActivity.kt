@@ -186,7 +186,7 @@ private fun MainScreenView(
                 composable(Routing.MenuScreen.routeName) {
                     showBottomNav.value = true
 
-                    MenuScreen()
+                    MenuScreen(navController)
                 }
 
                 composable(Routing.HomeScreen.routeName) {

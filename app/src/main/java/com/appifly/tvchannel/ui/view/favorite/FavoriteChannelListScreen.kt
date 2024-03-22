@@ -33,9 +33,9 @@ fun FavoriteChannelListScreen(
 ) {
     val context = LocalContext.current
     Column {
-        MainTopBar(isBackEnable = true){
+        MainTopBar(isBackEnable = true, navigateBack = {
             navController.navigateUp()
-        }
+        }, onSearchIconClick = { navController.navigate(Routing.SearchScreen.routeName) })
         Column(
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
@@ -53,7 +53,7 @@ fun FavoriteChannelListScreen(
                         )
 
                         LazyVerticalGrid(
-                            modifier = Modifier.height(((112 * 10) / 2).dp),
+                            modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
                             columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                             horizontalArrangement = Arrangement.spacedBy(12.dp),
                             verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -69,7 +69,7 @@ fun FavoriteChannelListScreen(
                                 RegularChannelItem(
                                     item = item,
                                     isFavoriteItem = true,
-                                    modifier = Modifier.height(100.dp),
+                                    modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                                     onItemClick = { clickedItem ->
                                         channelViewModel.setSelectedChannel(clickedItem)
                                         navController.navigate(Routing.ChannelDetailScreen.routeName)

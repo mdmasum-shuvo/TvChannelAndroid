@@ -48,6 +48,7 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.player.PlayerScreen
+import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
@@ -103,7 +104,7 @@ fun ChannelDetailScreen(
 
             MainTopBar(isBackEnable = true, navigateBack = {
                 navController.popBackStack()
-            })
+            }, onSearchIconClick = {navController.navigate(Routing.SearchScreen.routeName) })
 
             Box(
                 modifier = Modifier
