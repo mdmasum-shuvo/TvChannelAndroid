@@ -36,11 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
@@ -51,7 +47,6 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.player.PlayerScreen
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
-import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -61,7 +56,6 @@ import com.appifly.tvchannel.ui.common_component.TextView12W400
 import com.appifly.tvchannel.ui.common_component.TextView14W500
 import com.appifly.tvchannel.ui.common_component.TextView18W500
 import com.appifly.tvchannel.ui.theme.ScreenOrientation
-import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.darkBackground
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.lightBackground

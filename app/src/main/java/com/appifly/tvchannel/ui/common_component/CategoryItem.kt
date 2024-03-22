@@ -30,7 +30,7 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
-import com.appifly.tvchannel.utils.ShimmerEffect
+import com.appifly.tvchannel.utils.shimmerEffect
 
 @Composable
 fun CategoryItem(
@@ -65,7 +65,7 @@ fun CategoryItem(
             }
         ) {
             Box(
-                modifier = Modifier.background(ShimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
+                modifier = Modifier.background(shimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
                     .padding(12.dp)
             ) {
                 AsyncImage(

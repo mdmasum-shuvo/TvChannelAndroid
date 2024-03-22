@@ -39,7 +39,7 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
-import com.appifly.tvchannel.utils.ShimmerEffect
+import com.appifly.tvchannel.utils.shimmerEffect
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -92,7 +92,7 @@ val context= LocalContext.current
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxSize().background(
-                            ShimmerEffect(
+                            shimmerEffect(
                                 targetValue = 1300f,
                                 showShimmer = showShimmer.value
                             )

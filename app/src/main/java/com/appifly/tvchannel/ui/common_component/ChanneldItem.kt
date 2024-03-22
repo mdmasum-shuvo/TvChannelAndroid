@@ -45,7 +45,7 @@ import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.theme.gradientColor1
 import com.appifly.tvchannel.ui.theme.gradientColor2
-import com.appifly.tvchannel.utils.ShimmerEffect
+import com.appifly.tvchannel.utils.shimmerEffect
 
 @Composable
 fun LargeChannelItem(
@@ -71,7 +71,7 @@ fun LargeChannelItem(
 
             Box(
                 modifier = Modifier.background(
-                    ShimmerEffect(
+                    shimmerEffect(
                         targetValue = 1300f,
                         showShimmer = showShimmer.value
                     )
@@ -132,7 +132,7 @@ fun RegularChannelItem(
 
         Box(
             modifier = Modifier.background(
-                ShimmerEffect(
+                shimmerEffect(
                     targetValue = 1300f,
                     showShimmer = showShimmer.value
                 )

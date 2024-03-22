@@ -39,7 +39,7 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.borderColor
 import com.appifly.tvchannel.ui.theme.dimens
-import com.appifly.tvchannel.utils.ShimmerEffect
+import com.appifly.tvchannel.utils.shimmerEffect
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -91,7 +91,7 @@ fun TopBannerItem(dataList: List<BannerDto>, onItemClick: (ChannelDto) -> Unit =
                 border = BorderStroke(width = 1.dp, color = borderColor)
             ) {
                 AsyncImage(
-                    modifier = Modifier.background(ShimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
+                    modifier = Modifier.background(shimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
                         .fillMaxSize(),
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(dataList[page].imageUrl).diskCachePolicy(CachePolicy.ENABLED)

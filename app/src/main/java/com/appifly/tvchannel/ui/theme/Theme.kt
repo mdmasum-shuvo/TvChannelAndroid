@@ -1,22 +1,15 @@
 package com.appifly.tvchannel.ui.theme
 
 import android.app.Activity
-import android.content.res.Configuration
-import android.os.Build
-import android.util.Log
-import android.view.View
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -85,45 +78,30 @@ fun TvChannelTheme(
 
     when (window.widthSizeClass) {
         WindowWidthSizeClass.Compact -> {
-            Log.e("window size","Compact")
             if (config.screenWidthDp <= 360) {
-                Log.e("window size","Compact small 360")
 
                 appDimens = CompactSmallDimens
                 typography = CompactSmallTypography
             } else if (config.screenWidthDp < 599) {
-                Log.e("window size","Compact medium <599")
 
                 appDimens = CompactMediumDimens
                 typography = CompactMediumTypography
             } else {
-                Log.e("window size","Compact Large")
-
                 appDimens = CompactDimens
                 typography = CompactTypography
             }
         }
 
         WindowWidthSizeClass.Medium -> {
-            Log.e("window size"," medium ")
-
             appDimens = MediumDimens
             typography = CompactTypography
         }
 
         WindowWidthSizeClass.Expanded -> {
-            Log.e("window size"," expand ")
-
             appDimens = ExpandedDimens
             typography = ExpandedTypography
         }
 
-        else -> {
-            Log.e("window size"," expand ")
-
-            appDimens = ExpandedDimens
-            typography = ExpandedTypography
-        }
     }
 
     ProvideAppUtils(appDimens = appDimens) {

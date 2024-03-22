@@ -20,7 +20,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
@@ -34,11 +33,9 @@ import com.appifly.tvchannel.ui.theme.gradientColor1
 import com.appifly.tvchannel.ui.theme.secondaryLightTextColor
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun BasicTextField(
     isKeyboardShown: Boolean = false,
-    modifier: Modifier = Modifier,
     inputValue: MutableState<String>,
     maxLine: Int = 1,
     placeholder: String = "",
@@ -91,7 +88,7 @@ fun BasicTextField(
         },
         singleLine = false,
         maxLines = maxLine,
-        modifier = modifier.focusRequester(focusRequester),
+        modifier = Modifier.focusRequester(focusRequester),
     )
 
     LaunchedEffect(focusRequester) {
