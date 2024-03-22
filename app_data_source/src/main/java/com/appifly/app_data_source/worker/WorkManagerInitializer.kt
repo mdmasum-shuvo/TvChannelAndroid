@@ -1,9 +1,7 @@
 package com.appifly.app_data_source.worker
 
 import android.content.Context
-import android.util.Log
 import androidx.startup.Initializer
-import androidx.work.Configuration
 import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
@@ -18,9 +16,6 @@ object WorkManagerInitializer :Initializer<WorkManager> {
     @Singleton
     @Provides
     override fun create(@ApplicationContext context: Context): WorkManager {
-        val configuration = Configuration.Builder().build()
-       // WorkManager.initialize(context, configuration)
-        Log.d("Hilt Init", "WorkManager initialized by Hilt this time")
         return WorkManager.getInstance(context)
     }
 

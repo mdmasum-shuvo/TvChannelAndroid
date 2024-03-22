@@ -30,7 +30,7 @@ class CategoryViewModel @Inject constructor(
         get() = _channelCategoryName
 
 
-    val categoryData = categoryDao.getAllCategory()?.map { it -> it.map { it.toDto() } }
+    val categoryData = categoryDao.getAllCategory()?.map { data -> data.map { it.toDto() } }
 
 
     private val _favoriteCategoryList = MutableLiveData<List<CategoryDto>>()

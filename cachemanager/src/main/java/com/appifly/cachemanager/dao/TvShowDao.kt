@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.appifly.cachemanager.LocalDbConstant
 import com.appifly.cachemanager.model.TvShowChannelJoin
 import com.appifly.cachemanager.model.TvShowEntity
 

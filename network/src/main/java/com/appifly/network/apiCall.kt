@@ -1,13 +1,13 @@
 package com.appifly.network
 
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import java.io.IOException
 
-suspend fun <T : Any> apiCall(call: suspend () -> T): DataState<T> {
+suspend fun <T : Any> apiCall(call: suspend () -> T,ioDispatcher: CoroutineDispatcher): DataState<T> {
     return try {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             val response = call()
             DataState.Success(response)
         }

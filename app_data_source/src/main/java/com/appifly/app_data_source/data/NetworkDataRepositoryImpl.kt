@@ -29,9 +29,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
 ) : NetworkDataRepository {
     override suspend fun getAllCategory():DefaultResponse {
-        val responseData = DefaultResponse(statusCode = "200", message = SUCCESSFUL_TEXT)
+        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall { apiService.getAllCategory() }) {
+        when (val data = apiCall({ apiService.getAllCategory() },ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.category.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -59,9 +59,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllChannel():DefaultResponse {
-        val responseData = DefaultResponse(statusCode = "200", message = SUCCESSFUL_TEXT)
+        val responseData = DefaultResponse(statusCode =HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall { apiService.getAllChannel() }) {
+        when (val data = apiCall( { apiService.getAllChannel() },ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.channel_list.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -88,9 +88,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllBanner() :DefaultResponse{
-        val responseData = DefaultResponse(statusCode = "200", message = SUCCESSFUL_TEXT)
+        val responseData = DefaultResponse(statusCode =HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall { apiService.getAllBanner() }) {
+        when (val data = apiCall ({ apiService.getAllBanner() },ioDispatcher )) {
             is DataState.Success -> {
                 if (data.result.banner.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -116,9 +116,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllTvShows():DefaultResponse {
-        val responseData = DefaultResponse(statusCode = "200", message =SUCCESSFUL_TEXT )
+        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
 
-        when (val data = apiCall { apiService.getAllTvShows() }) {
+        when (val data = apiCall( { apiService.getAllTvShows() },ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.tv_shows.isNotEmpty()) {
                     withContext(ioDispatcher) {
