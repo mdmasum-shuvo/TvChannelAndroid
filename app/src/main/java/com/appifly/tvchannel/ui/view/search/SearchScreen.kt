@@ -117,7 +117,7 @@ fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel
                             bottom = 16.dp
                         )
                     ) {
-                        items(items = it, key = { it.id!! }) { item ->
+                        items(items = it, key = {item-> item.id!! }) { item ->
                             RegularChannelItem(
                                 item = item,
                                 modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
