@@ -18,8 +18,8 @@ android {
         applicationId = "com.appifly.tvchannel"
         minSdk = 26
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -70,10 +70,8 @@ android {
         create("pro") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel"
-            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
-            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
-            buildConfigField("String","NATIVE_ADD_ID","\"" + "ca-app-pub-3940256099942544/2247696110"+ "\"")
-            buildConfigField("String","REWARDED_AD","\"" + "ca-app-pub-3940256099942544/5224354917"+ "\"")
+            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-5425280841712168/3539466700"+ "\"")
+            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-5425280841712168/6960655201"+ "\"")
 
         }
     }
