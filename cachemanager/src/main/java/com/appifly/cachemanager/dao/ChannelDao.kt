@@ -14,15 +14,11 @@ interface ChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(list: List<ChannelEntity>)
 
-
-
-    @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE}")
-    suspend fun getAllChannel(): List<ChannelEntity>?
+    @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE name LIKE  '%' || :search || '%'  ")
+    suspend fun searchChannel(search:String): List<ChannelEntity>?
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE isPopular=1")
     fun getPopularChannel(): LiveData<List<ChannelEntity>>?
-
-
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE catId=:categoryId")
     suspend fun getAllChannelByCategory(categoryId: Int): List<ChannelEntity>

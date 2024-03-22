@@ -33,6 +33,7 @@ import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
+import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
@@ -76,6 +77,7 @@ class MainActivity : ComponentActivity() {
                 showSnackBarForCompleteUpdate()
             }
         }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val activityResultLauncherForAppUpdate = registerForActivityResult(
         ActivityResultContracts.StartIntentSenderForResult()
@@ -87,6 +89,7 @@ class MainActivity : ComponentActivity() {
             checkUpdate()
         }
     }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -118,6 +121,7 @@ class MainActivity : ComponentActivity() {
     private fun showSnackBarForCompleteUpdate() {
         appUpdateManager?.completeUpdate()
     }
+
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun checkUpdate() {
         // Returns an intent object that you use to check for an update.
@@ -165,7 +169,7 @@ private fun MainScreenView(
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
-    val seeAllChannelViewModel:SeeAllChannelViewModel= hiltViewModel()
+    val seeAllChannelViewModel: SeeAllChannelViewModel = hiltViewModel()
     Scaffold(bottomBar = {
         if (showBottomNav.value) BottomNavigation(
             navController,
@@ -188,7 +192,13 @@ private fun MainScreenView(
                 composable(Routing.HomeScreen.routeName) {
                     showBottomNav.value = true
 
-                    HomeScreen(navController=navController, viewModel = categoryViewModel,channelViewModel=channelViewModel,homeViewModel= homeViewModel,seeAllChannelViewModel=seeAllChannelViewModel)
+                    HomeScreen(
+                        navController = navController,
+                        viewModel = categoryViewModel,
+                        channelViewModel = channelViewModel,
+                        homeViewModel = homeViewModel,
+                        seeAllChannelViewModel = seeAllChannelViewModel
+                    )
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
@@ -219,8 +229,11 @@ private fun MainScreenView(
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
                     mInterstitialAd?.show(activity)
+                    val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
-
+                        searchChannelViewModel = searchChannelViewModel,
+                        channelViewModel,
+                        navController
                     )
                 }
 

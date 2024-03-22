@@ -233,7 +233,9 @@ fun HomeScreen(
                         context.getString(R.string.tv_shows),
                         ""
                     )
-                    TvSeriesItem(it)
+                    TvSeriesItem(it){ clickedItem ->
+                        gotoChannelDetail(channelViewModel, clickedItem, navController)
+                    }
                 }
             }
 

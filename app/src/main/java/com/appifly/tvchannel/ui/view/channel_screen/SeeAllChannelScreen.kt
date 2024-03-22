@@ -105,84 +105,87 @@ fun SeeAllChannelScreen(
                 navController.popBackStack()
             })
 
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
-            ) {
-                PlayerScreen(
-                    videoUrl = channelViewModel.selectedChannel,
-                    isFullScreen = false, navigateBack = {
-                        navController.popBackStack()
+            channelViewModel.selectedChannel.observeAsState().value?.name?.let {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
+                ) {
+                    PlayerScreen(
+                        videoUrl = channelViewModel.selectedChannel,
+                        isFullScreen = false, navigateBack = {
+                            navController.popBackStack()
+                        }
+                    ) {
+                        shouldShowControls = shouldShowControls.not()
                     }
-                ) {
-                    shouldShowControls = shouldShowControls.not()
-                }
-                this@Column.AnimatedVisibility(
-                    modifier = Modifier.fillMaxSize(),
-                    visible = shouldShowControls,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    Box(
-                        modifier = Modifier.background(darkBackground.copy(alpha = 0.6f))
+                    this@Column.AnimatedVisibility(
+                        modifier = Modifier.fillMaxSize(),
+                        visible = shouldShowControls,
+                        enter = fadeIn(),
+                        exit = fadeOut()
                     ) {
                         Box(
-                            modifier = Modifier
-                                .align(Alignment.BottomEnd)
-                                .padding(end = 16.dp, bottom = 16.dp)
+                            modifier = Modifier.background(darkBackground.copy(alpha = 0.6f))
                         ) {
-                            Image(
+                            Box(
                                 modifier = Modifier
-                                    .clickable { context.setLandscape() },
-                                contentScale = ContentScale.Crop,
-                                painter = painterResource(
-                                    id = R.drawable.full_screen_entry
-                                ),
+                                    .align(Alignment.BottomEnd)
+                                    .padding(end = 16.dp, bottom = 16.dp)
+                            ) {
+                                Image(
+                                    modifier = Modifier
+                                        .clickable { context.setLandscape() },
+                                    contentScale = ContentScale.Crop,
+                                    painter = painterResource(
+                                        id = R.drawable.full_screen_entry
+                                    ),
 
-                                contentDescription = ""
+                                    contentDescription = ""
+                                )
+                            }
+                        }
+                    }
+                }
+                SpacerHeight(MaterialTheme.dimens.stdDimen12)
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 16.dp)
+                        .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Row {
+                        RegularChannelItem(
+                            modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
+                            item = ChannelDto(iconUrl = channelViewModel.selectedChannel.observeAsState().value?.iconUrl)
+                        )
+                        SpacerWidth(MaterialTheme.dimens.stdDimen10)
+
+                        Column {
+                            TextView14W500(
+                                value = channelViewModel.selectedChannel.observeAsState().value?.name
+                                    ?: "N/A"
+                            )
+                            TextView12W400(
+                                value = "${viewModel.channelCategoryName.observeAsState().value} Channel",
+                                color = MaterialTheme.colorScheme.onTertiary
                             )
                         }
                     }
-                }
-            }
-            SpacerHeight(MaterialTheme.dimens.stdDimen12)
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row {
-                    RegularChannelItem(
-                        modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
-                        item = ChannelDto(iconUrl = channelViewModel.selectedChannel.observeAsState().value?.iconUrl)
-                    )
-                    SpacerWidth(MaterialTheme.dimens.stdDimen10)
-
-                    Column {
-                        TextView14W500(
-                            value = channelViewModel.selectedChannel.observeAsState().value?.name
-                                ?: "N/A"
-                        )
-                        TextView12W400(
-                            value = "${viewModel.channelCategoryName.observeAsState().value} Channel",
-                            color = MaterialTheme.colorScheme.onTertiary
-                        )
-                    }
-                }
-                channelViewModel.isFavoriteChannel.observeAsState().value?.let {
-                    GradientFavIcon(
-                        size = 24.dp,
-                        isFavorite = it
-                    ) { isFav ->
-                        if (isFav) {
-                            channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
-                        } else {
-                            channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
+                    channelViewModel.isFavoriteChannel.observeAsState().value?.let {
+                        GradientFavIcon(
+                            size = 24.dp,
+                            isFavorite = it
+                        ) { isFav ->
+                            if (isFav) {
+                                channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
+                            } else {
+                                channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
+                            }
                         }
                     }
                 }
             }
+
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
             AdmobBanner()
