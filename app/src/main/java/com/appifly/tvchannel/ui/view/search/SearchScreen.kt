@@ -71,7 +71,7 @@ fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.clickable { }
+                        modifier = Modifier.clickable { navController.popBackStack()}
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Card(

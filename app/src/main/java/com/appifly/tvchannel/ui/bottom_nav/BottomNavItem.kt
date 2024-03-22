@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.common_component.TextView14W400
@@ -37,35 +38,35 @@ fun BottomNavigation(navController: NavController,homeViewModel: HomeViewModel) 
     Card(elevation = CardDefaults.elevatedCardElevation(4.dp),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 0.dp, bottomStart = 0.dp) ){
         NavigationBar {
-
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentRoute = navBackStackEntry?.destination?.route
             items.forEachIndexed { index, navigationItem ->
                 NavigationBarItem(
-                    selected = index == navigationSelectedItem,
+                    selected = currentRoute == navigationItem.routeName,
                     label = {
-                        if (index == navigationSelectedItem)
+                        if (currentRoute == navigationItem.routeName)
                             TextView14W400Gradient(value = navigationItem.title!!)
                         else TextView14W400(
                             value = navigationItem.title!!
                         )
                     },
                     icon = {
-
                         Icon(
-                            painterResource(id = navigationItem.drawable!!),
+                            painterResource(id = navigationItem.drawable),
                             contentDescription = navigationItem.routeName,
-                            tint = if (index == navigationSelectedItem) gradientColor1 else MaterialTheme.colorScheme.secondary
+                            tint = if (currentRoute == navigationItem.routeName) gradientColor1 else MaterialTheme.colorScheme.secondary
                         )
 
                     },
                     onClick = {
                         navigationSelectedItem = index
                         homeViewModel.selectedIndex=index
-                        navController.navigate(navigationItem.routeName!!) {
+                        navController.navigate(navigationItem.routeName) {
                             popUpTo(navController.graph.startDestinationId) {
                                 saveState = true
                             }
                             launchSingleTop = true
-                            //restoreState = true
+                            restoreState = true
                         }
                     },
 
