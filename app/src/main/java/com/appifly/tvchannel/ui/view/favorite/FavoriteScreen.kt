@@ -71,11 +71,10 @@ fun FavoriteScreen(
 
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
             AdmobBannerAdaptive()
-            SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
             HeaderText(title = context.getString(R.string.favorites_screen_title))
             categoryViewModel.favoriteCategoryList.observeAsState().value?.let { list ->
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((400 * list.size) / 2).dp),
+                    modifier = Modifier.height(((MaterialTheme.dimens.gridFavCatHeight * list.size) / 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsFavorite),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -97,7 +96,7 @@ fun FavoriteScreen(
                                 elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
                             ) {
                                 LazyVerticalGrid(
-                                    modifier = Modifier.height(((84 * 4) / 2).dp),
+                                    modifier = Modifier.height(((MaterialTheme.dimens.gridFavHeight * 4) / 2).dp),
                                     columns = GridCells.Fixed(2),
                                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -120,7 +119,7 @@ fun FavoriteScreen(
                                         items(favListOfCat) {
                                             RegularChannelItem(
                                                 item = it,
-                                                modifier = Modifier.height(70.dp),
+                                                modifier = Modifier.height(MaterialTheme.dimens.channelSmall),
                                                 borderC = lightBackground,
                                                 cardColor = lightBackground,
                                                 onItemClick = { clickedItem ->

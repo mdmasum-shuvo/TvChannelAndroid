@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -99,34 +101,37 @@ fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel
                 }
             }
 
-            searchChannelViewModel.channelData.observeAsState().value?.let {
-
-                LazyVerticalGrid(
-                    modifier = Modifier.height(((112 * 10) / 2).dp),
-                    columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
-                    verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
-                    userScrollEnabled = false,
-                    contentPadding = PaddingValues(
-                        start = 12.dp,
-                        top = 10.dp,
-                        end = 12.dp,
-                        bottom = 16.dp
-                    )
-                ) {
-                    items(items = it, key = { it.id!! }) { item ->
-                        RegularChannelItem(
-                            item = item,
-                            modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
-                            onItemClick = { clickedItem ->
-                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
-                                channelViewModel.setSelectedChannel(clickedItem)
-                                navController.navigate(Routing.ChannelDetailScreen.routeName)
-                            },
+            Column(horizontalAlignment = Alignment.Start, modifier = Modifier.verticalScroll(
+                rememberScrollState())) {
+                searchChannelViewModel.channelData.observeAsState().value?.let {
+                    LazyVerticalGrid(
+                        modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
+                        columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
+                        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
+                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
+                        userScrollEnabled = false,
+                        contentPadding = PaddingValues(
+                            start = 12.dp,
+                            top = 10.dp,
+                            end = 12.dp,
+                            bottom = 16.dp
                         )
-                    }
+                    ) {
+                        items(items = it, key = { it.id!! }) { item ->
+                            RegularChannelItem(
+                                item = item,
+                                modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
+                                onItemClick = { clickedItem ->
+                                    channelViewModel.addTOFrequentChannel(clickedItem.id!!)
+                                    channelViewModel.setSelectedChannel(clickedItem)
+                                    navController.navigate(Routing.ChannelDetailScreen.routeName)
+                                },
+                            )
+                        }
 
+                    }
                 }
+
             }
 
         }

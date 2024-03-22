@@ -75,7 +75,7 @@ fun ChannelScreen(
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((112 * 10) / 2).dp),
+                    modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
                     verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
@@ -87,7 +87,7 @@ fun ChannelScreen(
                         bottom = 16.dp
                     )
                 ) {
-                    items(items = it, key = { it.id!! }) { item ->
+                    items(items = it, key = {item-> item.id!! }) { item ->
                         RegularChannelItem(
                             item = item,
                             modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
