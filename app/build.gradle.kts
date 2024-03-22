@@ -148,6 +148,9 @@ dependencies {
     implementation ("androidx.compose.material3:material3-window-size-class:1.2.1")
     implementation ("com.google.android.play:app-update:${rootProject.extra.get("appUpdateVersion")}")
     implementation ("com.google.android.play:app-update-ktx:${rootProject.extra.get("appUpdateVersion")}")
+
+    implementation( "com.google.accompanist:accompanist-pager:0.23.1")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.23.1")
 }
 
 // Allow references to generated code
