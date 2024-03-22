@@ -10,9 +10,7 @@ import javax.inject.Inject
 class TvShowListApiUseCase @Inject constructor(private val repository: NetworkDataRepository) {
     operator fun invoke(): Flow<DataState<TvShowNetwork>> =
         flow {
-            emit(DataState.Loading())
             repository.getAllTvShows()
-            emit(DataState.DisableLoading())
         }
 
 }

@@ -10,9 +10,7 @@ import javax.inject.Inject
 class CategoryListUseCase @Inject constructor(private val repository: NetworkDataRepository) {
     operator fun invoke(): Flow<DataState<CategoryNetwork>> =
         flow {
-            emit(DataState.Loading())
             repository.getAllCategory()
-            emit(DataState.DisableLoading())
         }
 
 }

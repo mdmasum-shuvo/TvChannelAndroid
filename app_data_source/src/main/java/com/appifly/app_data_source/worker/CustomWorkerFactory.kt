@@ -15,17 +15,18 @@ class CustomWorkerFactory @Inject constructor(
     private val categoryListUseCase: CategoryListUseCase,
     private val channelListUseCase: ChannelListUseCase,
     private val bannerListApiUseCase: BannerListApiUseCase,
-    private val tvShowListApiUseCase: TvShowListApiUseCase
+    private val tvShowListApiUseCase: TvShowListApiUseCase,
 ) : WorkerFactory() {
     override fun createWorker(
         appContext: Context, workerClassName: String, workerParameters: WorkerParameters
-    ): ListenableWorker? = DataLoadWorker(
+    ): ListenableWorker = DataLoadWorker(
         appContext,
         workerParameters,
         categoryListUseCase,
         channelListUseCase,
         tvShowListApiUseCase,
-        bannerListApiUseCase
+        bannerListApiUseCase,
+
     )
 
 }

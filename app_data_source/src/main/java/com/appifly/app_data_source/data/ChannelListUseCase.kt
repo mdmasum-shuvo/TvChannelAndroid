@@ -10,9 +10,7 @@ import javax.inject.Inject
 class ChannelListUseCase @Inject constructor(private val repository: NetworkDataRepository) {
     operator fun invoke(): Flow<DataState<ChannelNetwork>> =
         flow {
-            emit(DataState.Loading())
             repository.getAllChannel()
-            emit(DataState.DisableLoading())
         }
 
 }

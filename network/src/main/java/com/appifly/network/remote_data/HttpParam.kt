@@ -9,4 +9,8 @@ object HttpParam {
     const val SHEET_NAME_BANNER = "banner"
     const val SHEET_NAME_TV_SHOWS = "tv_shows"
 
+    const val SUCCESS_STATUS_CODE="200"
+    const val ERROR_STATUS_CODE="404"
+    const val SERVER_NOT_FOUND_EXCEPTION="Couldn't reach server. Check your internet connection."
+    const val SUCCESSFUL_TEXT="Successfully Load Data"
 }

@@ -1,17 +1,23 @@
 package com.appifly.app_data_source.data
 
+import DefaultResponse
 import com.appifly.app_data_source.datamapper.toEntity
+import com.appifly.app_data_source.di.IoDispatcher
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
 import com.appifly.cachemanager.dao.TvShowDao
+import com.appifly.network.DataState
 import com.appifly.network.apiCall
+import com.appifly.network.remote_data.HttpParam
+import com.appifly.network.remote_data.HttpParam.SUCCESSFUL_TEXT
 import com.appifly.network.remote_data.NetworkCallbackApi
 import com.appifly.network.remote_data.repository.NetworkDataRepository
-import com.appifly.network.DataState
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
 
 class NetworkDataRepositoryImpl @Inject constructor(
     private val apiService: NetworkCallbackApi,
@@ -19,53 +25,61 @@ class NetworkDataRepositoryImpl @Inject constructor(
     private val channelDao: ChannelDao,
     private val bannerDao: BannerDao,
     private val tvShowDao: TvShowDao,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
-    ) : NetworkDataRepository {
-    override suspend fun getAllCategory() {
+) : NetworkDataRepository {
+    override suspend fun getAllCategory():DefaultResponse {
+        val responseData = DefaultResponse(statusCode = "200", message = SUCCESSFUL_TEXT)
+
         when (val data = apiCall { apiService.getAllCategory() }) {
             is DataState.Success -> {
                 if (data.result.category.isNotEmpty()) {
-                    withContext(Dispatchers.IO) {
+                    withContext(ioDispatcher) {
                         categoryDao.insert(data.result.category.map { it.toEntity() })
                         print("")
                     }
 
                 }
-
+                return responseData
             }
 
             is DataState.Error -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+
+            }
+
+            is DataState.IOError -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
 
-            else -> {
-
-            }
 
         }
     }
 
-    override suspend fun getAllChannel() {
+    override suspend fun getAllChannel():DefaultResponse {
+        val responseData = DefaultResponse(statusCode = "200", message = SUCCESSFUL_TEXT)
 
         when (val data = apiCall { apiService.getAllChannel() }) {
             is DataState.Success -> {
                 if (data.result.channel_list.isNotEmpty()) {
-                    withContext(Dispatchers.IO) {
+                    withContext(ioDispatcher) {
                         channelDao.insert(data.result.channel_list.map { it.toEntity() })
                         print("")
                     }
 
                 }
-
+                return responseData
             }
 
             is DataState.Error -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
-
-            else -> {
+            is DataState.IOError -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
@@ -73,52 +87,57 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getAllBanner() {
+    override suspend fun getAllBanner() :DefaultResponse{
+        val responseData = DefaultResponse(statusCode = "200", message = SUCCESSFUL_TEXT)
 
         when (val data = apiCall { apiService.getAllBanner() }) {
             is DataState.Success -> {
                 if (data.result.banner.isNotEmpty()) {
-                    withContext(Dispatchers.IO) {
+                    withContext(ioDispatcher) {
                         bannerDao.insert(data.result.banner.map { it.toEntity() })
                         print("")
                     }
 
                 }
-
+                return responseData
             }
 
             is DataState.Error -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
-
-            else -> {
+            is DataState.IOError -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
         }
     }
 
-    override suspend fun getAllTvShows() {
+    override suspend fun getAllTvShows():DefaultResponse {
+        val responseData = DefaultResponse(statusCode = "200", message =SUCCESSFUL_TEXT )
 
         when (val data = apiCall { apiService.getAllTvShows() }) {
             is DataState.Success -> {
                 if (data.result.tv_shows.isNotEmpty()) {
-                    withContext(Dispatchers.IO) {
+                    withContext(ioDispatcher) {
                         tvShowDao.insert(data.result.tv_shows.map { it.toEntity() })
                         print("")
                     }
 
                 }
 
+                return responseData
             }
 
             is DataState.Error -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
-
-            else -> {
+            is DataState.IOError -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
 
