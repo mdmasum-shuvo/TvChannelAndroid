@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Tv Channel"
+rootProject.name = "Fly Tv"
 include(":app")
 include(":network")
 include(":cachemanager")

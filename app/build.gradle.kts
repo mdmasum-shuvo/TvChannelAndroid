@@ -63,8 +63,6 @@ android {
             applicationId = "com.appifly.tvchannel.dev"
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
-            buildConfigField("String","NATIVE_ADD_ID","\"" + "ca-app-pub-3940256099942544/2247696110"+ "\"")
-            buildConfigField("String","REWARDED_AD","\"" + "ca-app-pub-3940256099942544/5224354917"+ "\"")
 
         }
         create("pro") {
@@ -72,8 +70,6 @@ android {
             applicationId = "com.appifly.tvchannel"
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
-            buildConfigField("String","NATIVE_ADD_ID","\"" + "ca-app-pub-3940256099942544/2247696110"+ "\"")
-            buildConfigField("String","REWARDED_AD","\"" + "ca-app-pub-3940256099942544/5224354917"+ "\"")
 
         }
     }
