@@ -37,11 +37,7 @@ fun MenuScreen(navController: NavController) {
         item {
             SpacerHeight(height =  MaterialTheme.dimens.stdDimen16)
         }
-        item {
-            MenuItem(drawableId = R.drawable.theme, context.getString(R.string.app_theme),  context.getString(R.string.dark_or_light)){
 
-            }
-        }
         item {
             MenuItem(drawableId = R.drawable.share_icon, context.getString(R.string.share_app), context.getString(R.string.share_app_dec)){
                 AppUtils.shareApp(context)
@@ -59,7 +55,7 @@ fun MenuScreen(navController: NavController) {
             MenuItem(drawableId = R.drawable.more_icon, context.getString(R.string.more_app),context.getString(R.string.more_app_desc) ){
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data =
-                    Uri.parse("https://support.shohay.health/")
+                    Uri.parse("https://play.google.com/store/apps/developer?id=Nuveq+Soft")
                 ContextCompat.startActivity(context, openURL, null)
             }
         }
