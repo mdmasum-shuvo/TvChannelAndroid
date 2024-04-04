@@ -47,7 +47,7 @@ fun MenuScreen(navController: NavController) {
             MenuItem(drawableId = R.drawable.about_us_icon, context.getString(R.string.about_us),context.getString(R.string.about_us_desc) ){
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data =
-                    Uri.parse("https://support.shohay.health/")
+                    Uri.parse("https://play.google.com/store/apps/developer?id=Nuveq+Soft")
                 ContextCompat.startActivity(context, openURL, null)
             }
         }
