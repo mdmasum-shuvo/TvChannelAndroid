@@ -1,8 +1,10 @@
 package com.appifly.tvchannel.player
 
+import android.app.Activity
 import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
@@ -53,7 +55,14 @@ fun PlayerScreen(
 
 ) {
     val context = LocalContext.current
+    val activity = LocalContext.current as Activity
 
+    DisposableEffect(Unit) {
+        activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        onDispose {
+            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
     BackHandler {
         if (isFullScreen)
             context.setPortrait()
