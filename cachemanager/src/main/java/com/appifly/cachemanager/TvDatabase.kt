@@ -17,7 +17,7 @@ import com.appifly.cachemanager.model.TvShowEntity
 
 @Database(
     entities = [CategoryEntity::class, ChannelEntity::class, BannerEntity::class, TvShowEntity::class, FavoriteEntity::class, FrequentlyEntity::class],
-    version = 7,
+    version = 8,
     exportSchema = true
 )
 abstract class TvDatabase : RoomDatabase() {
