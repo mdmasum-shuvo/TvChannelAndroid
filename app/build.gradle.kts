@@ -34,6 +34,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
             //signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -68,8 +69,8 @@ android {
         create("pro") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel"
-            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-1337577089653332/5737408144"+ "\"")
-            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-1337577089653332/4285892965"+ "\"")
+            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
+            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
 
         }
     }
