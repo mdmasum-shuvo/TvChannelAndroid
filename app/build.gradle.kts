@@ -18,8 +18,8 @@ android {
         applicationId = "com.appifly.tvchannel"
         minSdk = 26
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0.4"
+        versionCode = 8
+        versionName = "1.0.7"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -34,7 +34,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            //signingConfig = signingConfigs.getByName("debug")
             //signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -154,6 +154,7 @@ dependencies {
     implementation( "com.google.accompanist:accompanist-pager:0.23.1")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.23.1")
     implementation("com.facebook.android:audience-network-sdk:6.16.0")
+    implementation ("com.facebook.infer.annotation:infer-annotation:0.18.0")
 }
 
 // Allow references to generated code
