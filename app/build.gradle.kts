@@ -18,8 +18,8 @@ android {
         applicationId = "com.appifly.tvchannel"
         minSdk = 26
         targetSdk = 34
-        versionCode = 4
-        versionName = "1.0.3"
+        versionCode = 5
+        versionName = "1.0.4"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -34,6 +34,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("debug")
             //signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -61,10 +62,12 @@ android {
         create("dev") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel.dev"
+            
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/63009781112"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/10331737121"+ "\"")
             buildConfigField("String","FB_BANNER_ADD_ID","\"" + "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
             buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "VID_HD_16_9_46S_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
+
         }
         create("pro") {
             dimension = "firebase"

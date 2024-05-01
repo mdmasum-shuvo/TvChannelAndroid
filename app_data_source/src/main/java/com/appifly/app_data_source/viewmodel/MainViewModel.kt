@@ -27,7 +27,7 @@ class MainViewModel @Inject constructor(
 
     private fun applyWorker() {
         val constraints: Constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED).setRequiresBatteryNotLow(true)
+            .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
         val workRequest = PeriodicWorkRequestBuilder<DataLoadWorker>(
             1, TimeUnit.DAYS, // repeatInterval (the period cycle)
