@@ -45,6 +45,7 @@ import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
 import com.facebook.ads.Ad
+import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -59,7 +60,6 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
-import com.facebook.ads.InterstitialAdListener
 private var mInterstitialAd: InterstitialAd? = null
 private var interstitialAd: com.facebook.ads.InterstitialAd? = null
 @AndroidEntryPoint
@@ -208,10 +208,13 @@ private fun MainScreenView(
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
+                    mInterstitialAd?.show(activity)
+
                     FavoriteScreen(navController, categoryViewModel, channelViewModel)
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
+                    mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
                 }
