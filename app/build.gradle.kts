@@ -63,10 +63,10 @@ android {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel.dev"
             
-            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/63009781112"+ "\"")
-            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/10331737121"+ "\"")
-            buildConfigField("String","FB_BANNER_ADD_ID","\"" + "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
-            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "VID_HD_16_9_46S_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
+            buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
+            buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
+            buildConfigField("String","FB_BANNER_ADD_ID","\"" + "785679336855305_785683446854894"+ "\"")
+            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "785679336855305_785683446854894"+ "\"")
 
         }
         create("pro") {
@@ -74,6 +74,8 @@ android {
             applicationId = "com.appifly.tvchannel"
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-1337577089653332/5737408144"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-1337577089653332/4285892965"+ "\"")
+            buildConfigField("String","FB_BANNER_ADD_ID","\"" + "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
+            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "VID_HD_16_9_46S_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
 
         }
     }
