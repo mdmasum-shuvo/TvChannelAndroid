@@ -34,6 +34,7 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
@@ -83,7 +84,7 @@ fun HomeScreen(
 
             homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
                 TopBannerItem(it) { clickedItem ->
-                    gotoChannelDetail(channelViewModel, clickedItem, navController)
+                    gotoChannelDetail(context,channelViewModel, clickedItem, navController)
                 }
             }
 
@@ -130,7 +131,7 @@ fun HomeScreen(
                                 LargeChannelItem(
                                     item,
                                 ) { clickedItem ->
-                                    gotoChannelDetail(
+                                    gotoChannelDetail(context,
                                         channelViewModel,
                                         clickedItem,
                                         navController
@@ -170,7 +171,7 @@ fun HomeScreen(
                                 LargeChannelItem(
                                     item,
                                     onItemClick = { clickedItem ->
-                                        gotoChannelDetail(
+                                        gotoChannelDetail(context,
                                             channelViewModel,
                                             clickedItem,
                                             navController
@@ -210,7 +211,7 @@ fun HomeScreen(
                         ) {
                             items(items = it, key = { it.id!! }) { item ->
                                 RegularChannelItem(item, onItemClick = { clickedItem ->
-                                    gotoChannelDetail(
+                                    gotoChannelDetail(context,
                                         channelViewModel,
                                         clickedItem,
                                         navController
@@ -231,7 +232,7 @@ fun HomeScreen(
                         ""
                     )
                     TvSeriesItem(it){ clickedItem ->
-                        gotoChannelDetail(channelViewModel, clickedItem, navController)
+                        gotoChannelDetail(context,channelViewModel, clickedItem, navController)
                     }
                 }
             }
@@ -262,7 +263,7 @@ fun HomeScreen(
                                 LargeChannelItem(
                                     item,
                                     onItemClick = { clickedItem ->
-                                        gotoChannelDetail(
+                                        gotoChannelDetail(context,
                                             channelViewModel,
                                             clickedItem,
                                             navController
@@ -278,12 +279,13 @@ fun HomeScreen(
     }
 }
 
-fun gotoChannelDetail(
+fun gotoChannelDetail(context: Context,
     channelViewModel: ChannelViewModel,
     clickedItem: ChannelDto,
     navController: NavController
 ) {
 
+    loadInterstitialAdd(context)
     channelViewModel.addTOFrequentChannel(clickedItem.id!!)
     channelViewModel.setSelectedChannel(clickedItem)
     navController.navigate(Routing.ChannelDetailScreen.routeName)
