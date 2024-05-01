@@ -122,7 +122,7 @@ fun FavoriteScreen(
                                                 borderC = lightBackground,
                                                 cardColor = lightBackground,
                                                 onItemClick = { clickedItem ->
-                                                    gotoChannelDetail(
+                                                    gotoChannelDetail(context,
                                                         channelViewModel,
                                                         clickedItem,
                                                         navController

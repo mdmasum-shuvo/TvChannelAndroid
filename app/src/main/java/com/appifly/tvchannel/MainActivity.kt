@@ -2,6 +2,7 @@ package com.appifly.tvchannel
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -43,6 +44,7 @@ import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
+import com.facebook.ads.Ad
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -57,13 +59,13 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
-
+import com.facebook.ads.InterstitialAdListener
 private var mInterstitialAd: InterstitialAd? = null
-
+private var interstitialAd: com.facebook.ads.InterstitialAd? = null
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var appUpdateManager: AppUpdateManager? = null
-
+    private val TAG: String = MainActivity::class.java.simpleName
     private val listener: InstallStateUpdatedListener =
         InstallStateUpdatedListener { installState ->
             if (installState.installStatus() == InstallStatus.DOWNLOADED) {
@@ -101,7 +103,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    loadInterstitialAdd(this)
+                    //loadInterstitialAdd(this)
                     MainScreenView(activity = this)
                 }
             }
@@ -251,8 +253,7 @@ private fun MainScreenView(
 
 }
 
-
-private fun loadInterstitialAdd(activity: Activity) {
+ fun loadInterstitialAdd(activity: Context) {
     val adRequest = AdRequest.Builder().build()
 
     InterstitialAd.load(
@@ -263,6 +264,7 @@ private fun loadInterstitialAdd(activity: Activity) {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError.toString().let { Log.d(ContentValues.TAG, it) }
                 mInterstitialAd = null
+                showFacebookInterstitialAd(activity)
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -299,6 +301,40 @@ private fun loadInterstitialAdd(activity: Activity) {
         }
     }
 
+}
+ fun showFacebookInterstitialAd(context: Context) {
+    interstitialAd = com.facebook.ads.InterstitialAd(context, BuildConfig.FB_INTERSTITIAL_ADD_ID)
+    val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
+
+        override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
+
+        }
+
+        override fun onAdLoaded(ad: com.facebook.ads.Ad) {
+            interstitialAd!!.show()
+        }
+
+        override fun onAdClicked(ad: com.facebook.ads.Ad) {
+
+        }
+
+        override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
+
+        }
+
+        override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
+
+        }
+
+        override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
+
+        }
+    }
+    interstitialAd!!.loadAd(
+        interstitialAd!!.buildLoadAdConfig()
+            .withAdListener(interstitialAdListener)
+            .build()
+    )
 }
 
 
