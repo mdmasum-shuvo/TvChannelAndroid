@@ -76,7 +76,7 @@ android {
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-1337577089653332/5737408144"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-1337577089653332/4285892965"+ "\"")
             buildConfigField("String","FB_BANNER_ADD_ID","\"" + "785679336855305_785683446854894"+ "\"")
-            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "785679336855305_785683446854894"+ "\"")
+            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "785679336855305_785683713521534"+ "\"")
 
         }
     }

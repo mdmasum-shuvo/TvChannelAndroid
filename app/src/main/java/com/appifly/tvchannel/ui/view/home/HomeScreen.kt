@@ -87,7 +87,8 @@ fun HomeScreen(
                     gotoChannelDetail(context,channelViewModel, clickedItem, navController)
                 }
             }
-
+            SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
+            AdmobBanner()
             viewModel.categoryData?.observeAsState()?.value?.let {
 
                 LaunchedEffect(key1 = true, block = {

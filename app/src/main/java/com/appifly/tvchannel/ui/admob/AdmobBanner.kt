@@ -70,7 +70,7 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
                     }
                 }
             })
-        Spacer(modifier = Modifier.height(16.dp))
+       // Spacer(modifier = Modifier.height(16.dp))
     }
     if (shouldShowResult.value){
         FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
@@ -96,9 +96,7 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
 
         },
             update = {
-                it.apply {
-                    loadAd(AdRequest.Builder().build())
-                }
+
                 it.adListener = object: AdListener(){
                     override fun onAdClicked() {}
 
