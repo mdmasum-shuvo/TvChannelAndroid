@@ -215,7 +215,7 @@ private fun MainScreenView(
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                   // mInterstitialAd?.show(activity)
                     ChannelDetailScreen(
                         categoryViewModel,
                         channelViewModel,
@@ -225,7 +225,7 @@ private fun MainScreenView(
 
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                   // mInterstitialAd?.show(activity)
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
                         searchChannelViewModel = searchChannelViewModel,
@@ -236,7 +236,7 @@ private fun MainScreenView(
 
                 composable(Routing.SeeAllChannelScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                  //  mInterstitialAd?.show(activity)
                     SeeAllChannelScreen(
                         categoryViewModel,
                         channelViewModel,

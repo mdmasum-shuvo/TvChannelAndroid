@@ -14,7 +14,9 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 
 @Composable
-fun AdmobBanner(modifier: Modifier = Modifier) {
+fun AdmobBanner(modifier: Modifier = Modifier,isBannerShow:Boolean=false) {
+    if (!isBannerShow)
+        return
     Column {
         AndroidView(modifier = modifier.fillMaxWidth(), factory = { context ->
             AdView(context).apply {
@@ -29,8 +31,9 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
-
+fun AdmobBannerAdaptive(modifier: Modifier = Modifier,isBannerShow:Boolean=false) {
+if (!isBannerShow)
+    return
     Column {
         AndroidView(modifier = modifier.fillMaxWidth(), factory = { context ->
             AdView(context).apply {
