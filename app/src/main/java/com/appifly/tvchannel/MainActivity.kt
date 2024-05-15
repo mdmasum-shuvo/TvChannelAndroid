@@ -310,7 +310,7 @@ private fun MainScreenView(
     val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
 
         override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
-
+            Log.d(ContentValues.TAG, "onError: " + p1?.errorMessage)
         }
 
         override fun onAdLoaded(ad: com.facebook.ads.Ad) {
@@ -319,18 +319,20 @@ private fun MainScreenView(
 
         override fun onAdClicked(ad: com.facebook.ads.Ad) {
 
+            Log.d(ContentValues.TAG, "onAdClicked")
         }
 
         override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
 
+            Log.d(ContentValues.TAG, "onLoggingImpression")
         }
 
         override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
-
+            Log.d(ContentValues.TAG, "onInterstitialDisplayed")
         }
 
         override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
-
+            Log.d(ContentValues.TAG, "onInterstitialDismissed")
         }
     }
     interstitialAd!!.loadAd(

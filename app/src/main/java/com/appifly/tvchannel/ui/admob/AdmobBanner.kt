@@ -1,5 +1,6 @@
 package com.appifly.tvchannel.ui.admob
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.compose.foundation.layout.Column
@@ -44,33 +45,33 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
                 }
                 it.adListener = object: AdListener(){
                     override fun onAdClicked() {
-
+                        Log.d("TAG", "onAdClicked: ")
                     }
 
                     override fun onAdClosed() {
-
+                        Log.d("TAG", "onAdClosed: ")
                     }
 
 
                     override fun onAdFailedToLoad(adError : LoadAdError) {
                         shouldShowResult.value = true
-                        //FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
+                        adView?.visibility = android.view.View.VISIBLE
                     }
 
                     override fun onAdImpression() {
-
+                        Log.d("TAG", "onAdImpression: ")
                     }
 
                     override fun onAdLoaded() {
-
+                        Log.d("TAG", "onAdLoaded: ")
                     }
 
                     override fun onAdOpened() {
 
+                        Log.d("TAG", "onAdOpened: ")
                     }
                 }
             })
-       // Spacer(modifier = Modifier.height(16.dp))
     }
     if (shouldShowResult.value){
         FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
@@ -79,8 +80,11 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
 
 @Composable
 fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
-    var shouldShowResult = remember {
+    val shouldShowResult = remember {
         mutableStateOf(false)
+    }
+    if (shouldShowResult.value){
+        FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
     }
     Column {
         AndroidView(modifier = modifier.fillMaxWidth(), factory = { context ->
@@ -98,25 +102,35 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
             update = {
 
                 it.adListener = object: AdListener(){
-                    override fun onAdClicked() {}
+                    override fun onAdClicked() {
+                        Log.d("TAG", "onAdClicked: ")
+                    }
 
-                    override fun onAdClosed() {}
+                    override fun onAdClosed() {
+                        Log.d("TAG", "onAdClosed: ")
+                    }
 
                     override fun onAdFailedToLoad(adError : LoadAdError) {
                         shouldShowResult.value = true
+                        adView?.visibility = android.view.View.VISIBLE
                     }
 
-                    override fun onAdImpression() {}
+                    override fun onAdImpression() {
+                        Log.d("TAG", "onAdImpression: ")
+                    }
 
-                    override fun onAdLoaded() {}
+                    override fun onAdLoaded() {
+                        shouldShowResult.value = false
+                        adView?.visibility = android.view.View.GONE
+                    }
 
-                    override fun onAdOpened() {}
+                    override fun onAdOpened() {
+                        Log.d("TAG", "onAdOpened: ")
+                    }
                 }
             })
         Spacer(modifier = Modifier.height(16.dp))
-        if (shouldShowResult.value){
-            FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
-        }
+
     }
 
 
