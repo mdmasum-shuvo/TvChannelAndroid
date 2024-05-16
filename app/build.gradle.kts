@@ -68,7 +68,7 @@ android {
         }
         create("pro") {
             dimension = "firebase"
-            applicationId = "com.tvapp.taxi"
+            applicationId = "com.taxi.tvapp"
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
 
