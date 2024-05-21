@@ -137,6 +137,7 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
 // Step 3: Load an ad.
 
 
+
 }
 
 @Composable
