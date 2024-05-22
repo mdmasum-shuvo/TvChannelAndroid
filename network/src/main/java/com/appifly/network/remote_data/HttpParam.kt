@@ -4,10 +4,10 @@ object HttpParam {
     const val SHEET_API_END_POINT = "exec?" // sheet api end point
 
     // Replace by your sheet name if you changed any
-    const val SHEET_NAME_CATEGORY = "category"
-    const val SHEET_NAME_CHANNEL_LIST = "channel_list"
-    const val SHEET_NAME_BANNER = "banner"
-    const val SHEET_NAME_TV_SHOWS = "tv_shows"
+    const val CATEGORY = "category-list"
+    const val CHANNEL_LIST = "channel-list"
+    const val BANNER = "banner-list"
+    const val TV_SHOWS = "tvshow-list"
 
     const val SUCCESS_STATUS_CODE="200"
     const val ERROR_STATUS_CODE="404"

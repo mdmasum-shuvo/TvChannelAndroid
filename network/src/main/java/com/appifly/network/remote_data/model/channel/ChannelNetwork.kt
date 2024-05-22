@@ -1,10 +1,10 @@
 package com.appifly.network.remote_data.model.channel
 
 data class ChannelNetwork(
-    val category_id: Int,
-    val channel_id: Int,
-    val channel_image_url: String,
-    val channel_live_url: String,
-    val channel_name: String,
-    val is_popular: Boolean,
+    val id: Int,
+    val categoryId: Int,
+    val image_url: String,
+    val liveChannelUrl: String,
+    val channelName: String,
+    val is_popular: Int,
 )

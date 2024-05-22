@@ -33,9 +33,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
         when (val data = apiCall({ apiService.getAllCategory() },ioDispatcher)) {
             is DataState.Success -> {
-                if (data.result.category.isNotEmpty()) {
+                if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        categoryDao.insert(data.result.category.map { it.toEntity() })
+                        categoryDao.insert(data.result.data.map { it.toEntity() })
                         print("")
                     }
 
@@ -50,10 +50,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
             is DataState.IOError -> {
                 return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
             }
-
-
 
         }
     }
@@ -63,9 +60,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
         when (val data = apiCall( { apiService.getAllChannel() },ioDispatcher)) {
             is DataState.Success -> {
-                if (data.result.channel_list.isNotEmpty()) {
+                if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        channelDao.insert(data.result.channel_list.map { it.toEntity() })
+                        channelDao.insert(data.result.data.map { it.toEntity() })
                         print("")
                     }
 
@@ -92,9 +89,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
         when (val data = apiCall ({ apiService.getAllBanner() },ioDispatcher )) {
             is DataState.Success -> {
-                if (data.result.banner.isNotEmpty()) {
+                if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        bannerDao.insert(data.result.banner.map { it.toEntity() })
+                        bannerDao.insert(data.result.data.map { it.toEntity() })
                         print("")
                     }
 
@@ -120,9 +117,9 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
         when (val data = apiCall( { apiService.getAllTvShows() },ioDispatcher)) {
             is DataState.Success -> {
-                if (data.result.tv_shows.isNotEmpty()) {
+                if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        tvShowDao.insert(data.result.tv_shows.map { it.toEntity() })
+                        tvShowDao.insert(data.result.data.map { it.toEntity() })
                         print("")
                     }
 

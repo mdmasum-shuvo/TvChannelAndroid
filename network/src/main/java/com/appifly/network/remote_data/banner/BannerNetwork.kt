@@ -2,8 +2,9 @@ package com.appifly.network.remote_data.banner
 
 data class BannerNetwork(
     val id: Int,
-    val title: String,
-    val date: String?,
+    val bannerTitle: String,
+    val startTime: String?,
+    val endTime: String?,
     val image_url: String,
-    val channel_id:Int
+    val channelListId:Int
 )

@@ -17,7 +17,7 @@ data class BannerEntity(
 data class BannerChannelJoin(
     val title: String,
     val date: String?,
-    val imageUrl: String?,
+    val imageUrl: String,
     val channelId: Int,
     val name:String,
     val catId:Int,

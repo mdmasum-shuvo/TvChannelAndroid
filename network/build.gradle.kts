@@ -14,17 +14,7 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"" + "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/" + "\""
-        )
-        buildConfigField(
-            "String",
-            "SHEET_ID",
-            "\"" + "11lEv3TXwJUFaG6rwonYLlH2Vf9dFKpVbbJC1GfdNNvQ" + "\""
-        )
-        buildConfigField(
-            "String",
-            "ICON_BASE_URL_DRIVE",
-            "\"" + "https://drive.google.com/uc?export=download&id=" + "\""
+            "\"" + "http://68.183.63.105/basictvapp/api/" + "\""
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -46,9 +36,6 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-}
-fun getBaseUrl(): String {
-    return "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"
 }
 
 
