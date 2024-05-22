@@ -12,7 +12,7 @@ fun TvShowNetwork.toEntity(): TvShowEntity {
         id = id,
         title = showName,
         date = "${showDate} , ${showTime}",
-        imageUrl = image_url,
+        imageUrl = "image_url",
         channelId = channelListId
     )
 }
