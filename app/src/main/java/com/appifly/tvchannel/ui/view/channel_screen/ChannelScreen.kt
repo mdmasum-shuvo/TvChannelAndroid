@@ -31,7 +31,6 @@ import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
-import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
@@ -79,7 +78,7 @@ fun ChannelScreen(
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
+                    modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight + MaterialTheme.dimens.stdDimen12.value + MaterialTheme.dimens.stdDimen12.value) * it.size) / if (it.size < 3) 1 else 3).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
                     verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
