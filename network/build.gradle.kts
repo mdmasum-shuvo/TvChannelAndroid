@@ -19,7 +19,7 @@ android {
         buildConfigField(
             "String",
             "SHEET_ID",
-            "\"" + "11lEv3TXwJUFaG6rwonYLlH2Vf9dFKpVbbJC1GfdNNvQ" + "\""
+            "\"" + "1GuUq8kE2IcOxpQUu_bUgfGhPkvQQHdePSd5lsilpdVQ" + "\""
         )
         buildConfigField(
             "String",

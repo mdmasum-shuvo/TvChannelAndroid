@@ -2,9 +2,8 @@ package com.appifly.app_data_source.datamapper
 
 import com.appifly.app_data_source.dto.BannerDto
 import com.appifly.app_data_source.dto.ChannelDto
-import com.appifly.cachemanager.model.BannerEntity
 import com.appifly.cachemanager.model.BannerChannelJoin
-import com.appifly.network.BuildConfig
+import com.appifly.cachemanager.model.BannerEntity
 import com.appifly.network.remote_data.banner.BannerNetwork
 
 fun BannerNetwork.toEntity(): BannerEntity {
@@ -24,9 +23,9 @@ fun BannerChannelJoin.toDto(): BannerDto {
         id = 0,
         title = title,
         date = date,
-        imageUrl = BuildConfig.ICON_BASE_URL_DRIVE + imageUrl,
+        imageUrl =  imageUrl+"",
         channelId = channelId,
-        iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
+        iconUrl = iconUrl,
         liveUrl = liveUrl,
         channelName = name,
         catId = catId

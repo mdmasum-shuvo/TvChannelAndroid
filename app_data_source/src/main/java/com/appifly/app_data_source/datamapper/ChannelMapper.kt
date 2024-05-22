@@ -2,7 +2,6 @@ package com.appifly.app_data_source.datamapper
 
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.cachemanager.model.ChannelEntity
-import com.appifly.network.BuildConfig
 import com.appifly.network.remote_data.model.channel.ChannelNetwork
 
 fun ChannelNetwork.toEntity(): ChannelEntity {
@@ -11,7 +10,7 @@ fun ChannelNetwork.toEntity(): ChannelEntity {
         id = channel_id,
         catId = category_id,
         name = channel_name,
-        iconUrl = getSubString(channel_image_url),
+        iconUrl =channel_image_url ,
         liveUrl = channel_live_url,
         isPopular = is_popular,
 
@@ -25,7 +24,7 @@ fun ChannelEntity.toDto(): ChannelDto {
         id = id,
         catId = catId,
         name = name,
-        iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
+        iconUrl =iconUrl,
         liveUrl = liveUrl,
     )
 }

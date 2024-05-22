@@ -1,12 +1,9 @@
 package com.appifly.app_data_source.datamapper
 
-import com.appifly.app_data_source.dto.BannerDto
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.dto.TvShowDto
-import com.appifly.cachemanager.model.BannerChannelJoin
 import com.appifly.cachemanager.model.TvShowChannelJoin
 import com.appifly.cachemanager.model.TvShowEntity
-import com.appifly.network.BuildConfig
 import com.appifly.network.remote_data.model.tv_shows.TvShowNetwork
 
 fun TvShowNetwork.toEntity(): TvShowEntity {
@@ -26,9 +23,9 @@ fun TvShowChannelJoin.toDto(): TvShowDto {
         id = 0,
         title = title,
         date = date,
-        imageUrl = BuildConfig.ICON_BASE_URL_DRIVE + imageUrl,
+        imageUrl =  imageUrl+"",
         channelId = channelId,
-        iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
+        iconUrl = iconUrl,
         liveUrl = liveUrl,
         channelName = name,
         catId = catId
