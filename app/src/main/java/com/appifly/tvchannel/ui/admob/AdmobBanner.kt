@@ -28,7 +28,7 @@ private var adView: com.facebook.ads.AdView? = null
 
 @Composable
 fun AdmobBanner(modifier: Modifier = Modifier) {
-    var shouldShowResult = remember {
+    val shouldShowResult = remember {
         mutableStateOf(false)
     }
     Column {
