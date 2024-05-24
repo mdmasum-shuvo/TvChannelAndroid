@@ -35,7 +35,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.category.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        categoryDao.insert(data.result.category.map { it.toEntity() })
+                        categoryDao.updateData(data.result.category.map { it.toEntity() })
                         print("")
                     }
 
@@ -52,9 +52,6 @@ class NetworkDataRepositoryImpl @Inject constructor(
                 return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
 
             }
-
-
-
         }
     }
 
@@ -65,7 +62,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.channel_list.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        channelDao.insert(data.result.channel_list.map { it.toEntity() })
+                        channelDao.updateData(data.result.channel_list.map { it.toEntity() })
                         print("")
                     }
 
@@ -94,7 +91,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.banner.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        bannerDao.insert(data.result.banner.map { it.toEntity() })
+                        bannerDao.updateData(data.result.banner.map { it.toEntity() })
                         print("")
                     }
 
@@ -122,7 +119,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.tv_shows.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        tvShowDao.insert(data.result.tv_shows.map { it.toEntity() })
+                        tvShowDao.updateData(data.result.tv_shows.map { it.toEntity() })
                         print("")
                     }
 

@@ -5,13 +5,14 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import com.appifly.cachemanager.LocalDbConstant
 import com.appifly.cachemanager.model.ChannelEntity
 
 @Dao
 interface ChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(list: List<ChannelEntity>)
+    suspend fun insertAll(list: List<ChannelEntity>):List<Long>
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE name LIKE  '%' || :search || '%'  ")
     suspend fun searchChannel(search:String): List<ChannelEntity>?
@@ -21,5 +22,16 @@ interface ChannelDao {
 
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE catId=:categoryId")
     suspend fun getAllChannelByCategory(categoryId: Int): List<ChannelEntity>
+
+    @Transaction
+    suspend fun updateData(users: List<ChannelEntity>): List<Long> {
+        deleteAll()
+        return insertAll(users)
+    }
+
+
+
+    @Query("DELETE FROM CHANNEL_TABLE")
+    fun deleteAll()
 
 }
