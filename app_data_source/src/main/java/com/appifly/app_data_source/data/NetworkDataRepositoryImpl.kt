@@ -35,7 +35,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        categoryDao.insert(data.result.data.map { it.toEntity() })
+                        categoryDao.updateData(data.result.category.map { it.toEntity() })
                         print("")
                     }
 
@@ -62,7 +62,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        channelDao.insert(data.result.data.map { it.toEntity() })
+                        channelDao.updateData(data.result.channel_list.map { it.toEntity() })
                         print("")
                     }
 
@@ -91,7 +91,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        bannerDao.insert(data.result.data.map { it.toEntity() })
+                        bannerDao.updateData(data.result.banner.map { it.toEntity() })
                         print("")
                     }
 
@@ -119,7 +119,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
-                        tvShowDao.insert(data.result.data.map { it.toEntity() })
+                        tvShowDao.updateData(data.result.tv_shows.map { it.toEntity() })
                         print("")
                     }
 
