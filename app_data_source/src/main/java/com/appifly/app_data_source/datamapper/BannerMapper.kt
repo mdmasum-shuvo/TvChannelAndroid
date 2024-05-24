@@ -10,7 +10,7 @@ fun BannerNetwork.toEntity(): BannerEntity {
     return BannerEntity(
         id = id,
         title = bannerTitle,
-        date = "${startTime} , ${endTime}}",
+        date = description,
         imageUrl =image_url,
         channelId = channelListId
     )
