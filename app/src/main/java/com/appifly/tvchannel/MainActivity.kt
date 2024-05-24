@@ -23,12 +23,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -64,9 +69,14 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
 private var mInterstitialAd: InterstitialAd? = null
 private var interstitialAd: com.facebook.ads.InterstitialAd? = null
+private lateinit var analytics: FirebaseAnalytics
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var appUpdateManager: AppUpdateManager? = null
@@ -104,6 +114,7 @@ class MainActivity : ComponentActivity() {
             hideSystemUI()
             // In landscape
         }
+        analytics = Firebase.analytics
         checkUpdate()
 
         setContent {
@@ -211,7 +222,7 @@ private fun MainScreenView(
 
                 composable(Routing.MenuScreen.routeName) {
                     showBottomNav.value = true
-
+                    TrackedScreen("Menu Screen")
                     MenuScreen(navController)
                 }
 
@@ -225,12 +236,14 @@ private fun MainScreenView(
                         homeViewModel = homeViewModel,
                         seeAllChannelViewModel = seeAllChannelViewModel
                     )
+                    TrackedScreen("Home Screen")
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
                     ChannelScreen(categoryViewModel, channelViewModel, navController)
+                    TrackedScreen("Channel Screen")
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
@@ -238,12 +251,14 @@ private fun MainScreenView(
                     mInterstitialAd?.show(activity)
 
                     FavoriteScreen(navController, categoryViewModel, channelViewModel)
+                    TrackedScreen("Favorite Screen")
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
                     mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
+                    TrackedScreen("Favorite Channel List Screen")
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
@@ -253,6 +268,7 @@ private fun MainScreenView(
                         channelViewModel,
                         navController = navController
                     )
+                    TrackedScreen("Channel Detail Screen")
                 }
 
                 composable(Routing.SearchScreen.routeName) {
@@ -264,6 +280,7 @@ private fun MainScreenView(
                         channelViewModel,
                         navController
                     )
+                    TrackedScreen("Search Screen")
                 }
 
                 composable(Routing.SeeAllChannelScreen.routeName) {
@@ -275,6 +292,7 @@ private fun MainScreenView(
                         seeAllChannelViewModel,
                         navController = navController
                     )
+                    TrackedScreen("See AllChannel Screen")
                 }
             }
         }
@@ -282,7 +300,29 @@ private fun MainScreenView(
     }
 
 }
+@Composable
+fun TrackedScreen(
+    name: String,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+) {
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            Log.d("TrackedScreen", "TrackedScreen: $event")
+            if (event == Lifecycle.Event.ON_START) {
+                Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+                    param(FirebaseAnalytics.Param.SCREEN_NAME, name)
+                    Log.d("TrackedScreen", "TrackedScreen: $name")
+                }
+            }
+        }
 
+        lifecycleOwner.lifecycle.addObserver(observer)
+
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+}
  fun loadInterstitialAdd(activity: Context) {
     val adRequest = AdRequest.Builder().build()
 
