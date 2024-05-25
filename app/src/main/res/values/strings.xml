@@ -21,4 +21,5 @@
     <string name="search_icon_description">search icon</string>
     <string name="search_place_holder">Search your channel here</string>
     <string name="text_finish">Finish</string>
+    <string name="default_notification_channel_id">notificaiton_id\n</string>
 </resources>
