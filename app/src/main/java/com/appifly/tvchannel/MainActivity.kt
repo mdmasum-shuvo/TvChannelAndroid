@@ -2,9 +2,14 @@ package com.appifly.tvchannel
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -22,6 +27,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -43,6 +49,8 @@ import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
+import com.facebook.ads.Ad
+import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -57,13 +65,12 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
-
 private var mInterstitialAd: InterstitialAd? = null
-
+private var interstitialAd: com.facebook.ads.InterstitialAd? = null
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var appUpdateManager: AppUpdateManager? = null
-
+    private val TAG: String = MainActivity::class.java.simpleName
     private val listener: InstallStateUpdatedListener =
         InstallStateUpdatedListener { installState ->
             if (installState.installStatus() == InstallStatus.DOWNLOADED) {
@@ -90,10 +97,17 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            installSplashScreen()
+        }
         appUpdateManager = AppUpdateManagerFactory.create(this)
-
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hideSystemUI()
+            // In landscape
+        }
         checkUpdate()
+
         setContent {
             TvChannelTheme {
                 // A surface container using the 'background' color from the theme
@@ -101,7 +115,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    loadInterstitialAdd(this)
+                    //loadInterstitialAdd(this)
                     MainScreenView(activity = this)
                 }
             }
@@ -109,7 +123,24 @@ class MainActivity : ComponentActivity() {
         }
         // Set up an OnPreDrawListener to the root view.
     }
+    fun hideSystemUI() {
 
+        //Hides the ugly action bar at the top
+        actionBar?.hide()
+
+        //Hide the status bars
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.insetsController?.apply {
+                hide(WindowInsets.Type.statusBars())
+                systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
+    }
     override fun onStop() {
         appUpdateManager?.unregisterListener(listener)
         super.onStop()
@@ -206,10 +237,13 @@ private fun MainScreenView(
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
+                    mInterstitialAd?.show(activity)
+
                     FavoriteScreen(navController, categoryViewModel, channelViewModel)
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
+                    mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
                 }
@@ -251,8 +285,7 @@ private fun MainScreenView(
 
 }
 
-
-private fun loadInterstitialAdd(activity: Activity) {
+ fun loadInterstitialAdd(activity: Context) {
     val adRequest = AdRequest.Builder().build()
 
     InterstitialAd.load(
@@ -263,6 +296,7 @@ private fun loadInterstitialAdd(activity: Activity) {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError.toString().let { Log.d(ContentValues.TAG, it) }
                 mInterstitialAd = null
+                showFacebookInterstitialAd(activity)
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -299,6 +333,42 @@ private fun loadInterstitialAdd(activity: Activity) {
         }
     }
 
+}
+ fun showFacebookInterstitialAd(context: Context) {
+    interstitialAd = com.facebook.ads.InterstitialAd(context, BuildConfig.FB_INTERSTITIAL_ADD_ID)
+    val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
+
+        override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
+            Log.d(ContentValues.TAG, "onError: " + p1?.errorMessage)
+        }
+
+        override fun onAdLoaded(ad: com.facebook.ads.Ad) {
+            interstitialAd!!.show()
+        }
+
+        override fun onAdClicked(ad: com.facebook.ads.Ad) {
+
+            Log.d(ContentValues.TAG, "onAdClicked")
+        }
+
+        override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
+
+            Log.d(ContentValues.TAG, "onLoggingImpression")
+        }
+
+        override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
+            Log.d(ContentValues.TAG, "onInterstitialDisplayed")
+        }
+
+        override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
+            Log.d(ContentValues.TAG, "onInterstitialDismissed")
+        }
+    }
+    interstitialAd!!.loadAd(
+        interstitialAd!!.buildLoadAdConfig()
+            .withAdListener(interstitialAdListener)
+            .build()
+    )
 }
 
 

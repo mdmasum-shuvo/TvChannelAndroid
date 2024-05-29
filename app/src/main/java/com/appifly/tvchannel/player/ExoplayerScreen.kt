@@ -37,8 +37,8 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.PlayerView
+import androidx.media3.ui.PlayerView.ARTWORK_DISPLAY_MODE_FILL
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.darkBackground
@@ -92,7 +92,7 @@ fun PlayerScreen(
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
                 useController = false
-                RESIZE_MODE_FILL
+                ARTWORK_DISPLAY_MODE_FILL
             }
         },
     )

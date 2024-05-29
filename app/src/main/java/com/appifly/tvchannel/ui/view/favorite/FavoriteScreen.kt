@@ -73,7 +73,7 @@ fun FavoriteScreen(
             HeaderText(title = context.getString(R.string.favorites_screen_title))
             categoryViewModel.favoriteCategoryList.observeAsState().value?.let { list ->
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((MaterialTheme.dimens.gridFavCatHeight * list.size) / 2).dp),
+                    modifier = Modifier.height(((MaterialTheme.dimens.gridFavCatHeight * list.size) /if (list.size<2) 1 else 2).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsFavorite),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -122,7 +122,7 @@ fun FavoriteScreen(
                                                 borderC = lightBackground,
                                                 cardColor = lightBackground,
                                                 onItemClick = { clickedItem ->
-                                                    gotoChannelDetail(
+                                                    gotoChannelDetail(context,
                                                         channelViewModel,
                                                         clickedItem,
                                                         navController

@@ -19,12 +19,15 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
+import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -38,7 +41,7 @@ fun ChannelScreen(
     channelViewModel: ChannelViewModel, navController: NavController
 ) {
     val selectedIndex = remember { mutableIntStateOf(0) }
-
+    val context = LocalContext.current
     Column {
         MainTopBar(onSearchIconClick = { navController.navigate(Routing.SearchScreen.routeName) })
 
@@ -49,7 +52,7 @@ fun ChannelScreen(
             horizontalAlignment = Alignment.Start
         ) {
 
-
+            AdmobBannerAdaptive()
             viewModel.categoryData?.observeAsState()?.value?.let {
 
                 LaunchedEffect(key1 = true, block = {
@@ -75,7 +78,7 @@ fun ChannelScreen(
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
-                    modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
+                    modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight + MaterialTheme.dimens.stdDimen12.value + MaterialTheme.dimens.stdDimen12.value) * it.size) / if (it.size < 3) 1 else 3).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
                     verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.stdDimen12),
@@ -92,6 +95,7 @@ fun ChannelScreen(
                             item = item,
                             modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                             onItemClick = { clickedItem ->
+                                loadInterstitialAdd(context)
                                 channelViewModel.addTOFrequentChannel(clickedItem.id!!)
                                 channelViewModel.setSelectedChannel(clickedItem)
                                 navController.navigate(Routing.ChannelDetailScreen.routeName)

@@ -25,13 +25,18 @@ fun ChannelEntity.toDto(): ChannelDto {
         id = id,
         catId = catId,
         name = name,
-        iconUrl = BuildConfig.ICON_BASE_URL_DRIVE + iconUrl,
+        iconUrl =iconUrl,
         liveUrl = liveUrl,
     )
 }
 
 fun getSubString(channelImageUrl: String): String? {
     val imgUrl:StringBuilder=java.lang.StringBuilder()
-    imgUrl.append(channelImageUrl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing",""))
-    return imgUrl.toString()
+    return if (channelImageUrl.contains("https://drive.google.com/file/d/")){
+        imgUrl.append(channelImageUrl.replace("https://drive.google.com/file/d/","").replace("/view?usp=sharing",""))
+        BuildConfig.ICON_BASE_URL_DRIVE+imgUrl.toString()
+    }else{
+        channelImageUrl
+    }
+
 }
