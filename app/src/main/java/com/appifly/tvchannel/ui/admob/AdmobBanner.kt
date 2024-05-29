@@ -82,7 +82,11 @@ fun AdmobBanner(modifier: Modifier = Modifier,isHideAdd: Boolean =true) {
 }
 
 @Composable
-fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
+fun AdmobBannerAdaptive(modifier: Modifier = Modifier,isHideAdd: Boolean =true) {
+    if (isHideAdd){
+        return
+
+    }
     val shouldShowResult = remember {
         mutableStateOf(false)
     }
