@@ -237,18 +237,18 @@ private fun MainScreenView(
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
-                    mInterstitialAd?.show(activity)
+                   // mInterstitialAd?.show(activity)
 
                     FavoriteScreen(navController, categoryViewModel, channelViewModel)
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
-                    showBottomNav.value = false
+                 //   showBottomNav.value = false
                     mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
-                    showBottomNav.value = false
+                  //  showBottomNav.value = false
                    // mInterstitialAd?.show(activity)
                     ChannelDetailScreen(
                         categoryViewModel,
