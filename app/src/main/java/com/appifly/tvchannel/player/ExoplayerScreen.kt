@@ -109,11 +109,15 @@ fun PlayerScreen(
      /*       val dataSourceFactory = DefaultHttpDataSource.Factory()
                 .setDefaultRequestProperties(mapOf("Referer" to "https://stylisheleg4nt.com/"))
 */
-            val url = "https://flixtronic.xyz/c.php/stream.m3u8?id=ptvpk"
+            //https://retosbd.com/tsports/master.php?id=live-02
+            val url = "https://www.retosprime.com/star/master.php/stream.m3u8?id=423"
+            //https://retosbd.com/toffe/master.php?id=match-1
+            //https://www.retosprime.com/star/master.php?id=423
+            //https://site.flixtronic.top/ftsx.php?id=2
            // val mediaItem = MediaItem.Builder().setUri(Uri.parse(url)).build()
             //  val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
             val httpDataSourceFactory: HttpDataSource.Factory = DefaultHttpDataSource.Factory()
-                .setDefaultRequestProperties(mapOf("Referer" to "https://stylisheleg4nt.com/.m3u8"))
+               // .setDefaultRequestProperties(mapOf("Referer" to "https://stylisheleg4nt.com/.m3u8"))
 
             val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
 
