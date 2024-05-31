@@ -28,13 +28,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LiveData
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
-import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.HttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.hls.HlsMediaSource
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.PlayerView
@@ -99,19 +101,34 @@ fun PlayerScreen(
 
     LaunchedEffect(videoUrl.observeAsState().value) {
         if (videoUrl.value != null) {
-            val defaultDataSourceFactory = DefaultDataSource.Factory(context)
+         /*   val defaultDataSourceFactory = DefaultDataSource.Factory(context)
             val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
                 context,
                 defaultDataSourceFactory
-            )
-            val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
-                getHlsMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
-            else
-                getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
+            )*/
+     /*       val dataSourceFactory = DefaultHttpDataSource.Factory()
+                .setDefaultRequestProperties(mapOf("Referer" to "https://stylisheleg4nt.com/"))
+*/
+            val url = "https://flixtronic.xyz/c.php/stream.m3u8?id=ptvpk"
+           // val mediaItem = MediaItem.Builder().setUri(Uri.parse(url)).build()
+            //  val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
+            val httpDataSourceFactory: HttpDataSource.Factory = DefaultHttpDataSource.Factory()
+                .setDefaultRequestProperties(mapOf("Referer" to "https://stylisheleg4nt.com/.m3u8"))
 
-            exoPlayer.setMediaSource(source)
+            val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
+
+            // Create a media item
+            val mediaItem = MediaItem.fromUri(Uri.parse(url))
+
+           // val source   =   getHlsMediaSource(dataSourceFactory, url)
+            // else
+           // val source = getProgressiveMediaSource(dataSourceFactory, url)
+
+            exoPlayer.setMediaSource(mediaSourceFactory.createMediaSource(mediaItem))
             exoPlayer.prepare()
             exoPlayer.play()
+
+
         }
     }
 
@@ -197,7 +214,8 @@ private fun getHlsMediaSource(
     mediaUrl: String
 ): MediaSource {
     // Create a HLS media source pointing to a playlist uri.
-    return HlsMediaSource.Factory(dataSourceFactory).createMediaSource(MediaItem.fromUri(mediaUrl))
+    val mediaItem = MediaItem.Builder().setUri(Uri.parse(mediaUrl)).build()
+    return DefaultMediaSourceFactory(dataSourceFactory).createMediaSource(mediaItem)
 }
 
 @UnstableApi
@@ -205,7 +223,10 @@ private fun getProgressiveMediaSource(
     dataSourceFactory: DataSource.Factory,
     mediaUrl: String
 ): MediaSource {
+    val mediaItem = MediaItem.Builder().setDrmConfiguration(
+        MediaItem.DrmConfiguration.Builder(C.CLEARKEY_UUID).setLicenseUri("0d2418cc6a29a3516d1854ab2973f25f:4979b73603b430465aa4e7bbdefbc4cc").build()
+    ).setUri(mediaUrl).build()
     // Create a Regular media source pointing to a playlist uri.
     return ProgressiveMediaSource.Factory(dataSourceFactory)
-        .createMediaSource(MediaItem.fromUri(Uri.parse(mediaUrl)))
+        .createMediaSource(mediaItem)
 }
