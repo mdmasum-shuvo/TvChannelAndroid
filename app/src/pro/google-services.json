@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "484479441344",
-    "project_id": "codecanyon-live-d5c10",
-    "storage_bucket": "codecanyon-live-d5c10.appspot.com"
+    "project_number": "547659630538",
+    "project_id": "cricfire-5394f",
+    "storage_bucket": "cricfire-5394f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:484479441344:android:10c4c2849d258c8302d025",
+        "mobilesdk_app_id": "1:547659630538:android:0f58757aa0878a951f3133",
         "android_client_info": {
-          "package_name": "com.appifly.tvchannel"
+          "package_name": "com.cricfire.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "547659630538-fo00qi4i1bksrfdf5r2j4rtq53lroptp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyCWo9HuVVZtpq8vX_H2Hv34CUTJBhMADNs"
+          "current_key": "AIzaSyB02YQBe2112WEvllgLbLlEUrm6EyGmvhs"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "547659630538-fo00qi4i1bksrfdf5r2j4rtq53lroptp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

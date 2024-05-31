@@ -20,7 +20,7 @@ import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
-import com.appifly.tvchannel.utils.AppUtils
+import com.appifly.tvchannel.utils.Constants
 
 
 @Composable
@@ -40,14 +40,17 @@ fun MenuScreen(navController: NavController) {
 
         item {
             MenuItem(drawableId = R.drawable.share_icon, context.getString(R.string.share_app), context.getString(R.string.share_app_dec)){
-                AppUtils.shareApp(context)
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data =
+                    Uri.parse(Constants.SHARE_APP)
+                ContextCompat.startActivity(context, openURL, null)
             }
         }
         item {
             MenuItem(drawableId = R.drawable.about_us_icon, context.getString(R.string.about_us),context.getString(R.string.about_us_desc) ){
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data =
-                    Uri.parse("https://play.google.com/store/apps/developer?id=Nuveq+Soft")
+                    Uri.parse(Constants.ABOUT_US)
                 ContextCompat.startActivity(context, openURL, null)
             }
         }
@@ -55,13 +58,16 @@ fun MenuScreen(navController: NavController) {
             MenuItem(drawableId = R.drawable.more_icon, context.getString(R.string.more_app),context.getString(R.string.more_app_desc) ){
                 val openURL = Intent(Intent.ACTION_VIEW)
                 openURL.data =
-                    Uri.parse("https://play.google.com/store/apps/developer?id=Nuveq+Soft")
+                    Uri.parse(Constants.MORE_APP)
                 ContextCompat.startActivity(context, openURL, null)
             }
         }
         item {
             MenuItem(drawableId = R.drawable.rate_icon, context.getString(R.string.rate_us),context.getString(R.string.rate_us_desc) ){
-                AppUtils.rateThisApp(context)
+                val openURL = Intent(Intent.ACTION_VIEW)
+                openURL.data =
+                    Uri.parse(Constants.RATE_US)
+                ContextCompat.startActivity(context, openURL, null)
 
             }
         }
