@@ -241,13 +241,13 @@ private fun MainScreenView(
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                   // mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                   // mInterstitialAd?.show(activity)
                     ChannelDetailScreen(
                         categoryViewModel,
                         channelViewModel,
@@ -257,7 +257,7 @@ private fun MainScreenView(
 
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                 //   mInterstitialAd?.show(activity)
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
                         searchChannelViewModel = searchChannelViewModel,
@@ -268,7 +268,7 @@ private fun MainScreenView(
 
                 composable(Routing.SeeAllChannelScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                 //   mInterstitialAd?.show(activity)
                     SeeAllChannelScreen(
                         categoryViewModel,
                         channelViewModel,
@@ -294,7 +294,7 @@ private fun MainScreenView(
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError.toString().let { Log.d(ContentValues.TAG, it) }
                 mInterstitialAd = null
-                showFacebookInterstitialAd(activity)
+              //  showFacebookInterstitialAd(activity)
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -341,7 +341,7 @@ private fun MainScreenView(
         }
 
         override fun onAdLoaded(ad: com.facebook.ads.Ad) {
-            interstitialAd!!.show()
+        //    interstitialAd!!.show()
         }
 
         override fun onAdClicked(ad: com.facebook.ads.Ad) {

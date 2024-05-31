@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
-import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
@@ -95,7 +94,7 @@ fun ChannelScreen(
                             item = item,
                             modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                             onItemClick = { clickedItem ->
-                                loadInterstitialAdd(context)
+                               // loadInterstitialAdd(context)
                                 channelViewModel.addTOFrequentChannel(clickedItem.id!!)
                                 channelViewModel.setSelectedChannel(clickedItem)
                                 navController.navigate(Routing.ChannelDetailScreen.routeName)

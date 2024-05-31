@@ -34,7 +34,6 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.R
-import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
@@ -286,7 +285,7 @@ fun gotoChannelDetail(context: Context,
     navController: NavController
 ) {
 
-    loadInterstitialAdd(context)
+    //loadInterstitialAdd(context)
     channelViewModel.addTOFrequentChannel(clickedItem.id!!)
     channelViewModel.setSelectedChannel(clickedItem)
     navController.navigate(Routing.ChannelDetailScreen.routeName)
