@@ -195,7 +195,7 @@ fun SeeAllChannelScreen(
                     HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                     LazyVerticalGrid(
-                        modifier = Modifier.height(((112 * 10) / 2).dp),
+                        modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight + MaterialTheme.dimens.stdDimen12.value + MaterialTheme.dimens.stdDimen12.value) * it.size) / if (it.size < 3) 1 else 3).dp),
                         columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
