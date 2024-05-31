@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "484479441344",
-    "project_id": "codecanyon-live-d5c10",
-    "storage_bucket": "codecanyon-live-d5c10.appspot.com"
+    "project_number": "892115719121",
+    "project_id": "fly-tv-a6af8",
+    "storage_bucket": "fly-tv-a6af8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:484479441344:android:10c4c2849d258c8302d025",
+        "mobilesdk_app_id": "1:892115719121:android:77b3e995a5db3906ab46f0",
         "android_client_info": {
           "package_name": "com.appifly.tvchannel"
         }
@@ -15,7 +15,27 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCWo9HuVVZtpq8vX_H2Hv34CUTJBhMADNs"
+          "current_key": "AIzaSyBx2CmOpttWEDwZqXPZcKGGyyMGzXBS3Qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-1337577089653332~9365677874"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892115719121:android:c8062e65f28ff120ab46f0",
+        "android_client_info": {
+          "package_name": "com.appifly.tvchannel.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx2CmOpttWEDwZqXPZcKGGyyMGzXBS3Qw"
         }
       ],
       "services": {

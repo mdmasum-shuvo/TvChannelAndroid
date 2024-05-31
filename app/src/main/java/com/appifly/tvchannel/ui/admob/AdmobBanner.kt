@@ -54,8 +54,9 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
 
 
                     override fun onAdFailedToLoad(adError : LoadAdError) {
-                        shouldShowResult.value = true
                         adView?.visibility = android.view.View.VISIBLE
+                        shouldShowResult.value = true
+
                     }
 
                     override fun onAdImpression() {
@@ -67,7 +68,8 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
                     }
 
                     override fun onAdOpened() {
-
+                        adView?.visibility = android.view.View.GONE
+                        shouldShowResult.value = false
                         Log.d("TAG", "onAdOpened: ")
                     }
                 }
@@ -111,8 +113,9 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
                     }
 
                     override fun onAdFailedToLoad(adError : LoadAdError) {
-                        shouldShowResult.value = true
+
                         adView?.visibility = android.view.View.VISIBLE
+                        shouldShowResult.value = true
                     }
 
                     override fun onAdImpression() {
@@ -120,8 +123,9 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
                     }
 
                     override fun onAdLoaded() {
-                        shouldShowResult.value = false
                         adView?.visibility = android.view.View.GONE
+                        shouldShowResult.value = false
+
                     }
 
                     override fun onAdOpened() {
@@ -144,6 +148,7 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
 fun FacebookBannerAdsView(bannerId : String) {
     AndroidView(
         factory = { context ->
+            adView?.visibility = android.view.View.VISIBLE
             // Create and configure your Android View here
             val view = LayoutInflater.from(context).inflate(R.layout.facebook_ads, null, false)
             val bannerContainer = view.findViewById<LinearLayout>(R.id.banner_container)
