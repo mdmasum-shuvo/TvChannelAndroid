@@ -37,9 +37,10 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
 import androidx.media3.ui.PlayerView
-import androidx.media3.ui.PlayerView.ARTWORK_DISPLAY_MODE_FILL
 import com.appifly.app_data_source.dto.ChannelDto
+import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.darkBackground
 import com.appifly.tvchannel.utils.setPortrait
@@ -91,8 +92,9 @@ fun PlayerScreen(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
                 )
+                setShutterBackgroundColor(resources.getColor(R.color.primary,null))
                 useController = false
-                ARTWORK_DISPLAY_MODE_FILL
+                RESIZE_MODE_FILL
             }
         },
     )
@@ -104,10 +106,10 @@ fun PlayerScreen(
                 context,
                 defaultDataSourceFactory
             )
-            val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
-                getHlsMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
-            else
-                getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
+            val source =
+                getHlsMediaSource(dataSourceFactory,videoUrl.value!!.liveUrl!! )
+          /*  else
+                getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)*/
 
             exoPlayer.setMediaSource(source)
             exoPlayer.prepare()
