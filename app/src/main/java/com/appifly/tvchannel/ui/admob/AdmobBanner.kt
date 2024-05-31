@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -25,9 +24,10 @@ import com.google.android.gms.ads.LoadAdError
 private var adView: com.facebook.ads.AdView? = null
 
 
-
 @Composable
-fun AdmobBanner(modifier: Modifier = Modifier) {
+fun AdmobBanner(modifier: Modifier = Modifier, isHideAd: Boolean = true) {
+    if (isHideAd)
+        return
     val shouldShowResult = remember {
         mutableStateOf(false)
     }
@@ -43,7 +43,7 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
                 it.apply {
                     loadAd(AdRequest.Builder().build())
                 }
-                it.adListener = object: AdListener(){
+                it.adListener = object : AdListener() {
                     override fun onAdClicked() {
                         Log.d("TAG", "onAdClicked: ")
                     }
@@ -53,7 +53,7 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
                     }
 
 
-                    override fun onAdFailedToLoad(adError : LoadAdError) {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
                         shouldShowResult.value = true
                         adView?.visibility = android.view.View.VISIBLE
                     }
@@ -73,17 +73,19 @@ fun AdmobBanner(modifier: Modifier = Modifier) {
                 }
             })
     }
-    if (shouldShowResult.value){
+    if (shouldShowResult.value) {
         FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
     }
 }
 
 @Composable
-fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
+fun AdmobBannerAdaptive(modifier: Modifier = Modifier, isHideAd: Boolean = true) {
+    if (isHideAd)
+        return
     val shouldShowResult = remember {
         mutableStateOf(false)
     }
-    if (shouldShowResult.value){
+    if (shouldShowResult.value) {
         FacebookBannerAdsView(BuildConfig.FB_BANNER_ADD_ID)
     }
     Column {
@@ -101,7 +103,7 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
         },
             update = {
 
-                it.adListener = object: AdListener(){
+                it.adListener = object : AdListener() {
                     override fun onAdClicked() {
                         Log.d("TAG", "onAdClicked: ")
                     }
@@ -110,7 +112,7 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
                         Log.d("TAG", "onAdClosed: ")
                     }
 
-                    override fun onAdFailedToLoad(adError : LoadAdError) {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
                         shouldShowResult.value = true
                         adView?.visibility = android.view.View.VISIBLE
                     }
@@ -137,17 +139,17 @@ fun AdmobBannerAdaptive(modifier: Modifier = Modifier) {
 // Step 3: Load an ad.
 
 
-
 }
 
 @Composable
-fun FacebookBannerAdsView(bannerId : String) {
+fun FacebookBannerAdsView(bannerId: String) {
     AndroidView(
         factory = { context ->
             // Create and configure your Android View here
             val view = LayoutInflater.from(context).inflate(R.layout.facebook_ads, null, false)
             val bannerContainer = view.findViewById<LinearLayout>(R.id.banner_container)
-            adView = com.facebook.ads.AdView(context, bannerId, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
+            adView =
+                com.facebook.ads.AdView(context, bannerId, com.facebook.ads.AdSize.BANNER_HEIGHT_50)
             bannerContainer.addView(adView)
             // Request an ad
             adView!!.loadAd()
