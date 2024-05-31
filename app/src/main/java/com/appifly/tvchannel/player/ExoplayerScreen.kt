@@ -104,10 +104,7 @@ fun PlayerScreen(
                 context,
                 defaultDataSourceFactory
             )
-            val source = if (videoUrl.value!!.liveUrl!!.contains("m3u8"))
-                getHlsMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
-            else
-                getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
+            val source = getHlsMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)
 
             exoPlayer.setMediaSource(source)
             exoPlayer.prepare()
