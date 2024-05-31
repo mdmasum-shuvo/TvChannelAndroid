@@ -12,7 +12,7 @@ fun ChannelNetwork.toEntity(): ChannelEntity {
         catId = category_id,
         name = channel_name,
         iconUrl = getSubString(channel_image_url),
-        liveUrl = channel_live_url,
+        liveUrl = setChannel(channel_live_url),
         isPopular = is_popular,
 
     )
@@ -37,6 +37,17 @@ fun getSubString(channelImageUrl: String): String? {
         BuildConfig.ICON_BASE_URL_DRIVE+imgUrl.toString()
     }else{
         channelImageUrl
+    }
+
+}
+
+fun setChannel(liveChannelUrl: String): String {
+    return if (liveChannelUrl.contains("?")) {
+        var stringBuilder = StringBuilder()
+        val index = stringBuilder.indexOf("?")
+        stringBuilder.insert(index, "/stream.m3u8").toString()
+    } else {
+        liveChannelUrl
     }
 
 }
