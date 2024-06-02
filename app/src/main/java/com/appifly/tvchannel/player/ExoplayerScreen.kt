@@ -4,15 +4,12 @@ import android.app.Activity
 import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
-import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -37,7 +34,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import androidx.media3.ui.AspectRatioFrameLayout.RESIZE_MODE_FILL
+import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.tvchannel.R
@@ -58,12 +55,7 @@ fun PlayerScreen(
     val context = LocalContext.current
     val activity = LocalContext.current as Activity
 
-    DisposableEffect(Unit) {
-        activity.window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        onDispose {
-            activity.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-        }
-    }
+
     BackHandler {
         if (isFullScreen)
             context.setPortrait()
@@ -83,21 +75,31 @@ fun PlayerScreen(
     val exoPlayer = remember { ExoPlayer.Builder(context).build() }
 
 
-    AndroidView(
-        modifier = Modifier.clickable { onPlayerClick() },
-        factory = {
-            PlayerView(it).apply {
-                player = exoPlayer
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
-                setShutterBackgroundColor(resources.getColor(R.color.primary,null))
-                useController = false
-                RESIZE_MODE_FILL
-            }
-        },
-    )
+    Box ( contentAlignment = Alignment.Center){
+        AndroidView(
+            modifier = Modifier.clickable { onPlayerClick() },
+            factory = {
+                PlayerView(context).apply {
+                    player=exoPlayer
+                    layoutParams = FrameLayout.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    setShutterBackgroundColor(resources.getColor(R.color.primary,null))
+                    useController = true
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                    setShowNextButton(false)
+                    setShowPreviousButton(false)
+
+
+                }
+            },
+        )
+        if (loading.value){
+            Loader()
+        }
+    }
+
 
     LaunchedEffect(videoUrl.observeAsState().value) {
         if (videoUrl.value != null) {
@@ -113,7 +115,7 @@ fun PlayerScreen(
 
             exoPlayer.setMediaSource(source)
             exoPlayer.prepare()
-            exoPlayer.play()
+            exoPlayer.playWhenReady=true
         }
     }
 
@@ -149,15 +151,7 @@ fun PlayerScreen(
         }
 
         if (loading.value) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-            ) {
-                Loader()
-            }
+          //  Loader()
         }
     }
 
