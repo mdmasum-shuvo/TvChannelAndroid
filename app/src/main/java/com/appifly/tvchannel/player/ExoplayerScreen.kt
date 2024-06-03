@@ -85,7 +85,6 @@ fun PlayerScreen(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
-                    setShutterBackgroundColor(resources.getColor(R.color.primary,null))
                     useController = true
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
                     setShowNextButton(false)
