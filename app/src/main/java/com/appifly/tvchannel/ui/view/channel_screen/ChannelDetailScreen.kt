@@ -2,15 +2,11 @@ package com.appifly.tvchannel.ui.view.channel_screen
 
 import android.app.Activity
 import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -53,8 +49,6 @@ import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 import com.appifly.tvchannel.utils.AppUtils.hideSystemUI
-import com.appifly.tvchannel.utils.Constants.PLAYER_CONTROLS_VISIBILITY
-import kotlinx.coroutines.delay
 
 
 @Composable
@@ -67,12 +61,8 @@ fun ChannelDetailScreen(
     val context = LocalContext.current
 
     var shouldShowControls by remember { mutableStateOf(false) }
-    LaunchedEffect(key1 = shouldShowControls) {
-        if (shouldShowControls) {
-            delay(PLAYER_CONTROLS_VISIBILITY)
-            shouldShowControls = false
-        }
-    }
+    val isPLaying = remember { mutableStateOf(true) }
+
     LaunchedEffect(key1 = true, block = {
         channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
         channelViewModel.callChannelDataByCatId()
@@ -89,7 +79,7 @@ fun ChannelDetailScreen(
 
             MainTopBar(isBackEnable = true, navigateBack = {
                 navController.popBackStack()
-            }, onSearchIconClick = {navController.navigate(Routing.SearchScreen.routeName) })
+            }, onSearchIconClick = { navController.navigate(Routing.SearchScreen.routeName) })
 
             Box(
                 modifier = Modifier
@@ -98,13 +88,10 @@ fun ChannelDetailScreen(
             ) {
                 PlayerScreen(
                     videoUrl = channelViewModel.selectedChannel,
-                    isFullScreen = false, navigateBack = {
+                    isFullScreen = false,  navigateBack = {
                         navController.popBackStack()
                     }
-                ) {
-                    shouldShowControls = shouldShowControls.not()
-
-                }
+                )
 
                 //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
                 //https://mediashohayprod-aase.streaming.media.azure.net/26a9dc05-ea5b-4f23-a3bb-cc48d96e605b/video-24-1687293003062-media-24.ism/manifest(format=m3u8-aapl)
@@ -158,7 +145,7 @@ fun ChannelDetailScreen(
                     HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                     LazyVerticalGrid(
-                        modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight+24) * it.size) /if (it.size<3) 1 else 3).dp),
+                        modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight + 24) * it.size) / if (it.size < 3) 1 else 3).dp),
                         columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -170,7 +157,7 @@ fun ChannelDetailScreen(
                             bottom = 16.dp
                         )
                     ) {
-                        items(items = it, key = {item-> item.id!! }) { item ->
+                        items(items = it, key = { item -> item.id!! }) { item ->
                             RegularChannelItem(
                                 item = item,
                                 modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
@@ -196,17 +183,7 @@ fun ChannelDetailScreen(
             PlayerScreen(
                 videoUrl = channelViewModel.selectedChannel,
                 isFullScreen = true,
-            ) {
-                shouldShowControls = shouldShowControls.not()
-            }
-            AnimatedVisibility(
-                modifier = Modifier.fillMaxSize(),
-                visible = shouldShowControls,
-                enter = fadeIn(),
-                exit = fadeOut()
-            ) {
-
-            }
+            )
         }
     }
 }
