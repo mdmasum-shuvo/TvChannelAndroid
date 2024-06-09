@@ -114,6 +114,7 @@ fun PlayerScreen(
                     )
                     setShutterBackgroundColor(resources.getColor(R.color.primary, null))
                     useController = false
+                    keepScreenOn=true
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
                     setShowNextButton(false)
                     setShowPreviousButton(false)
