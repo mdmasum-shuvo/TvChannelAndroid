@@ -116,6 +116,7 @@ fun PlayerScreen(
                     useController = false
                     keepScreenOn=true
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                    keepScreenOn = true
                     setShowNextButton(false)
                     setShowPreviousButton(false)
 
