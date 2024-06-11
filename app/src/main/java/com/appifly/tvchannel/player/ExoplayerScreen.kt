@@ -16,9 +16,15 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -55,6 +61,7 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.ScreenOrientation
 import com.appifly.tvchannel.ui.theme.darkBackground
+import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.utils.Constants
 import com.appifly.tvchannel.utils.setLandscape
 import com.appifly.tvchannel.utils.setPortrait
@@ -114,12 +121,16 @@ fun PlayerScreen(
                     )
                     setShutterBackgroundColor(resources.getColor(R.color.primary, null))
                     useController = false
-                    keepScreenOn=true
+                    keepScreenOn = true
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
                     keepScreenOn = true
                     setShowNextButton(false)
                     setShowPreviousButton(false)
-
+                    exoPlayer.trackSelectionParameters =
+                        exoPlayer.trackSelectionParameters.buildUpon()
+                            .setMaxVideoSize(360, 360)
+                            .setMinVideoSize(360, 360).setMaxVideoBitrate(Integer.MIN_VALUE)
+                            .build()
 
                 }
             },
@@ -160,7 +171,10 @@ fun PlayerScreen(
                         Image(
                             modifier = Modifier
                                 .size(36.dp)
-                                .clickable { isPLaying.value = false },
+                                .clickable {
+                                    isPLaying.value = false
+
+                                },
                             contentScale = ContentScale.Crop,
                             painter = painterResource(
                                 id = R.drawable.pause_button
@@ -173,26 +187,41 @@ fun PlayerScreen(
                         .align(Alignment.BottomEnd)
                         .padding(end = 16.dp, bottom = 16.dp)
                 ) {
-                    if (ScreenOrientation == Configuration.ORIENTATION_PORTRAIT)
-                        Image(
-                            modifier = Modifier
-                                .clickable { context.setLandscape() },
-                            contentScale = ContentScale.Crop,
-                            painter = painterResource(
-                                id = R.drawable.full_screen_entry
-                            ),
-                            contentDescription = ""
-                        ) else {
-                        Image(
-                            modifier = Modifier
-                                .clickable { context.setPortrait() },
-                            contentScale = ContentScale.Crop,
-                            painter = painterResource(
-                                id = R.drawable.full_screen_exit
-                            ),
-                            contentDescription = ""
-                        )
-                    }
+                   Row {
+                       Icon(
+                           Icons.Outlined.Settings,
+                           tint = lightBackground,
+                           modifier = Modifier
+
+                               .size(24.dp),
+                           contentDescription = ""
+                       )
+                       Spacer(modifier = Modifier.width(8.dp))
+
+                       if (ScreenOrientation == Configuration.ORIENTATION_PORTRAIT)
+                           Image(
+                               modifier = Modifier
+                                   .clickable { context.setLandscape() },
+                               contentScale = ContentScale.Crop,
+                               painter = painterResource(
+                                   id = R.drawable.full_screen_entry
+                               ),
+                               contentDescription = ""
+                           ) else {
+                           Image(
+                               modifier = Modifier
+                                   .clickable { context.setPortrait() },
+                               contentScale = ContentScale.Crop,
+                               painter = painterResource(
+                                   id = R.drawable.full_screen_exit
+                               ),
+                               contentDescription = ""
+                           )
+
+
+                       }
+
+                   }
                 }
             }
         }
