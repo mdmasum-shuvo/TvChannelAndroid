@@ -78,7 +78,7 @@ fun ChannelDetailScreen(
         ) {
 
             MainTopBar(isBackEnable = true, navigateBack = {
-                navController.popBackStack()
+                navController.navigateUp()
             }, onSearchIconClick = { navController.navigate(Routing.SearchScreen.routeName) })
 
             Box(
@@ -89,7 +89,7 @@ fun ChannelDetailScreen(
                 PlayerScreen(
                     videoUrl = channelViewModel.selectedChannel,
                     isFullScreen = false,  navigateBack = {
-                        navController.popBackStack()
+                        navController.navigateUp()
                     }
                 )
 

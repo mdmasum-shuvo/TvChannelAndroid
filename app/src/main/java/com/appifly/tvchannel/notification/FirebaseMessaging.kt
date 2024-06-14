@@ -9,6 +9,7 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.R
@@ -20,6 +21,7 @@ import kotlin.random.Random
 class FirebaseMessaging :FirebaseMessagingService() {
     override fun onNewToken(token: String) {
         super.onNewToken(token)
+        Log.e("token",token)
 
     }
 
