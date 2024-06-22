@@ -47,10 +47,6 @@ android {
         jvmTarget = "1.8"
     }
 }
-fun getBaseUrl(): String {
-    return "https://script.google.com/macros/s/AKfycbzj_b_lyrqhynJFe7vfS1kXsugz6Lsfc7V6GuqL4OWkxsSprLu7/"
-}
-
 
 dependencies {
 
