@@ -123,14 +123,14 @@ fun PlayerScreen(
                     useController = false
                     keepScreenOn = true
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-                    keepScreenOn = true
+             /*       keepScreenOn = true
                     setShowNextButton(false)
                     setShowPreviousButton(false)
                     exoPlayer.trackSelectionParameters =
                         exoPlayer.trackSelectionParameters.buildUpon()
                             .setMaxVideoSize(360, 360)
                             .setMinVideoSize(360, 360).setMaxVideoBitrate(Integer.MIN_VALUE)
-                            .build()
+                            .build()*/
 
                 }
             },
