@@ -53,6 +53,14 @@
         </activity>
 
         <activity
+            android:name=".player.YoutubePlayerActivity"
+            android:exported="false"
+            android:screenOrientation="landscape"
+            >
+
+        </activity>
+
+        <activity
             android:name=".splash.StartActivity"
             android:exported="true"
            >
