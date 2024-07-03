@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
+import android.util.Base64
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -45,13 +46,18 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LiveData
+import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.common.util.Util
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.datasource.HttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
@@ -66,7 +72,6 @@ import com.appifly.tvchannel.utils.Constants
 import com.appifly.tvchannel.utils.setLandscape
 import com.appifly.tvchannel.utils.setPortrait
 import kotlinx.coroutines.delay
-
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -155,11 +160,7 @@ fun PlayerScreen(
                                 .clickable {
                                     isPLaying.value = true
                                     videoUrl.value?.liveUrl?.let {
-                                        playerReadyToPlay(
-                                            it,
-                                            context,
-                                            exoPlayer
-                                        )
+                                        playerReadyToPlayDrm(context=context, exoPlayer = exoPlayer)
                                     }
                                 },
                             contentScale = ContentScale.Crop,
@@ -233,7 +234,7 @@ fun PlayerScreen(
 
     LaunchedEffect(videoUrl.observeAsState().value) {
 
-        videoUrl.value?.liveUrl?.let { playerReadyToPlay(it, context, exoPlayer) }
+        videoUrl.value?.liveUrl?.let { playerReadyToPlayDrm(context=context, exoPlayer = exoPlayer) }
     }
 
     Box(
@@ -322,17 +323,42 @@ fun PlayerScreen(
 
 @OptIn(UnstableApi::class)
 fun playerReadyToPlay(videoUrl: String, context: Context, exoPlayer: ExoPlayer) {
+    val httpDataSourceFactory: HttpDataSource.Factory = DefaultHttpDataSource.Factory()
+
+    httpDataSourceFactory.setDefaultRequestProperties(mapOf("Referer" to "https://stylisheleg4nt.com/.m3u8"))
     val defaultDataSourceFactory = DefaultDataSource.Factory(context)
     val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
         context,
         defaultDataSourceFactory
     )
     val source =
-        getHlsMediaSource(dataSourceFactory, videoUrl)
+        getHlsMediaSource(httpDataSourceFactory, "https://www.retosprime.com/crichd/c.php?id=ptvpk")
     /*  else
       getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)*/
 
     exoPlayer.setMediaSource(source)
+    exoPlayer.prepare()
+    exoPlayer.playWhenReady = true
+}
+
+
+@OptIn(UnstableApi::class)
+fun playerReadyToPlayDrm(videoUrl: String="https://ssc-extra1-ak.akamaized.net/out/v1/647c58693f1d46af92bd7e69f17912cb/index.mpd", keyId: String="7Lyeb+axRe+2ZY+1z3Qn+A", key: String="A8F+KJEfcSIay8CxH5AEAQ" ,context: Context, exoPlayer: ExoPlayer) {
+
+    val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+    val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
+
+    val drmConfiguration = MediaItem.DrmConfiguration.Builder(C.CLEARKEY_UUID)
+        .setLicenseUri("https://example.com") // Dummy URL, Clear Key doesn't use a license URL
+        .setKeySetId(mapOf(keyId to key))
+        .build()
+
+    val mediaItem = MediaItem.Builder()
+        .setUri(videoUrl)
+        .setDrmConfiguration(drmConfiguration)
+        .build()
+
+    exoPlayer.setMediaSource(mediaSourceFactory.createMediaSource(mediaItem))
     exoPlayer.prepare()
     exoPlayer.playWhenReady = true
 }
