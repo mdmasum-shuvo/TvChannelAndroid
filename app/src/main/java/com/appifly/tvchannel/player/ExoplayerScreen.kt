@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.net.Uri
-import android.util.Base64
 import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -50,7 +49,6 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.common.util.Util
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
@@ -343,14 +341,14 @@ fun playerReadyToPlay(videoUrl: String, context: Context, exoPlayer: ExoPlayer) 
 
 
 @OptIn(UnstableApi::class)
-fun playerReadyToPlayDrm(videoUrl: String="https://ssc-extra1-ak.akamaized.net/out/v1/647c58693f1d46af92bd7e69f17912cb/index.mpd", keyId: String="7Lyeb+axRe+2ZY+1z3Qn+A", key: String="A8F+KJEfcSIay8CxH5AEAQ" ,context: Context, exoPlayer: ExoPlayer) {
+fun playerReadyToPlayDrm(videoUrl: String="https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd", keyId: String="7Lyeb+axRe+2ZY+1z3Qn+A", key: String="A8F+KJEfcSIay8CxH5AEAQ" ,context: Context, exoPlayer: ExoPlayer) {
 
     val httpDataSourceFactory = DefaultHttpDataSource.Factory()
     val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
 
-    val drmConfiguration = MediaItem.DrmConfiguration.Builder(C.CLEARKEY_UUID)
-        .setLicenseUri("https://example.com") // Dummy URL, Clear Key doesn't use a license URL
-        .setKeySetId(mapOf(keyId to key))
+    val drmConfiguration = MediaItem.DrmConfiguration.Builder(C.WIDEVINE_UUID)
+        .setLicenseUri("https://proxy.uat.widevine.com/proxy?provider=widevine_test") // Dummy URL, Clear Key doesn't use a license URL
+        //.setKeySetId(mapOf(keyId to key))
         .build()
 
     val mediaItem = MediaItem.Builder()
