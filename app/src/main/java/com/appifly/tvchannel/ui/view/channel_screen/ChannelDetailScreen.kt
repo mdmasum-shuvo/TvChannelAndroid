@@ -44,7 +44,7 @@ import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.R
-import com.appifly.tvchannel.player.PlayerScreen
+import com.appifly.tvchannel.player.YoutubePlayer
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
@@ -107,14 +107,16 @@ fun ChannelDetailScreen(
                     .fillMaxWidth()
                     .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
             ) {
-                PlayerScreen(
+              /*  PlayerScreen(
                     videoUrl = channelViewModel.selectedChannel,
                     isFullScreen = false, navigateBack = {
                         navController.popBackStack()
                     }
                 ) {
                     shouldShowControls = shouldShowControls.not()
-
+                }*/
+                YoutubePlayer(link ="ofVP5H_06CM") {
+                    shouldShowControls = shouldShowControls.not()
                 }
                 this@Column.AnimatedVisibility(
                     modifier = Modifier.fillMaxSize(),
@@ -228,10 +230,7 @@ fun ChannelDetailScreen(
         hideSystemUI(activity)
 
         Box {
-            PlayerScreen(
-                videoUrl = channelViewModel.selectedChannel,
-                isFullScreen = true,
-            ) {
+            YoutubePlayer(link ="ofVP5H_06CM") {
                 shouldShowControls = shouldShowControls.not()
             }
             AnimatedVisibility(
@@ -240,7 +239,9 @@ fun ChannelDetailScreen(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                Box(modifier = Modifier.fillMaxSize()  .background(darkBackground.copy(alpha = 0.6f))) {
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .background(darkBackground.copy(alpha = 0.6f))) {
                     Box(
                         modifier = Modifier
 

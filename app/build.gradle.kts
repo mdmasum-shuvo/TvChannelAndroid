@@ -156,8 +156,7 @@ dependencies {
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.23.1")
     implementation("com.facebook.android:audience-network-sdk:6.16.0")
     implementation ("com.facebook.infer.annotation:infer-annotation:0.18.0")
-    implementation ("com.github.HaarigerHarald:android-youtubeExtractor:v2.1.0")
-    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:chromecast-sender:0.28")
+    implementation ("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 
 }
 
