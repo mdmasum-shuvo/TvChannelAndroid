@@ -19,11 +19,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +29,7 @@ import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.player.PlayerScreen
 import com.appifly.tvchannel.routing.Routing
@@ -55,13 +52,11 @@ import com.appifly.tvchannel.utils.AppUtils.hideSystemUI
 fun ChannelDetailScreen(
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
+    homeViewModel: HomeViewModel,
     activity: Activity = LocalContext.current as MainActivity,
     navController: NavController
 ) {
-    val context = LocalContext.current
 
-    var shouldShowControls by remember { mutableStateOf(false) }
-    val isPLaying = remember { mutableStateOf(true) }
 
     LaunchedEffect(key1 = true, block = {
         channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
@@ -135,7 +130,7 @@ fun ChannelDetailScreen(
             }
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
-            AdmobBanner()
+            AdmobBanner(adLiveData = homeViewModel.adIdData)
             Column(
                 modifier = Modifier
                     .verticalScroll(rememberScrollState())

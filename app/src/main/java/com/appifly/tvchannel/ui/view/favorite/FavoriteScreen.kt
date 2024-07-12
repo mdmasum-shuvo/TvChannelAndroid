@@ -27,9 +27,10 @@ import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
-import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
+import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
@@ -43,6 +44,7 @@ import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 @Composable
 fun FavoriteScreen(
     navController: NavController,
+    homeViewModel: HomeViewModel,
     categoryViewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel
 ) {
@@ -69,7 +71,7 @@ fun FavoriteScreen(
         ) {
 
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
-            AdmobBannerAdaptive()
+            AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
             HeaderText(title = context.getString(R.string.favorites_screen_title))
             categoryViewModel.favoriteCategoryList.observeAsState().value?.let { list ->
                 LazyVerticalGrid(

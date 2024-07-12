@@ -3,6 +3,7 @@ package com.appifly.app_data_source.data
 import DefaultResponse
 import com.appifly.app_data_source.datamapper.toEntity
 import com.appifly.app_data_source.di.IoDispatcher
+import com.appifly.cachemanager.dao.AdDao
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
@@ -25,6 +26,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
     private val channelDao: ChannelDao,
     private val bannerDao: BannerDao,
     private val tvShowDao: TvShowDao,
+    private val adDao: AdDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
 ) : NetworkDataRepository {
@@ -123,6 +125,32 @@ class NetworkDataRepositoryImpl @Inject constructor(
                         print("")
                     }
 
+                }
+
+                return responseData
+            }
+
+            is DataState.Error -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+
+            }
+
+            is DataState.IOError -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+
+            }
+
+        }
+    }
+
+    override suspend fun getAllAddId(): DefaultResponse {
+        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
+
+        when (val data = apiCall( { apiService.getAllAdId() },ioDispatcher)) {
+            is DataState.Success -> {
+                withContext(ioDispatcher) {
+                    data.result.data?.toEntity()?.let { adDao.updateData(it) }
+                    print("")
                 }
 
                 return responseData

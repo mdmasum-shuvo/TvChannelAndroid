@@ -37,7 +37,6 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
-import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.LargeChannelItem
 import com.appifly.tvchannel.ui.common_component.MainTopBar
@@ -88,7 +87,7 @@ fun HomeScreen(
                 }
             }
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
-            AdmobBanner()
+            AdmobBanner(adLiveData = homeViewModel.adIdData)
             viewModel.categoryData?.observeAsState()?.value?.let {
 
                 LaunchedEffect(key1 = true, block = {
@@ -185,7 +184,7 @@ fun HomeScreen(
                     }
                 }
             }
-            AdmobBannerAdaptive()
+            AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
 
             if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
                 channelViewModel.popularChannelList?.observeAsState()?.value?.let {
@@ -224,7 +223,7 @@ fun HomeScreen(
                     }
                 }
             }
-            AdmobBanner()
+            AdmobBanner(adLiveData = homeViewModel.adIdData)
 
             if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
                 homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {

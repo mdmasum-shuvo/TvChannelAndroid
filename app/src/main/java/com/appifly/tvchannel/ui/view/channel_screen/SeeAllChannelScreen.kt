@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.MainActivity
 import com.appifly.tvchannel.player.PlayerScreen
@@ -55,6 +56,7 @@ import kotlinx.coroutines.delay
 fun SeeAllChannelScreen(
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
+    homeViewModel: HomeViewModel,
     seeAllChannelViewModel: SeeAllChannelViewModel,
     activity: Activity = LocalContext.current as MainActivity,
     navController: NavController
@@ -139,7 +141,7 @@ fun SeeAllChannelScreen(
 
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
-            AdmobBanner()
+            AdmobBanner(adLiveData = homeViewModel.adIdData)
             SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
             Column(

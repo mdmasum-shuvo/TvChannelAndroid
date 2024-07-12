@@ -1,7 +1,6 @@
 package com.appifly.tvchannel.ui.view.menu
 
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,21 +9,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.routing.Routing
-import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
+import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
-import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.utils.AppUtils
 
 
 @Composable
-fun MenuScreen(navController: NavController) {
+fun MenuScreen(navController: NavController,homeViewModel: HomeViewModel) {
     val context = LocalContext.current
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
@@ -66,7 +64,7 @@ fun MenuScreen(navController: NavController) {
             }
         }
         item {
-            AdmobBannerAdaptive()
+            AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
 
         }
 
@@ -74,11 +72,3 @@ fun MenuScreen(navController: NavController) {
 
 }
 
-@Preview(showSystemUi = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewMenuScreen() {
-    val context= LocalContext.current
-    TvChannelTheme {
-        MenuScreen(NavController(context))
-    }
-}

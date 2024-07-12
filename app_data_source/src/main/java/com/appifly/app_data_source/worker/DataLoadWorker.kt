@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.appifly.app_data_source.data.AdIdApiUseCase
 import com.appifly.app_data_source.data.BannerListApiUseCase
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.data.ChannelListUseCase
@@ -24,8 +25,13 @@ class DataLoadWorker @AssistedInject constructor(
     @Assisted val channelListUseCase: ChannelListUseCase,
     @Assisted val tvShowListApiUseCase: TvShowListApiUseCase,
     @Assisted val bannerListApiUseCase: BannerListApiUseCase,
+    @Assisted val adIdApiUseCase: AdIdApiUseCase,
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
+
+        adIdApiUseCase.invoke().onEach {
+
+        }.launchIn(CoroutineScope(Dispatchers.IO))
 
         categoryListUseCase.invoke().onEach {
 

@@ -1,5 +1,6 @@
 package com.appifly.network.remote_data
 
+import com.appifly.network.remote_data.ad.AdIdResponse
 import com.appifly.network.remote_data.banner.BannerResponse
 import com.appifly.network.remote_data.model.category.CategoryResponse
 import com.appifly.network.remote_data.model.channel.ChannelResponse
@@ -19,4 +20,7 @@ interface NetworkCallbackApi {
 
     @GET(HttpParam.TV_SHOWS)
     suspend fun getAllTvShows(): TvShowsResponse
+
+    @GET(HttpParam.ADVERTISEMENT)
+    suspend fun getAllAdId(): AdIdResponse
 }

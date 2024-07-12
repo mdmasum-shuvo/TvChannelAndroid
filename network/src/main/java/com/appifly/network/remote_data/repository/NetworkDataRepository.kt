@@ -8,4 +8,5 @@ interface NetworkDataRepository {
     suspend fun getAllChannel():DefaultResponse
     suspend fun getAllBanner():DefaultResponse
     suspend fun getAllTvShows():DefaultResponse
+    suspend fun getAllAddId():DefaultResponse
 }

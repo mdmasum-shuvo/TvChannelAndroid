@@ -214,7 +214,7 @@ private fun MainScreenView(
                 composable(Routing.MenuScreen.routeName) {
                     showBottomNav.value = true
 
-                    MenuScreen(navController)
+                    MenuScreen(navController,homeViewModel)
                 }
 
                 composable(Routing.HomeScreen.routeName) {
@@ -232,14 +232,14 @@ private fun MainScreenView(
                 composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
-                    ChannelScreen(categoryViewModel, channelViewModel, navController)
+                    ChannelScreen(categoryViewModel,homeViewModel, channelViewModel, navController)
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
                  //   mInterstitialAd?.show(activity)
 
-                    FavoriteScreen(navController, categoryViewModel, channelViewModel)
+                    FavoriteScreen(navController,homeViewModel, categoryViewModel, channelViewModel)
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
@@ -253,6 +253,7 @@ private fun MainScreenView(
                     ChannelDetailScreen(
                         categoryViewModel,
                         channelViewModel,
+                        homeViewModel,
                         navController = navController
                     )
                 }
@@ -274,6 +275,7 @@ private fun MainScreenView(
                     SeeAllChannelScreen(
                         categoryViewModel,
                         channelViewModel,
+                        homeViewModel,
                         seeAllChannelViewModel,
                         navController = navController
                     )

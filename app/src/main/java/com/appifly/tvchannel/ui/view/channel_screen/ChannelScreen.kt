@@ -25,9 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
-import com.appifly.tvchannel.ui.admob.AdmobBannerAdaptive
+import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -38,6 +39,7 @@ import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 @Composable
 fun ChannelScreen(
     viewModel: CategoryViewModel,
+    homeViewModel: HomeViewModel,
     channelViewModel: ChannelViewModel, navController: NavController
 ) {
     val selectedIndex = remember { mutableIntStateOf(0) }
@@ -52,7 +54,8 @@ fun ChannelScreen(
             horizontalAlignment = Alignment.Start
         ) {
 
-            AdmobBannerAdaptive()
+            AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
+
             viewModel.categoryData?.observeAsState()?.value?.let {
 
                 LaunchedEffect(key1 = true, block = {
