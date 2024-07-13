@@ -37,14 +37,16 @@ fun AdmobBanner(
         Column {
             AndroidView(modifier = modifier.fillMaxWidth(), factory = { context ->
                 AdView(context).apply {
-                    if (isAdaptive) {
-                        val adSize =
-                            AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(context, 320)
-                        setAdSize(adSize)
-                    } else {
-                        setAdSize(AdSize.BANNER)
+                    when(isAdaptive){
+                        true-> {
+                            val adSize =
+                                AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(context, 320)
+                            setAdSize(adSize)
+                        }
+                        false->{
+                            setAdSize(AdSize.BANNER)
+                        }
                     }
-
                     adUnitId =
                         if (BuildConfig.DEBUG) BuildConfig.BANNER_ADD_ID else adData.admobBanner.toString()
                     loadAd(AdRequest.Builder().build())
