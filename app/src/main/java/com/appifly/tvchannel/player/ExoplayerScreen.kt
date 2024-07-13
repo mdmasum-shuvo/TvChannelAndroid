@@ -47,17 +47,25 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LiveData
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
+import androidx.media3.common.MimeTypes
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.HttpDataSource
+import androidx.media3.exoplayer.DefaultLoadControl
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.drm.DefaultDrmSessionManager
+import androidx.media3.exoplayer.drm.DrmSessionManager
+import androidx.media3.exoplayer.drm.FrameworkMediaDrm
+import androidx.media3.exoplayer.drm.LocalMediaDrmCallback
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.appifly.app_data_source.dto.ChannelDto
@@ -158,7 +166,7 @@ fun PlayerScreen(
                                 .clickable {
                                     isPLaying.value = true
                                     videoUrl.value?.liveUrl?.let {
-                                        playerReadyToPlayDrm(context=context, exoPlayer = exoPlayer)
+                                        clearkeyPlayer(context = context, exoPlayer = exoPlayer)
                                     }
                                 },
                             contentScale = ContentScale.Crop,
@@ -232,7 +240,7 @@ fun PlayerScreen(
 
     LaunchedEffect(videoUrl.observeAsState().value) {
 
-        videoUrl.value?.liveUrl?.let { playerReadyToPlayDrm(context=context, exoPlayer = exoPlayer) }
+        videoUrl.value?.liveUrl?.let { clearkeyPlayer(context=context, exoPlayer = exoPlayer) }
     }
 
     Box(
@@ -338,7 +346,86 @@ fun playerReadyToPlay(videoUrl: String, context: Context, exoPlayer: ExoPlayer) 
     exoPlayer.prepare()
     exoPlayer.playWhenReady = true
 }
+/*
+@UnstableApi
+fun clearkeyPlayer(context: Context, exoPlayer: ExoPlayer) {
+    val drmKey = "A8F+KJEfcSIay8CxH5AEAQ"
+    val drmKeyId = "7Lyeb+axRe+2ZY+1z3Qn+A"
+    val mpdUrl =
+        "https://ssc-extra1-ak.akamaized.net/out/v1/647c58693f1d46af92bd7e69f17912cb/index.mpd"
+    val keyString =
+        "{\"keys\":[{\"kty\":\"oct\",\"k\":\"$drmKey\",\"kid\":\"$drmKeyId\"}],'type':\"temporary\"}"
+    */
+/*    val drmKeyBytes = drmKey.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+    val encodedDrmKey = Base64.encodeToString(drmKeyBytes, Base64.DEFAULT)
 
+    val drmKeyIdBytes = drmKeyId.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+    val encodedDrmKeyId = Base64.encodeToString(drmKeyIdBytes, Base64.DEFAULT)*//*
+
+
+    val drmBody = "{keys:[{kty:oct,k:${drmKey},kid:${drmKeyId}}],type:temporary}"
+
+    val httpDataSourceFactory = DefaultHttpDataSource.Factory()
+    val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
+
+    val drmConfiguration = MediaItem.DrmConfiguration.Builder(C.CLEARKEY_UUID)
+        .setKeySetId(keyString.toByteArray())
+//                    .setKeySetId(byteArrayOf(*drmKeyBytes, *drmKeyIdBytes))
+        .build()
+
+    val mediaItem = MediaItem.Builder()
+        .setUri(mpdUrl)
+        .setDrmConfiguration(drmConfiguration)
+        .build()
+
+    exoPlayer.setMediaSource(mediaSourceFactory.createMediaSource(mediaItem))
+    exoPlayer.prepare()
+    exoPlayer.playWhenReady = true
+}
+*/
+
+@OptIn(UnstableApi::class)
+fun clearkeyPlayer(context: Context, exoPlayer: ExoPlayer){
+    val drmKey = "A8F+KJEfcSIay8CxH5AEAQ"
+    val drmKeyId = "7Lyeb+axRe+2ZY+1z3Qn+A"
+    val mpdUrl = "https://ssc-extra1-ak.akamaized.net/out/v1/647c58693f1d46af92bd7e69f17912cb/index.mpd"
+   // val drmKeyBytes = drmKey.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+/*    val encodedDrmKey = Base64.encodeToString(drmKeyBytes,
+        Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP)
+
+    val drmKeyIdBytes = drmKeyId.chunked(2).map { it.toInt(16).toByte() }.toByteArray()
+    val encodedDrmKeyId = Base64.encodeToString(drmKeyIdBytes, Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP)*/
+
+    val drmBody = "{\"keys\":[{\"kty\":\"oct\",\"k\":\"${drmKey}\",\"kid\":\"${drmKeyId}\"}],\"type\":\"temporary\"}"
+
+
+    val dashMediaItem = MediaItem.Builder()
+        .setUri(mpdUrl)
+        .setMimeType(MimeTypes.APPLICATION_MPD)
+        .setMediaMetadata(MediaMetadata.Builder().setTitle("test").build())
+        .build()
+
+    val trackSelector = DefaultTrackSelector(context)
+    val loadControl = DefaultLoadControl()
+
+    val drmCallback = LocalMediaDrmCallback(drmBody.toByteArray())
+    val drmSessionManager = DefaultDrmSessionManager.Builder()
+        .setPlayClearSamplesWithoutKeys(true)
+        .setMultiSession(false)
+        .setKeyRequestParameters(HashMap())
+        .setUuidAndExoMediaDrmProvider(C.CLEARKEY_UUID, FrameworkMediaDrm.DEFAULT_PROVIDER)
+        .build(drmCallback)
+
+    val customDrmSessionManager: DrmSessionManager = drmSessionManager
+    val mediaSourceFactory = DefaultMediaSourceFactory(context)
+        .setDrmSessionManagerProvider { customDrmSessionManager }
+        .createMediaSource(dashMediaItem)
+
+
+    exoPlayer.setMediaSource(mediaSourceFactory, true)
+    exoPlayer.prepare();
+    exoPlayer.play();
+}
 
 @OptIn(UnstableApi::class)
 fun playerReadyToPlayDrm(videoUrl: String="https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd", keyId: String="7Lyeb+axRe+2ZY+1z3Qn+A", key: String="A8F+KJEfcSIay8CxH5AEAQ" ,context: Context, exoPlayer: ExoPlayer) {
