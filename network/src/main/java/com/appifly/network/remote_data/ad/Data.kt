@@ -4,5 +4,6 @@ data class AdIdData(
     val banneradID: String,
     val id: Int,
     val interstitialadID: String,
-    val videoAdId: String
+    val fb_banneradID: String,
+    val fb_interstitialadID: String,
 )

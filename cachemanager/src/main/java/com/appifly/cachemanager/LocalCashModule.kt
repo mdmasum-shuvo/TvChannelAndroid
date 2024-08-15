@@ -2,6 +2,7 @@ package com.appifly.cachemanager
 
 import android.content.Context
 import androidx.room.Room
+import com.appifly.cachemanager.dao.AdDao
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
@@ -74,6 +75,12 @@ object LocalCashModule {
     @Singleton
     fun provideFrequentlyDao(database: TvDatabase): FrequentlyDao {
         return database.frequentlyDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAdDao(database: TvDatabase): AdDao {
+        return database.adDao()
     }
 
 

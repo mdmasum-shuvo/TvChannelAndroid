@@ -12,6 +12,7 @@ fun ChannelNetwork.toEntity(): ChannelEntity {
         name = channelName,
         iconUrl = image_url,
         liveUrl = liveChannelUrl,
+        liveChannelReferer = liveChannelReferer,
         isPopular = is_popular==1,
 
     )
@@ -25,6 +26,7 @@ fun ChannelEntity.toDto(): ChannelDto {
         catId = catId,
         name = name,
         iconUrl = iconUrl,
+        liveChannelReferer = liveChannelReferer,
         liveUrl = liveUrl,
     )
 }

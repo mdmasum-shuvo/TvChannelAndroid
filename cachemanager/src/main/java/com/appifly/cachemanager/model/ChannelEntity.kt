@@ -10,6 +10,7 @@ data class ChannelEntity (
     val id: Int,
     val catId:Int,
     val name:String?,
+    val liveChannelReferer:String?,
     val iconUrl:String?,
     val liveUrl:String?,
     val isPopular:Boolean?

@@ -8,8 +8,8 @@ import com.appifly.cachemanager.LocalDbConstant
 data class AdIdEntity(
     @PrimaryKey
     val id: Int,
-    val fbBanner: String,
+    val fbBanner: String?,
     val fbInterstitial: String?,
     val admobBanner: String?,
-    val admobInterstitial: String
+    val admobInterstitial: String?
 )

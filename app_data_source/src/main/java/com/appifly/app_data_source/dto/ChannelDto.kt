@@ -9,5 +9,6 @@ data class ChannelDto(
     var name: String?=null,
     var iconUrl: String?=null,
     var liveUrl: String?=null,
+    var liveChannelReferer: String?=null,
     var isFavorite: Boolean?=null,
 )

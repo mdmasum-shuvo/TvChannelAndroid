@@ -27,7 +27,7 @@ private var adView: com.facebook.ads.AdView? = null
 @Composable
 fun AdmobBanner(
     modifier: Modifier = Modifier,
-    adLiveData: LiveData<AdIdDto>?,
+    adLiveData: LiveData<List<AdIdDto>>?,
     isAdaptive: Boolean = false
 ) {
     adLiveData?.observeAsState()?.value?.let { adData ->
@@ -48,7 +48,7 @@ fun AdmobBanner(
                         }
                     }
                     adUnitId =
-                        if (BuildConfig.DEBUG) BuildConfig.BANNER_ADD_ID else adData.admobBanner.toString()
+                        if (BuildConfig.DEBUG) BuildConfig.BANNER_ADD_ID else adData[0].admobBanner.toString()
                     loadAd(AdRequest.Builder().build())
                 }
             },
@@ -87,7 +87,7 @@ fun AdmobBanner(
                 })
         }
         if (shouldShowResult.value) {
-            FacebookBannerAdsView(if (BuildConfig.DEBUG) BuildConfig.FB_BANNER_ADD_ID else adData.fbBanner.toString())
+            FacebookBannerAdsView(if (BuildConfig.DEBUG) BuildConfig.FB_BANNER_ADD_ID else adData[0].fbBanner.toString())
         }
     }
 }

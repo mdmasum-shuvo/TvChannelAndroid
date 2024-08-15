@@ -8,11 +8,10 @@ fun AdIdData.toEntity(): AdIdEntity {
 
     return AdIdEntity(
         id = id,
-        fbBanner = banneradID,
-        fbInterstitial = interstitialadID,
+        fbBanner = fb_banneradID,
+        fbInterstitial = fb_interstitialadID,
         admobBanner = banneradID,
         admobInterstitial = interstitialadID,
-
 
         )
 }
@@ -24,6 +23,6 @@ fun AdIdEntity.toDto(): AdIdDto {
         admobBanner = admobBanner,
         admobInterstitial = admobInterstitial,
         fbBanner = fbBanner,
-        fbInterstitial = fbBanner,
+        fbInterstitial = fbInterstitial,
     )
 }

@@ -5,6 +5,7 @@ data class ChannelNetwork(
     val categoryId: Int,
     val image_url: String,
     val liveChannelUrl: String,
+    val liveChannelReferer: String?,
     val channelName: String,
     val is_popular: Int,
 )
