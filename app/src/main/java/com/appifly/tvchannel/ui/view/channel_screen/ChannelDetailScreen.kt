@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
@@ -50,10 +49,6 @@ import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 import com.appifly.tvchannel.utils.AppUtils.hideSystemUI
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 
 @Composable
@@ -91,14 +86,14 @@ fun ChannelDetailScreen(
                     .fillMaxWidth()
                     .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
             ) {
-             /*   PlayerScreen(
+                PlayerScreen(
                     videoUrl = channelViewModel.selectedChannel,
                     isFullScreen = false,  navigateBack = {
                         navController.navigateUp()
                     }
-                )*/
+                )
                // context.startActivity(Intent(context,YoutubePlayerActivity::class.java))
-                AndroidView(
+           /*     AndroidView(
                     modifier = Modifier
                         .fillMaxWidth(),
                     factory = { context ->
@@ -118,7 +113,7 @@ fun ChannelDetailScreen(
 
 
 
-                    })
+                    })*/
                 //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
                 //https://mediashohayprod-aase.streaming.media.azure.net/26a9dc05-ea5b-4f23-a3bb-cc48d96e605b/video-24-1687293003062-media-24.ism/manifest(format=m3u8-aapl)
             }

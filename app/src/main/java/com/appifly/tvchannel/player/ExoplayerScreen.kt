@@ -22,9 +22,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -61,7 +58,6 @@ import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.theme.ScreenOrientation
 import com.appifly.tvchannel.ui.theme.darkBackground
-import com.appifly.tvchannel.ui.theme.lightBackground
 import com.appifly.tvchannel.utils.Constants
 import com.appifly.tvchannel.utils.setLandscape
 import com.appifly.tvchannel.utils.setPortrait
@@ -187,14 +183,14 @@ fun PlayerScreen(
                         .padding(end = 16.dp, bottom = 16.dp)
                 ) {
                     Row {
-                        Icon(
+                  /*      Icon(
                             Icons.Outlined.Settings,
                             tint = lightBackground,
                             modifier = Modifier
 
                                 .size(24.dp),
                             contentDescription = ""
-                        )
+                        )*/
                         Spacer(modifier = Modifier.width(8.dp))
 
                         if (ScreenOrientation == Configuration.ORIENTATION_PORTRAIT)
