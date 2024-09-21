@@ -22,4 +22,10 @@
     <string name="search_place_holder">Search your channel here</string>
     <string name="text_finish">Finish</string>
     <string name="default_notification_channel_id">notificaiton_id\n</string>
+    <string name="toggle_full_screen">Toggle full screen</string>
+    <string name="play_previous">Play previous</string>
+    <string name="play_next">Play next</string>
+    <string name="toggle_play">Toggle play/pause</string>
+    <string name="rewind_5">Rewind 5 secs</string>
+    <string name="forward_10">Forward 10 secs</string>
 </resources>

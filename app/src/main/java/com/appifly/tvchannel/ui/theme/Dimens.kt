@@ -63,7 +63,7 @@ val CompactMediumDimens = Dimens(
     stdDimen8 = 8.dp,
     gridCellsChannel = 3,
     gridCellsFavorite = 2,
-    mediumWeightTv = 0.9f,
+    mediumWeightTv = 1.2f,
     gridItemHeight = 112,
     gridFavCatHeight = 420,
     gridFavHeight = 94
@@ -85,7 +85,7 @@ val CompactDimens = Dimens(
     stdDimen10 = 10.dp, stdDimen8 = 8.dp,
     gridCellsChannel = 3,
     gridCellsFavorite = 2,
-    mediumWeightTv = 0.9f,
+    mediumWeightTv = 1.2f,
     gridItemHeight = 112,
     gridFavCatHeight = 420,
     gridFavHeight = 94

@@ -1,9 +1,7 @@
 package com.appifly.tvchannel
 
-import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +27,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -38,6 +41,7 @@ import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
+import com.appifly.tvchannel.player.MainActivityViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
@@ -65,10 +69,15 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+
 private var mInterstitialAd: InterstitialAd? = null
 private var interstitialAd: com.facebook.ads.InterstitialAd? = null
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
+
     private var appUpdateManager: AppUpdateManager? = null
     private val TAG: String = MainActivity::class.java.simpleName
     private val listener: InstallStateUpdatedListener =
@@ -97,15 +106,12 @@ class MainActivity : ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             installSplashScreen()
         }
         appUpdateManager = AppUpdateManagerFactory.create(this)
-        val orientation = resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            hideSystemUI()
-            // In landscape
-        }
+        observeState()
         checkUpdate()
 
         setContent {
@@ -116,14 +122,34 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //loadInterstitialAdd(this)
-                    MainScreenView(activity = this)
+                    MainScreenView(mainActivityViewModel::toggleFullScreen)
                 }
             }
 
         }
         // Set up an OnPreDrawListener to the root view.
     }
-    fun hideSystemUI() {
+
+    private fun observeState() {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                mainActivityViewModel.uiState.observe(this@MainActivity) { state ->
+                    if (state.isFullScreen) {
+                        hideSystemUI()
+                    } else {
+                      //  showSystemBars()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showSystemBars() {
+        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
+        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+    }
+
+    private fun hideSystemUI() {
 
         //Hides the ugly action bar at the top
         actionBar?.hide()
@@ -141,6 +167,7 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
     override fun onStop() {
         appUpdateManager?.unregisterListener(listener)
         super.onStop()
@@ -182,13 +209,14 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+
 /**
  * @Composable fun for start destination and navigation to screen
  */
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MainScreenView(
-    activity: Activity
+    onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
 ) {
     val navController = rememberNavController()
     hiltViewModel<MainViewModel>()
@@ -214,7 +242,7 @@ private fun MainScreenView(
                 composable(Routing.MenuScreen.routeName) {
                     showBottomNav.value = true
 
-                    MenuScreen(navController,homeViewModel)
+                    MenuScreen(navController, homeViewModel)
                 }
 
                 composable(Routing.HomeScreen.routeName) {
@@ -232,35 +260,44 @@ private fun MainScreenView(
                 composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
-                    ChannelScreen(categoryViewModel,homeViewModel, channelViewModel, navController)
+                    ChannelScreen(categoryViewModel, homeViewModel, channelViewModel, navController)
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
-                 //   mInterstitialAd?.show(activity)
+                    //   mInterstitialAd?.show(activity)
 
-                    FavoriteScreen(navController,homeViewModel, categoryViewModel, channelViewModel)
+                    FavoriteScreen(
+                        navController,
+                        homeViewModel,
+                        categoryViewModel,
+                        channelViewModel
+                    )
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
-                   // mInterstitialAd?.show(activity)
+                    // mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-                  //  mInterstitialAd?.show(activity)
+                    //  mInterstitialAd?.show(activity)
                     ChannelDetailScreen(
                         categoryViewModel,
                         channelViewModel,
                         homeViewModel,
-                        navController = navController
+
+                        navController = navController,
+                        onFullScreenToggle = onFullScreenToggle, navigateBack = {
+                            navController.popBackStack()
+                        }
                     )
                 }
 
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
-                  //  mInterstitialAd?.show(activity)
+                    //  mInterstitialAd?.show(activity)
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
                         searchChannelViewModel = searchChannelViewModel,
@@ -271,7 +308,7 @@ private fun MainScreenView(
 
                 composable(Routing.SeeAllChannelScreen.routeName) {
                     showBottomNav.value = false
-                   // mInterstitialAd?.show(activity)
+                    // mInterstitialAd?.show(activity)
                     SeeAllChannelScreen(
                         categoryViewModel,
                         channelViewModel,
@@ -287,7 +324,7 @@ private fun MainScreenView(
 
 }
 
- fun loadInterstitialAdd(activity: Context) {
+fun loadInterstitialAdd(activity: Context) {
     val adRequest = AdRequest.Builder().build()
 
     InterstitialAd.load(
@@ -298,7 +335,7 @@ private fun MainScreenView(
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError.toString().let { Log.d(ContentValues.TAG, it) }
                 mInterstitialAd = null
-               // showFacebookInterstitialAd(activity)
+                // showFacebookInterstitialAd(activity)
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -336,7 +373,8 @@ private fun MainScreenView(
     }
 
 }
- fun showFacebookInterstitialAd(context: Context) {
+
+fun showFacebookInterstitialAd(context: Context) {
     interstitialAd = com.facebook.ads.InterstitialAd(context, BuildConfig.FB_INTERSTITIAL_ADD_ID)
     val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
 

@@ -35,7 +35,6 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.MainActivity
-import com.appifly.tvchannel.player.PlayerScreen
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
@@ -92,12 +91,13 @@ fun SeeAllChannelScreen(
                         .fillMaxWidth()
                         .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
                 ) {
-                    PlayerScreen(
+             /*       PlayerScreen(
                         videoUrl = channelViewModel.selectedChannel,
                         isFullScreen = false, navigateBack = {
                             navController.popBackStack()
                         }
-                    )
+                    )*/
+                    //PlayVideo(onFullScreenToggle = onFullScreenToggle, navigateBack = navigateBack)
 
                 }
                 SpacerHeight(MaterialTheme.dimens.stdDimen12)

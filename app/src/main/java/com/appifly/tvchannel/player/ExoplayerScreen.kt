@@ -46,10 +46,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LiveData
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DataSource
-import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
@@ -154,7 +154,7 @@ fun PlayerScreen(
                                 .size(36.dp)
                                 .clickable {
                                     isPLaying.value = true
-                                    videoUrl.value?.liveUrl?.let {
+                                    videoUrl.value?.let {
                                         playerReadyToPlay(
                                             it,
                                             context,
@@ -233,7 +233,7 @@ fun PlayerScreen(
 
     LaunchedEffect(videoUrl.observeAsState().value) {
 
-        videoUrl.value?.liveUrl?.let { playerReadyToPlay(it, context, exoPlayer) }
+        videoUrl.value?.let { playerReadyToPlay(it, context, exoPlayer) }
     }
 
     Box(
@@ -321,18 +321,24 @@ fun PlayerScreen(
 }
 
 @OptIn(UnstableApi::class)
-fun playerReadyToPlay(videoUrl: String, context: Context, exoPlayer: ExoPlayer) {
-    val defaultDataSourceFactory = DefaultDataSource.Factory(context)
+fun playerReadyToPlay(data: ChannelDto, context: Context, exoPlayer: ExoPlayer) {
+/*    val defaultDataSourceFactory = DefaultDataSource.Factory(context)
     val dataSourceFactory: DataSource.Factory = DefaultDataSource.Factory(
         context,
         defaultDataSourceFactory
     )
     val source =
         getHlsMediaSource(dataSourceFactory, videoUrl)
-    /*  else
-      getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)*/
+    *//*  else
+      getProgressiveMediaSource(dataSourceFactory, videoUrl.value!!.liveUrl!!)*//*
 
     exoPlayer.setMediaSource(source)
+    exoPlayer.prepare()
+    exoPlayer.playWhenReady = true*/
+    val mediaItems = MediaItem.Builder().setUri(data.liveUrl).setMediaId(data.id.toString()).setTag("tag")
+        .setMediaMetadata(MediaMetadata.Builder().setDisplayTitle(data.name).build())
+        .build()
+    exoPlayer.setMediaItem(mediaItems)
     exoPlayer.prepare()
     exoPlayer.playWhenReady = true
 }
