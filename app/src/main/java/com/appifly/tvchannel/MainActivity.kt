@@ -1,5 +1,6 @@
 package com.appifly.tvchannel
 
+import SeeAllChannelScreen
 import android.content.ContentValues
 import android.content.Context
 import android.os.Build
@@ -45,7 +46,6 @@ import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
-import com.appifly.tvchannel.ui.view.channel_screen.SeeAllChannelScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
@@ -301,11 +301,7 @@ private fun MainScreenView(
                     showBottomNav.value = false
                     //  mInterstitialAd?.show(activity)
                     ChannelDetailScreen(
-                        categoryViewModel,
                         channelViewModel,
-                        homeViewModel,
-
-                        navController = navController,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
                             navController.popBackStack()
                         }
@@ -326,12 +322,14 @@ private fun MainScreenView(
                 composable(Routing.SeeAllChannelScreen.routeName) {
                     showBottomNav.value = false
                     // mInterstitialAd?.show(activity)
+                    channelViewModel.setSelectedChannel(null)
                     SeeAllChannelScreen(
                         categoryViewModel,
                         channelViewModel,
-                        homeViewModel,
                         seeAllChannelViewModel,
-                        navController = navController
+                        onFullScreenToggle = onFullScreenToggle, navigateBack = {
+                            navController.popBackStack()
+                        }
                     )
                 }
             }

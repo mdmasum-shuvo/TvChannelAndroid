@@ -87,13 +87,13 @@ fun PotraitView(
 ) {
 
 
-
-
     LaunchedEffect(key1 = true, block = {
-        channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
-        channelViewModel.callChannelDataByCatId()
-        channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
-        viewModel.getCategoryNameById(channelViewModel.catId)
+        channelViewModel.selectedChannel.value?.catId?.let {
+            channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
+            channelViewModel.callChannelDataByCatId()
+            channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
+            viewModel.getCategoryNameById(channelViewModel.catId)
+        }
     })
     Column(
         modifier = Modifier
@@ -102,18 +102,12 @@ fun PotraitView(
     ) {
 
 
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
         ) {
-            /*    PlayerScreen(
-                    videoUrl = channelViewModel.selectedChannel,
-                    isFullScreen = false, navigateBack = {
-                        navController.navigateUp()
-                    }
-                )*/
+
             PlayerView(
                 playerWrapper = playerWrapper,
                 isFullScreen = false,

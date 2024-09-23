@@ -42,8 +42,8 @@ class ChannelViewModel @Inject constructor(
         get() = _isFavoriteChannel
 
 
-    private val _selectedChannel = MutableLiveData<ChannelDto>()
-    val selectedChannel: LiveData<ChannelDto>
+    private val _selectedChannel = MutableLiveData<ChannelDto?>()
+    val selectedChannel: LiveData<ChannelDto?>
         get() = _selectedChannel
 
 
@@ -124,7 +124,7 @@ class ChannelViewModel @Inject constructor(
         }
     }
 
-    fun setSelectedChannel(item: ChannelDto) {
+    fun setSelectedChannel(item: ChannelDto?) {
         _selectedChannel.value = item
     }
 
