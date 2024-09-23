@@ -28,6 +28,8 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -231,17 +233,17 @@ fun PlayerView(
 
         var isPlaying by remember { mutableStateOf(playerWrapper.exoPlayer.isPlaying) }
 
-        var playbackState by remember { mutableStateOf(playerWrapper.exoPlayer.playbackState) }
+        var playbackState by remember { mutableIntStateOf(playerWrapper.exoPlayer.playbackState) }
 
         var title by remember {
             mutableStateOf(playerWrapper.exoPlayer.currentMediaItem?.mediaMetadata?.displayTitle.toString())
         }
 
-        var videoTimer by remember { mutableStateOf(0L) }
+        var videoTimer by remember { mutableLongStateOf(0L) }
 
-        var totalDuration by remember { mutableStateOf(0L) }
+        var totalDuration by remember { mutableLongStateOf(0L) }
 
-        var bufferedPercentage by remember { mutableStateOf(0) }
+        var bufferedPercentage by remember { mutableIntStateOf(0) }
 
         LaunchedEffect(key1 = shouldShowControls) {
             if (shouldShowControls) {
