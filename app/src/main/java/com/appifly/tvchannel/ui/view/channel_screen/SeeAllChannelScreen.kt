@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
@@ -18,7 +19,8 @@ fun SeeAllChannelScreen(
     channelViewModel: ChannelViewModel,
     seeAllChannelViewModel: SeeAllChannelViewModel,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navController: NavController
 ) {
 
     var shouldShowControls by remember { mutableStateOf(false) }
@@ -32,7 +34,7 @@ fun SeeAllChannelScreen(
         viewModel.setCategoryName(seeAllChannelViewModel.dataListTitle)
     })
 
-    PlayVideo(onFullScreenToggle = onFullScreenToggle, navigateBack = navigateBack, channelViewModel = channelViewModel)
+    PlayVideo(onFullScreenToggle = onFullScreenToggle, navigateBack = navigateBack, channelViewModel = channelViewModel, navController = navController)
 
 }
 

@@ -77,7 +77,7 @@ fun LandscapeView(
 }
 
 @Composable
-fun PotraitView(
+fun PortraitView(
     playerWrapper: PlayerWrapper,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
     navigateBack: () -> Unit,

@@ -304,7 +304,7 @@ private fun MainScreenView(
                         channelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
                             navController.popBackStack()
-                        }
+                        },navController=navController
                     )
                 }
 
@@ -330,6 +330,7 @@ private fun MainScreenView(
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
                             navController.popBackStack()
                         }
+                        , navController = navController
                     )
                 }
             }

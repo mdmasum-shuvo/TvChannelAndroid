@@ -17,6 +17,7 @@ import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.HttpDataSource
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.utils.Constants.PLAYER_SEEK_BACK_INCREMENT
@@ -27,6 +28,7 @@ import com.appifly.tvchannel.utils.Constants.PLAYER_SEEK_FORWARD_INCREMENT
 @Composable
 fun PlayVideo(
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
+    navController: NavController,
     navigateBack: () -> Unit,
     channelViewModel: ChannelViewModel
 ) {
@@ -77,7 +79,7 @@ fun PlayVideo(
         playerWrapper = PlayerWrapper(exoPlayer),
         onFullScreenToggle = onFullScreenToggle,
         navigateBack = navigateBack,
-        channelViewModel = channelViewModel
+        channelViewModel = channelViewModel, navController = navController
     )
 }
 
