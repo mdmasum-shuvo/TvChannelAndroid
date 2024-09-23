@@ -5,6 +5,6 @@ data class TvShowNetwork(
     val showName: String,
     val showDate: String?,
     val showTime: String?,
-   // val image_url: String,
+    val image_url: String,
     val channelListId:Int
 )

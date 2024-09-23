@@ -179,9 +179,10 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun showSystemBars() {
-        WindowCompat.setDecorFitsSystemWindows(window, true)
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
+        WindowCompat.setDecorFitsSystemWindows(window, true)
+
     }
 
     override fun onStop() {
