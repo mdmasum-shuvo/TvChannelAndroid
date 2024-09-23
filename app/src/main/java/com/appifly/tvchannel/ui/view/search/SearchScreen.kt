@@ -41,17 +41,20 @@ import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.common_component.BasicTextField
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.theme.dimens
-import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
 
 @Composable
-fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel:ChannelViewModel,navController: NavController) {
+fun SearchScreen(
+    searchChannelViewModel: SearchChannelViewModel,
+    channelViewModel: ChannelViewModel,
+    navController: NavController
+) {
     val value = remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = value.value, block = {
         searchChannelViewModel.searchChannel(value.value)
     })
 
-    val context= LocalContext.current
+    val context = LocalContext.current
     Surface(
         color = MaterialTheme.colorScheme.background, modifier = Modifier.fillMaxSize()
     ) {
@@ -73,7 +76,9 @@ fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.secondary,
-                        modifier = Modifier.clickable { navController.popBackStack()}
+                        modifier = Modifier.clickable {
+                            navController.navigateUp()
+                        }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Card(
@@ -89,20 +94,23 @@ fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel
                             modifier = Modifier
                                 .fillMaxSize()
                                 .padding(start = 16.dp),
-                            verticalArrangement =Arrangement.Center
+                            verticalArrangement = Arrangement.Center
                         ) {
                             BasicTextField(
                                 isKeyboardShown = true,
                                 inputValue = value,
-                                placeholder =context.getString(R.string.search_place_holder)
+                                placeholder = context.getString(R.string.search_place_holder)
                             )
                         }
                     }
                 }
             }
 
-            Column(horizontalAlignment = Alignment.Start, modifier = Modifier.verticalScroll(
-                rememberScrollState())) {
+            Column(
+                horizontalAlignment = Alignment.Start, modifier = Modifier.verticalScroll(
+                    rememberScrollState()
+                )
+            ) {
                 searchChannelViewModel.channelData.observeAsState().value?.let {
                     LazyVerticalGrid(
                         modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
@@ -117,7 +125,7 @@ fun SearchScreen(searchChannelViewModel: SearchChannelViewModel,channelViewModel
                             bottom = 16.dp
                         )
                     ) {
-                        items(items = it, key = {item-> item.id!! }) { item ->
+                        items(items = it, key = { item -> item.id!! }) { item ->
                             RegularChannelItem(
                                 item = item,
                                 modifier = Modifier.height(MaterialTheme.dimens.channelMedium),

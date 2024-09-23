@@ -30,9 +30,7 @@ fun SeeAllChannelScreen(
             shouldShowControls = false
         }
     }
-    LaunchedEffect(key1 = true, block = {
-        viewModel.setCategoryName(seeAllChannelViewModel.dataListTitle)
-    })
+
 
     PlayVideo(onFullScreenToggle = onFullScreenToggle, navigateBack = navigateBack, channelViewModel = channelViewModel, navController = navController)
 

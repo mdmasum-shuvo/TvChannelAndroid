@@ -303,7 +303,7 @@ private fun MainScreenView(
                     ChannelDetailScreen(
                         channelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
-                            navController.popBackStack()
+                            navController.navigateUp()
                         },navController=navController
                     )
                 }
