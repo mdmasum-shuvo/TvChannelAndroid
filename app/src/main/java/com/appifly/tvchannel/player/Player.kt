@@ -1,5 +1,6 @@
 package com.appifly.tvchannel.player
 
+import android.util.Log
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.activity.compose.BackHandler
@@ -41,6 +42,7 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
 import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.util.UnstableApi
+import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.appifly.app_data_source.dto.ChannelDto
@@ -306,7 +308,6 @@ fun PlayerView(
                         playerWrapper.exoPlayer.seekTo(0, 0)
                         playerWrapper.exoPlayer.playWhenReady = true
                     }
-
                     else -> {
                         playerWrapper.exoPlayer.play()
                     }
@@ -318,6 +319,52 @@ fun PlayerView(
             onFullScreenToggle = onFullScreenToggle
         )
     }
+    playerWrapper.exoPlayer.addListener(object : Player.Listener {
+
+        override fun onPlaybackStateChanged(playbackState: Int) {
+            super.onPlaybackStateChanged(playbackState)
+            when (playbackState) {
+                ExoPlayer.STATE_ENDED -> {
+       /*             loading.value = false
+                    exoPlayer.stop()
+                    exoPlayer.release()
+                    Log.e("player_loading", " state Finished")
+                    isPlayFinished.value = true
+                    isPLaying.value = false
+                    shouldShowControls = true*/
+
+                }
+
+                ExoPlayer.STATE_READY -> {
+         /*           loading.value = false
+                    isPLaying.value = true*/
+                    Log.e("player_loading", " state READY")
+
+                }
+
+                ExoPlayer.STATE_IDLE -> {
+          /*          loading.value = false
+                    isPLaying.value = false
+                    shouldShowControls = true*/
+                    Log.e("player_loading", " state IDOL")
+
+                }
+
+                ExoPlayer.STATE_BUFFERING -> {
+             /*       loading.value = true
+                    isPLaying.value = true*/
+                    Log.e("player_loading", " state BUFFERING")
+
+                }
+
+                else -> {
+                   // loading.value = false
+                }
+            }
+        }
+
+    })
+
 }
 
 @OptIn(UnstableApi::class)

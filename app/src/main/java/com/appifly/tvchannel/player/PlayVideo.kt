@@ -1,6 +1,5 @@
 package com.appifly.tvchannel.player
 
-import android.net.Uri
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -12,6 +11,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.media3.common.MediaItem
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultHttpDataSource
 import androidx.media3.datasource.HttpDataSource
@@ -75,7 +75,7 @@ fun PlayVideo(
         }
     }
 
-    GameVideos(
+    TvPlayer(
         playerWrapper = PlayerWrapper(exoPlayer),
         onFullScreenToggle = onFullScreenToggle,
         navigateBack = navigateBack,
@@ -89,9 +89,12 @@ fun playerReadyToPlay(data: ChannelDto, exoPlayer: ExoPlayer) {
     data.liveChannelReferer?.let {
         httpDataSourceFactory.setDefaultRequestProperties(mapOf("Referer" to it))
     }
+    val mediaItem = MediaItem.Builder().setUri(data.liveUrl).setMediaId(data.id.toString())
+        .setMediaMetadata(MediaMetadata.Builder().setDisplayTitle(data.name).build())
+        .build()
     val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
     // Create a media item
-    val mediaItem = MediaItem.fromUri(Uri.parse(data.liveUrl))
+   // val mediaItem = MediaItem.fromUri(Uri.parse(data.liveUrl))
     exoPlayer.setMediaSource(mediaSourceFactory.createMediaSource(mediaItem))
     exoPlayer.prepare()
     exoPlayer.play()

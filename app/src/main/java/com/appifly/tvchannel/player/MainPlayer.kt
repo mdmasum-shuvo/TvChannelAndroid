@@ -11,7 +11,7 @@ import com.appifly.tvchannel.ui.common_component.MainTopBar
 
 
 @Composable
- fun GameVideos(
+ fun TvPlayer(
     playerWrapper: PlayerWrapper,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
     navigateBack: () -> Unit,
@@ -20,8 +20,6 @@ import com.appifly.tvchannel.ui.common_component.MainTopBar
 ) {
 
     val configuration = LocalConfiguration.current
-
-
 
     when (configuration.orientation) {
         Configuration.ORIENTATION_PORTRAIT -> {
