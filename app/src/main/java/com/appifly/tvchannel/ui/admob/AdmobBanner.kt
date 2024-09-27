@@ -34,61 +34,64 @@ fun AdmobBanner(
         val shouldShowResult = remember {
             mutableStateOf(false)
         }
-        Column {
-            AndroidView(modifier = modifier.fillMaxWidth(), factory = { context ->
-                AdView(context).apply {
-                    when(isAdaptive){
-                        true-> {
-                            val adSize =
-                                AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(context, 320)
-                            setAdSize(adSize)
+        if(adData.isNotEmpty()){
+            Column {
+                AndroidView(modifier = modifier.fillMaxWidth(), factory = { context ->
+                    AdView(context).apply {
+                        when(isAdaptive){
+                            true-> {
+                                val adSize =
+                                    AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(context, 320)
+                                setAdSize(adSize)
+                            }
+                            false->{
+                                setAdSize(AdSize.BANNER)
+                            }
                         }
-                        false->{
-                            setAdSize(AdSize.BANNER)
-                        }
-                    }
-                    adUnitId =
-                        if (BuildConfig.DEBUG) BuildConfig.BANNER_ADD_ID else adData[0].admobBanner.toString()
-                    loadAd(AdRequest.Builder().build())
-                }
-            },
-                update = {
-                    it.apply {
+                        adUnitId =
+                            if (BuildConfig.DEBUG) BuildConfig.BANNER_ADD_ID else adData[0].admobBanner.toString()
                         loadAd(AdRequest.Builder().build())
                     }
-                    it.adListener = object : AdListener() {
-                        override fun onAdClicked() {
-                            Log.d("TAG", "onAdClicked: ")
+                },
+                    update = {
+                        it.apply {
+                            loadAd(AdRequest.Builder().build())
                         }
+                        it.adListener = object : AdListener() {
+                            override fun onAdClicked() {
+                                Log.d("TAG", "onAdClicked: ")
+                            }
 
-                        override fun onAdClosed() {
-                            Log.d("TAG", "onAdClosed: ")
+                            override fun onAdClosed() {
+                                Log.d("TAG", "onAdClosed: ")
+                            }
+
+
+                            override fun onAdFailedToLoad(adError: LoadAdError) {
+                                shouldShowResult.value = true
+                                adView?.visibility = android.view.View.VISIBLE
+                            }
+
+                            override fun onAdImpression() {
+                                Log.d("TAG", "onAdImpression: ")
+                            }
+
+                            override fun onAdLoaded() {
+                                Log.d("TAG", "onAdLoaded: ")
+                            }
+
+                            override fun onAdOpened() {
+
+                                Log.d("TAG", "onAdOpened: ")
+                            }
                         }
-
-
-                        override fun onAdFailedToLoad(adError: LoadAdError) {
-                            shouldShowResult.value = true
-                            adView?.visibility = android.view.View.VISIBLE
-                        }
-
-                        override fun onAdImpression() {
-                            Log.d("TAG", "onAdImpression: ")
-                        }
-
-                        override fun onAdLoaded() {
-                            Log.d("TAG", "onAdLoaded: ")
-                        }
-
-                        override fun onAdOpened() {
-
-                            Log.d("TAG", "onAdOpened: ")
-                        }
-                    }
-                })
+                    })
+            }
+            if (shouldShowResult.value) {
+                FacebookBannerAdsView(if (BuildConfig.DEBUG) BuildConfig.FB_BANNER_ADD_ID else adData[0].fbBanner.toString())
+            }
         }
-        if (shouldShowResult.value) {
-            FacebookBannerAdsView(if (BuildConfig.DEBUG) BuildConfig.FB_BANNER_ADD_ID else adData[0].fbBanner.toString())
-        }
+
     }
 }
 

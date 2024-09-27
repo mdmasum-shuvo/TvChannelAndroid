@@ -6,6 +6,6 @@ data class BannerNetwork(
     val startTime: String?,
     val description: String?,
     val endTime: String?,
-    val image_url: String,
+    val image_url: String?,
     val channelListId:Int
 )
