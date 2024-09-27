@@ -42,7 +42,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.Player.STATE_ENDED
+import androidx.media3.common.Player.STATE_IDLE
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
@@ -118,9 +118,6 @@ fun PortraitView(
                 onFullScreenToggle = onFullScreenToggle,
                 navigateBack = navigateBack
             )
-
-            //http://ert-live-bcbs15228.siliconweb.com/media/ert_world/ert_worldmedium.m3u8
-            //https://mediashohayprod-aase.streaming.media.azure.net/26a9dc05-ea5b-4f23-a3bb-cc48d96e605b/video-24-1687293003062-media-24.ism/manifest(format=m3u8-aapl)
         }
         SpacerHeight(MaterialTheme.dimens.stdDimen12)
         Row(
@@ -305,10 +302,10 @@ fun PlayerView(
                     playerWrapper.exoPlayer.isPlaying -> {
                         playerWrapper.exoPlayer.pause()
                     }
+                    playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_IDLE -> {
+                        playerWrapper.exoPlayer.prepare()
+                        playerWrapper.exoPlayer.play()
 
-                    playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_ENDED -> {
-                        playerWrapper.exoPlayer.seekTo(0, 0)
-                        playerWrapper.exoPlayer.playWhenReady = true
                     }
                     else -> {
                         playerWrapper.exoPlayer.play()

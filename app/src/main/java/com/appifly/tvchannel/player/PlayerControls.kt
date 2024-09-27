@@ -19,14 +19,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Slider
-import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -35,7 +32,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player.STATE_ENDED
 import com.appifly.tvchannel.R
-import com.appifly.tvchannel.utils.formatMinSec
 import com.appifly.tvchannel.utils.setLandscape
 import com.appifly.tvchannel.utils.setPortrait
 
@@ -217,11 +213,14 @@ fun PlayerControls(
                         )
                     )
             ) {
+/*
                 Box(modifier = Modifier.fillMaxWidth()) {
                     Slider(
                         value = buffer.toFloat(),
                         enabled = false,
-                        onValueChange = { /*do nothing*/ },
+                        onValueChange = { */
+/*do nothing*//*
+ },
                         valueRange = 0f..100f,
                         colors =
                         SliderDefaults.colors(
@@ -242,6 +241,7 @@ fun PlayerControls(
                         )
                     )
                 }
+*/
 
                 Row(
                     modifier = Modifier
@@ -249,7 +249,8 @@ fun PlayerControls(
                         .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
+                    Box{}
+          /*          Text(
                         modifier = Modifier
                             .testTag("VideoTime")
                             .padding(start = 16.dp)
@@ -264,7 +265,7 @@ fun PlayerControls(
                         text = duration.formatMinSec(),
                         color =  MaterialTheme.colorScheme.onBackground,
                         style = MaterialTheme.typography.headlineSmall
-                    )
+                    )*/
 
                     IconButton(
                         modifier = Modifier
