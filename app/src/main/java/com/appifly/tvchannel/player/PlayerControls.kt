@@ -42,18 +42,14 @@ fun PlayerControls(
     modifier: Modifier = Modifier,
     isVisible: () -> Boolean,
     isPlaying: () -> Boolean,
-    videoTimer: () -> Long,
-    bufferedPercentage: () -> Int,
     playbackState: () -> Int,
     getTitle: () -> String,
-    totalDuration: () -> Long,
     isFullScreen: Boolean,
     onPauseToggle: () -> Unit,
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onReplay: () -> Unit,
     onForward: () -> Unit,
-    onSeekChanged: (newValue: Float) -> Unit,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
 
@@ -61,17 +57,13 @@ fun PlayerControls(
 
     val playing = remember(isPlaying()) { isPlaying() }
 
-    val duration = remember(totalDuration()) { totalDuration().coerceAtLeast(0) }
-
-    val timer = remember(videoTimer()) { videoTimer() }
-
     val title = remember(getTitle()) { getTitle() }
 
-    val buffer = remember(bufferedPercentage()) { bufferedPercentage() }
 
     val playerState = remember(playbackState()) {
         playbackState()
     }
+
 
     val context = LocalContext.current
 
@@ -104,6 +96,7 @@ fun PlayerControls(
             )
 
             val controlButtonModifier: Modifier = remember(isFullScreen) {
+
                 if (isFullScreen) {
                     Modifier
                         .padding(horizontal = 8.dp)
@@ -161,9 +154,11 @@ fun PlayerControls(
                                 playing -> {
                                     androidx.media3.ui.R.drawable.exo_ic_pause_circle_filled
                                 }
+
                                 playing.not() && playerState == STATE_ENDED -> {
                                     R.drawable.ic_replay
                                 }
+
                                 else -> {
                                     androidx.media3.ui.R.drawable.exo_ic_play_circle_filled
                                 }
@@ -213,35 +208,6 @@ fun PlayerControls(
                         )
                     )
             ) {
-/*
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    Slider(
-                        value = buffer.toFloat(),
-                        enabled = false,
-                        onValueChange = { */
-/*do nothing*//*
- },
-                        valueRange = 0f..100f,
-                        colors =
-                        SliderDefaults.colors(
-                            disabledThumbColor = Color.Transparent,
-                            disabledActiveTrackColor = MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                    )
-
-                    Slider(
-                        value = timer.toFloat(),
-                        onValueChange = {
-                            onSeekChanged.invoke(it)
-                        },
-                        valueRange = 0f..duration.toFloat(),
-                        colors = SliderDefaults.colors(
-                            thumbColor = MaterialTheme.colorScheme.onBackground,
-                            activeTrackColor = MaterialTheme.colorScheme.onBackground
-                        )
-                    )
-                }
-*/
 
                 Row(
                     modifier = Modifier
@@ -249,23 +215,9 @@ fun PlayerControls(
                         .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Box{}
-          /*          Text(
-                        modifier = Modifier
-                            .testTag("VideoTime")
-                            .padding(start = 16.dp)
-                            .animateEnterExit(
-                                enter = slideInVertically(
-                                    initialOffsetY = { fullHeight: Int -> fullHeight }
-                                ),
-                                exit = slideOutVertically(
-                                    targetOffsetY = { fullHeight: Int -> fullHeight }
-                                )
-                            ),
-                        text = duration.formatMinSec(),
-                        color =  MaterialTheme.colorScheme.onBackground,
-                        style = MaterialTheme.typography.headlineSmall
-                    )*/
+                    Box{
+
+                    }
 
                     IconButton(
                         modifier = Modifier

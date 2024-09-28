@@ -27,7 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.navigation.NavController
+import com.appifly.app_data_source.dto.AdIdDto
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
@@ -83,7 +85,7 @@ fun HomeScreen(
 
             homeViewModel.bannerListLiveData?.observeAsState()?.value?.let {
                 TopBannerItem(it) { clickedItem ->
-                    gotoChannelDetail(context,channelViewModel, clickedItem, navController)
+                    gotoChannelDetail(context,channelViewModel, clickedItem, navController,homeViewModel.adIdData)
                 }
             }
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
@@ -134,7 +136,7 @@ fun HomeScreen(
                                     gotoChannelDetail(context,
                                         channelViewModel,
                                         clickedItem,
-                                        navController
+                                        navController,homeViewModel.adIdData
                                     )
 
                                 }
@@ -174,7 +176,7 @@ fun HomeScreen(
                                         gotoChannelDetail(context,
                                             channelViewModel,
                                             clickedItem,
-                                            navController
+                                            navController,homeViewModel.adIdData
                                         )
 
                                     },
@@ -214,7 +216,7 @@ fun HomeScreen(
                                     gotoChannelDetail(context,
                                         channelViewModel,
                                         clickedItem,
-                                        navController
+                                        navController,homeViewModel.adIdData
                                     )
 
                                 })
@@ -232,7 +234,7 @@ fun HomeScreen(
                         ""
                     )
                     TvSeriesItem(it){ clickedItem ->
-                        gotoChannelDetail(context,channelViewModel, clickedItem, navController)
+                        gotoChannelDetail(context,channelViewModel, clickedItem, navController,homeViewModel.adIdData)
                     }
                 }
             }
@@ -266,7 +268,7 @@ fun HomeScreen(
                                         gotoChannelDetail(context,
                                             channelViewModel,
                                             clickedItem,
-                                            navController
+                                            navController,homeViewModel.adIdData
                                         )
                                     },
                                 )
@@ -282,10 +284,10 @@ fun HomeScreen(
 fun gotoChannelDetail(context: Context,
     channelViewModel: ChannelViewModel,
     clickedItem: ChannelDto,
-    navController: NavController
+    navController: NavController,liveData: LiveData<List<AdIdDto>>?
 ) {
 
-    loadInterstitialAdd(context)
+    loadInterstitialAdd(context,liveData?.value)
     channelViewModel.addTOFrequentChannel(clickedItem.id!!)
     channelViewModel.setSelectedChannel(clickedItem)
     navController.navigate(Routing.ChannelDetailScreen.routeName)

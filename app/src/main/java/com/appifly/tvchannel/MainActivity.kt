@@ -1,6 +1,7 @@
 package com.appifly.tvchannel
 
 import SeeAllChannelScreen
+import android.app.Activity
 import android.content.ContentValues
 import android.content.Context
 import android.os.Build
@@ -34,6 +35,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.appifly.app_data_source.dto.AdIdDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
@@ -119,8 +121,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //loadInterstitialAdd(this)
-                    MainScreenView(mainActivityViewModel::toggleFullScreen)
+                    MainScreenView(mainActivityViewModel::toggleFullScreen, this)
                 }
             }
 
@@ -133,7 +134,6 @@ class MainActivity : ComponentActivity() {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 mainActivityViewModel.uiState.observe(this@MainActivity) { state ->
                     if (state.isFullScreen) {
-                        //hideSystemUI()
                         hideSystemBars()
                     } else {
                         showSystemBars()
@@ -142,30 +142,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-/*    private fun showSystemBars() {
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
-    }*/
-/*
-    private fun hideSystemUI() {
-
-        //Hides the ugly action bar at the top
-        actionBar?.hide()
-
-        //Hide the status bars
-
-      //  WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        } else {
-            window.insetsController?.apply {
-                hide(WindowInsets.Type.statusBars())
-                systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-            }
-        }
-    }*/
 
 
     private fun hideSystemBars() {
@@ -233,7 +209,7 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MainScreenView(
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
+    onFullScreenToggle: (isFullScreen: Boolean) -> Unit, activity: Activity
 ) {
     val navController = rememberNavController()
     hiltViewModel<MainViewModel>()
@@ -282,7 +258,7 @@ private fun MainScreenView(
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
-                    //   mInterstitialAd?.show(activity)
+                    mInterstitialAd?.show(activity)
 
                     FavoriteScreen(
                         navController,
@@ -293,24 +269,24 @@ private fun MainScreenView(
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
-                    // mInterstitialAd?.show(activity)
+                    mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-                    //  mInterstitialAd?.show(activity)
+                    mInterstitialAd?.show(activity)
                     ChannelDetailScreen(
                         channelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
                             navController.navigateUp()
-                        },navController=navController
+                        }, navController = navController
                     )
                 }
 
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
-                    //  mInterstitialAd?.show(activity)
+                    mInterstitialAd?.show(activity)
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
                         searchChannelViewModel = searchChannelViewModel,
@@ -321,7 +297,7 @@ private fun MainScreenView(
 
                 composable(Routing.SeeAllChannelScreen.routeName) {
                     showBottomNav.value = false
-                    // mInterstitialAd?.show(activity)
+                    mInterstitialAd?.show(activity)
                     channelViewModel.setSelectedChannel(null)
                     SeeAllChannelScreen(
                         categoryViewModel,
@@ -329,8 +305,7 @@ private fun MainScreenView(
                         seeAllChannelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
                             navController.popBackStack()
-                        }
-                        , navController = navController
+                        }, navController = navController
                     )
                 }
             }
@@ -340,91 +315,107 @@ private fun MainScreenView(
 
 }
 
-fun loadInterstitialAdd(activity: Context) {
+fun loadInterstitialAdd(activity: Context, adLiveData: List<AdIdDto>?) {
     val adRequest = AdRequest.Builder().build()
+    adLiveData?.let { adData ->
 
-    InterstitialAd.load(
-        activity,
-        BuildConfig.INTERSTITIAL_ADD_ID,
-        adRequest,
-        object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
-                adError.toString().let { Log.d(ContentValues.TAG, it) }
-                mInterstitialAd = null
-                // showFacebookInterstitialAd(activity)
+        if (adData.isNotEmpty()) {
+            InterstitialAd.load(
+                activity,
+                if (BuildConfig.DEBUG) BuildConfig.INTERSTITIAL_ADD_ID else adData[0].admobInterstitial
+                    ?: "",
+                adRequest,
+                object : InterstitialAdLoadCallback() {
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        adError.toString().let { Log.d(ContentValues.TAG, it) }
+                        mInterstitialAd = null
+                        showFacebookInterstitialAd(activity, adLiveData)
+                    }
+
+                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                        Log.d(ContentValues.TAG, "Ad was loaded.")
+                        mInterstitialAd = interstitialAd
+                    }
+                })
+            mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                override fun onAdClicked() {
+                    // Called when a click is recorded for an ad.
+                    Log.d(ContentValues.TAG, "Ad was clicked.")
+                }
+
+                override fun onAdDismissedFullScreenContent() {
+                    // Called when ad is dismissed.
+                    Log.d(ContentValues.TAG, "Ad dismissed fullscreen content.")
+                    mInterstitialAd = null
+                }
+
+                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    // Called when ad fails to show.
+                    Log.e(ContentValues.TAG, "Ad failed to show fullscreen content.")
+                    mInterstitialAd = null
+                }
+
+                override fun onAdImpression() {
+                    // Called when an impression is recorded for an ad.
+                    Log.d(ContentValues.TAG, "Ad recorded an impression.")
+                }
+
+                override fun onAdShowedFullScreenContent() {
+                    // Called when ad is shown.
+                    Log.d(ContentValues.TAG, "Ad showed fullscreen content.")
+                }
             }
-
-            override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                Log.d(ContentValues.TAG, "Ad was loaded.")
-                mInterstitialAd = interstitialAd
-            }
-        })
-    mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-        override fun onAdClicked() {
-            // Called when a click is recorded for an ad.
-            Log.d(ContentValues.TAG, "Ad was clicked.")
-        }
-
-        override fun onAdDismissedFullScreenContent() {
-            // Called when ad is dismissed.
-            Log.d(ContentValues.TAG, "Ad dismissed fullscreen content.")
-            mInterstitialAd = null
-        }
-
-        override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-            // Called when ad fails to show.
-            Log.e(ContentValues.TAG, "Ad failed to show fullscreen content.")
-            mInterstitialAd = null
-        }
-
-        override fun onAdImpression() {
-            // Called when an impression is recorded for an ad.
-            Log.d(ContentValues.TAG, "Ad recorded an impression.")
-        }
-
-        override fun onAdShowedFullScreenContent() {
-            // Called when ad is shown.
-            Log.d(ContentValues.TAG, "Ad showed fullscreen content.")
         }
     }
+
 
 }
 
-fun showFacebookInterstitialAd(context: Context) {
-    interstitialAd = com.facebook.ads.InterstitialAd(context, BuildConfig.FB_INTERSTITIAL_ADD_ID)
-    val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
+fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
+    adLiveData?.let { adData ->
 
-        override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
-            Log.d(ContentValues.TAG, "onError: " + p1?.errorMessage)
-        }
+        if (adData.isNotEmpty()) {
+            interstitialAd = com.facebook.ads.InterstitialAd(
+                context,
+                if (BuildConfig.DEBUG) BuildConfig.FB_INTERSTITIAL_ADD_ID else adData[0].fbInterstitial
+                    ?: ""
+            )
+            val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
 
-        override fun onAdLoaded(ad: com.facebook.ads.Ad) {
-            interstitialAd!!.show()
-        }
+                override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
+                    Log.d(ContentValues.TAG, "onError: " + p1?.errorMessage)
+                }
 
-        override fun onAdClicked(ad: com.facebook.ads.Ad) {
+                override fun onAdLoaded(ad: com.facebook.ads.Ad) {
+                    interstitialAd!!.show()
+                }
 
-            Log.d(ContentValues.TAG, "onAdClicked")
-        }
+                override fun onAdClicked(ad: com.facebook.ads.Ad) {
 
-        override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
+                    Log.d(ContentValues.TAG, "onAdClicked")
+                }
 
-            Log.d(ContentValues.TAG, "onLoggingImpression")
-        }
+                override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
 
-        override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
-            Log.d(ContentValues.TAG, "onInterstitialDisplayed")
-        }
+                    Log.d(ContentValues.TAG, "onLoggingImpression")
+                }
 
-        override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
-            Log.d(ContentValues.TAG, "onInterstitialDismissed")
+                override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
+                    Log.d(ContentValues.TAG, "onInterstitialDisplayed")
+                }
+
+                override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
+                    Log.d(ContentValues.TAG, "onInterstitialDismissed")
+                }
+            }
+            interstitialAd!!.loadAd(
+                interstitialAd!!.buildLoadAdConfig()
+                    .withAdListener(interstitialAdListener)
+                    .build()
+            )
         }
     }
-    interstitialAd!!.loadAd(
-        interstitialAd!!.buildLoadAdConfig()
-            .withAdListener(interstitialAdListener)
-            .build()
-    )
+
 }
 
 

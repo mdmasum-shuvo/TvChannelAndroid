@@ -98,7 +98,7 @@ fun ChannelScreen(
                             item = item,
                             modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                             onItemClick = { clickedItem ->
-                                loadInterstitialAdd(context)
+                                loadInterstitialAdd(context,homeViewModel.adIdData?.value)
                                 channelViewModel.addTOFrequentChannel(clickedItem.id!!)
                                 channelViewModel.setSelectedChannel(clickedItem)
                                 navController.navigate(Routing.ChannelDetailScreen.routeName)

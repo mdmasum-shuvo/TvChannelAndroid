@@ -117,7 +117,7 @@ fun RegularChannelItem(
     modifier: Modifier = Modifier.size(MaterialTheme.dimens.channelSmall),
     borderC: Color = borderColor,
     cardColor: Color = MaterialTheme.colorScheme.secondaryContainer,
-    onItemClick: (ChannelDto) -> Unit = { },
+    onItemClick:(ChannelDto) -> Unit = { },
     onFavClick: (Int) -> Unit = {}
 ) {
     val showShimmer = remember { mutableStateOf(true) }

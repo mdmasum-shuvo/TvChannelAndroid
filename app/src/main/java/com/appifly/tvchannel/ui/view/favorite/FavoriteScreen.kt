@@ -127,7 +127,7 @@ fun FavoriteScreen(
                                                     gotoChannelDetail(context,
                                                         channelViewModel,
                                                         clickedItem,
-                                                        navController
+                                                        navController,homeViewModel.adIdData
                                                     )
 
                                                 }
