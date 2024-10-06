@@ -128,4 +128,12 @@ class ChannelViewModel @Inject constructor(
         _selectedChannel.value = item
     }
 
+
+    var dataListTitle:String=""
+
+    fun setSeeAllChannelList(list: List<ChannelDto>,value:String){
+        dataListTitle=value
+        _channelData.value=list
+    }
+
 }

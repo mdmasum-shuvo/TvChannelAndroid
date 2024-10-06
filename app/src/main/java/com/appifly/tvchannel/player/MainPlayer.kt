@@ -15,6 +15,7 @@ import com.appifly.tvchannel.ui.common_component.MainTopBar
     playerWrapper: PlayerWrapper,
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
     navigateBack: () -> Unit,
+    isSeeAll:Boolean=false,
     channelViewModel: ChannelViewModel,
     navController: NavController
 ) {
@@ -32,6 +33,7 @@ import com.appifly.tvchannel.ui.common_component.MainTopBar
                     playerWrapper = playerWrapper,
                     onFullScreenToggle = onFullScreenToggle,
                     navigateBack = navigateBack,
+                    isSeeAll = isSeeAll,
                     channelViewModel = channelViewModel
                 )
             }

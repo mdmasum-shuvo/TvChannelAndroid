@@ -300,9 +300,7 @@ private fun MainScreenView(
                     mInterstitialAd?.show(activity)
                     channelViewModel.setSelectedChannel(null)
                     SeeAllChannelScreen(
-                        categoryViewModel,
                         channelViewModel,
-                        seeAllChannelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
                             navController.popBackStack()
                         }, navController = navController

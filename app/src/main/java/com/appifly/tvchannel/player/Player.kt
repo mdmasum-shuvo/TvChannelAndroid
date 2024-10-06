@@ -79,7 +79,7 @@ fun LandscapeView(
 }
 
 fun getGridSize(size: Int): Int {
-   return if (size %3==0) 3 else if(size<=2) 1 else size-2
+    return if (size % 3 == 0) 3 else if (size <= 2) 1 else size - 2
 }
 
 @Composable
@@ -88,18 +88,24 @@ fun PortraitView(
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
     navigateBack: () -> Unit,
     channelViewModel: ChannelViewModel,
+    isSeeAll: Boolean = false,
     viewModel: CategoryViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel()
 ) {
 
 
     LaunchedEffect(key1 = true, block = {
-        channelViewModel.selectedChannel.value?.catId?.let {
-            channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
-            channelViewModel.callChannelDataByCatId()
-            channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
-            viewModel.getCategoryNameById(channelViewModel.catId)
+        if (!isSeeAll) {
+            channelViewModel.selectedChannel.value?.catId?.let {
+                channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
+                channelViewModel.callChannelDataByCatId()
+                channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
+                viewModel.getCategoryNameById(channelViewModel.catId)
+            }
+        } else {
+            viewModel.setCategoryName(channelViewModel.dataListTitle)
         }
+
     })
     Column(
         modifier = Modifier
@@ -170,7 +176,9 @@ fun PortraitView(
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
-                    modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight + 24) * it.size) / getGridSize(it.size)).dp),
+                    modifier = Modifier.height(
+                        (((MaterialTheme.dimens.gridItemHeight + 24) * it.size) /if (it.size < 3) 1 else 3).dp
+                    ),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -302,11 +310,13 @@ fun PlayerView(
                     playerWrapper.exoPlayer.isPlaying -> {
                         playerWrapper.exoPlayer.pause()
                     }
+
                     playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_IDLE -> {
                         playerWrapper.exoPlayer.prepare()
                         playerWrapper.exoPlayer.play()
 
                     }
+
                     else -> {
                         playerWrapper.exoPlayer.play()
                     }

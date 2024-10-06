@@ -113,7 +113,7 @@ fun HomeScreen(
                             viewModel.channelCategoryName.observeAsState().value,
                             context.getString(R.string.see_all)
                         ) {
-                            seeAllChannelViewModel.setSeeAllChannelList(
+                            channelViewModel.setSeeAllChannelList(
                                 it,
                                 context.getString(R.string.all_channel)
                             )
@@ -154,7 +154,7 @@ fun HomeScreen(
                             context.getString(R.string.frequently_played),
                             context.getString(R.string.see_all)
                         ) {
-                            seeAllChannelViewModel.setSeeAllChannelList(
+                            channelViewModel.setSeeAllChannelList(
                                 it,
                                 context.getString(R.string.frequently_played)
                             )
@@ -195,7 +195,7 @@ fun HomeScreen(
                             context.getString(R.string.popular_channel),
                             context.getString(R.string.see_all)
                         ) {
-                            seeAllChannelViewModel.setSeeAllChannelList(
+                            channelViewModel.setSeeAllChannelList(
                                 it,
                                 context.getString(R.string.popular_channel)
                             )
@@ -246,7 +246,7 @@ fun HomeScreen(
                             context.getString(R.string.favorites),
                             context.getString(R.string.see_all)
                         ) {
-                            seeAllChannelViewModel.setSeeAllChannelList(
+                            channelViewModel.setSeeAllChannelList(
                                 it,
                                 context.getString(R.string.favorites)
                             )

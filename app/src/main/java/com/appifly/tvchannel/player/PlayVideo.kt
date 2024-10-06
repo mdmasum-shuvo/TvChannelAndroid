@@ -30,8 +30,10 @@ fun PlayVideo(
     onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
     navController: NavController,
     navigateBack: () -> Unit,
-    channelViewModel: ChannelViewModel
-) {
+    channelViewModel: ChannelViewModel,
+    isSeeAll:Boolean=false,
+
+    ) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -79,7 +81,8 @@ fun PlayVideo(
         playerWrapper = PlayerWrapper(exoPlayer),
         onFullScreenToggle = onFullScreenToggle,
         navigateBack = navigateBack,
-        channelViewModel = channelViewModel, navController = navController
+        isSeeAll =isSeeAll,
+        channelViewModel = channelViewModel, navController = navController,
     )
 }
 
@@ -94,7 +97,7 @@ fun playerReadyToPlay(data: ChannelDto, exoPlayer: ExoPlayer) {
         .build()
     val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
     // Create a media item
-   // val mediaItem = MediaItem.fromUri(Uri.parse(data.liveUrl))
+    // val mediaItem = MediaItem.fromUri(Uri.parse(data.liveUrl))
     exoPlayer.setMediaSource(mediaSourceFactory.createMediaSource(mediaItem))
     exoPlayer.prepare()
     exoPlayer.play()
