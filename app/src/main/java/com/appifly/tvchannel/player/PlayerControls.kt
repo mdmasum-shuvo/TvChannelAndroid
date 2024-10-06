@@ -30,8 +30,10 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.media3.common.Player.STATE_ENDED
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.utils.setLandscape
 import com.appifly.tvchannel.utils.setPortrait
 
@@ -67,6 +69,10 @@ fun PlayerControls(
 
     val context = LocalContext.current
 
+
+    if (playing.not() && playerState == STATE_BUFFERING) {
+        Loader()
+    }
     AnimatedVisibility(
         modifier = modifier,
         visible = visible,
@@ -152,15 +158,15 @@ fun PlayerControls(
                             id =
                             when {
                                 playing -> {
-                                    androidx.media3.ui.R.drawable.exo_ic_pause_circle_filled
+                                    R.drawable.pause_button
                                 }
 
                                 playing.not() && playerState == STATE_ENDED -> {
-                                    R.drawable.ic_replay
+                                    R.drawable.play_button
                                 }
 
                                 else -> {
-                                    androidx.media3.ui.R.drawable.exo_ic_play_circle_filled
+                                    R.drawable.play_button
                                 }
                             }
                         ),
@@ -215,7 +221,7 @@ fun PlayerControls(
                         .padding(top = 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Box{
+                    Box {
 
                     }
 
@@ -247,9 +253,9 @@ fun PlayerControls(
                             contentScale = ContentScale.Crop,
                             painter = painterResource(
                                 id = if (isFullScreen) {
-                                    androidx.media3.ui.R.drawable.exo_ic_fullscreen_exit
+                                    R.drawable.full_screen_exit
                                 } else {
-                                    androidx.media3.ui.R.drawable.exo_ic_fullscreen_enter
+                                    R.drawable.full_screen_entry
                                 }
                             ),
                             contentDescription = stringResource(id = R.string.toggle_full_screen)
