@@ -41,7 +41,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.Player.STATE_IDLE
+import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
@@ -311,10 +311,9 @@ fun PlayerView(
                         playerWrapper.exoPlayer.pause()
                     }
 
-                    playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_IDLE -> {
-                        playerWrapper.exoPlayer.prepare()
-                        playerWrapper.exoPlayer.play()
-
+                    playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_ENDED -> {
+                        playerWrapper.exoPlayer.seekTo(0)
+                        playerWrapper.exoPlayer.playWhenReady = true
                     }
 
                     else -> {
