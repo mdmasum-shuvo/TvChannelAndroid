@@ -13,7 +13,7 @@ val CompactTypography = Typography(
     headlineLarge = TextStyle(
         fontFamily = fonts_ballo_da,
         fontWeight = FontWeight.W500,
-        fontSize = 22.sp,
+        fontSize = 32.sp,
         letterSpacing = 0.5.sp,
     ),
 

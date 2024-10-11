@@ -12,4 +12,5 @@ val cardBackgroundColorDark =  Color(0xFF070D29)
 val borderColor =  Color(0x1A000000)
 val gradientColor1 =  Color(0xFFC90C0C)
 val gradientColor2 =  Color(0xFFFFBF1B)
+val CategoryColor =  Color(0xFF8804FF)
 

@@ -158,6 +158,8 @@ dependencies {
     implementation ("com.facebook.infer.annotation:infer-annotation:0.18.0")
     implementation ("com.airbnb.android:lottie-compose:4.0.0")
     implementation ("com.github.MahboubehSeyedpour:jetpack-loading:1.1.0")
+    implementation("androidx.tv:tv-foundation:1.0.0-alpha11")
+    implementation("androidx.tv:tv-material:1.0.0")
 }
 
 // Allow references to generated code

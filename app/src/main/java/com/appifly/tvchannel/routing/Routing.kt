@@ -33,3 +33,5 @@ sealed class Routing(
     data object SearchScreen : Routing(routeName = SEARCH_SCREEN)
 
 }
+
+object  HomeScreen

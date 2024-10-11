@@ -32,6 +32,23 @@ fun TextView18W500(
 }
 
 @Composable
+fun TextView32W500(
+    modifier: Modifier = Modifier,
+    value: String,
+    color: Color = MaterialTheme.colorScheme.tertiary,
+    textAlign: TextAlign = TextAlign.Start
+
+) {
+    Text(
+        modifier = modifier,
+        text = value,
+        color = color,
+        style = MaterialTheme.typography.headlineLarge,
+        textAlign = textAlign,
+    )
+}
+
+@Composable
 fun TextView16W500(
     modifier: Modifier = Modifier,
     value: String,

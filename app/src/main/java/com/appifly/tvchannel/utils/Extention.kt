@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.pm.ActivityInfo
+import android.widget.Toast
 import java.util.concurrent.TimeUnit
 
 fun Context.findActivity(): Activity? = when (this) {
@@ -16,6 +17,10 @@ fun Context.findActivity(): Activity? = when (this) {
 fun Context.setLandscape() {
     val activity = this.findActivity()
     activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+}
+
+fun Context.showToast(message:String){
+    Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
 }
 
 @SuppressLint("SourceLockedOrientationActivity")

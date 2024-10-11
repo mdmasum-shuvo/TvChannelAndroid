@@ -33,6 +33,9 @@ class ChannelViewModel @Inject constructor(
 ) : ViewModel() {
 
     var catId: Int = 0
+    init {
+        callChannelDataByCatId()
+    }
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
     val channelData: LiveData<List<ChannelDto>>
@@ -47,17 +50,18 @@ class ChannelViewModel @Inject constructor(
         get() = _selectedChannel
 
 
-    val popularChannelList = channelDao.getPopularChannel()?.map { it.map { data-> data.toDto() } }
+    val popularChannelList = channelDao.getPopularChannel()?.map { it.map { data -> data.toDto() } }
     val favoriteChannelList =
-        favoriteDao.getAllFavoriteChannel().map { it.map {data-> data.toDto() } }
+        favoriteDao.getAllFavoriteChannel().map { it.map { data -> data.toDto() } }
 
     val frequentlyPlayedChannelList =
-        frequentlyDao.getAllFrequentlyPlayedChannel().map { it.map { data-> data.toDto() } }
+        frequentlyDao.getAllFrequentlyPlayedChannel().map { it.map { data -> data.toDto() } }
 
     fun callChannelDataByCatId() {
         viewModelScope.launch {
             withContext(mainDispatcher) {
-                _channelData.value = channelDao.getAllChannelByCategory(catId).map { it.toDto() }
+                _channelData.value = if (catId == 0) channelDao.getAllChannelByCategory(catId)
+                    .map { it.toDto() } else channelDao.getAllChannel().map { it.toDto() }
             }
         }
         Log.e("data", channelData.value.toString())
@@ -129,11 +133,11 @@ class ChannelViewModel @Inject constructor(
     }
 
 
-    var dataListTitle:String=""
+    var dataListTitle: String = ""
 
-    fun setSeeAllChannelList(list: List<ChannelDto>,value:String){
-        dataListTitle=value
-        _channelData.value=list
+    fun setSeeAllChannelList(list: List<ChannelDto>, value: String) {
+        dataListTitle = value
+        _channelData.value = list
     }
 
 }

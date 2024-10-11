@@ -44,13 +44,13 @@ import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
 import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.player.MainActivityViewModel
 import com.appifly.tvchannel.routing.Routing
+import com.appifly.tvchannel.tv_ui.TvHomeScreen
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
 import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
-import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
 import com.facebook.ads.Ad
@@ -239,15 +239,9 @@ private fun MainScreenView(
                 }
 
                 composable(Routing.HomeScreen.routeName) {
-                    showBottomNav.value = true
+                    showBottomNav.value = false
 
-                    HomeScreen(
-                        navController = navController,
-                        viewModel = categoryViewModel,
-                        channelViewModel = channelViewModel,
-                        homeViewModel = homeViewModel,
-                        seeAllChannelViewModel = seeAllChannelViewModel
-                    )
+                    TvHomeScreen()
                 }
 
                 composable(Routing.ChannelScreen.routeName) {

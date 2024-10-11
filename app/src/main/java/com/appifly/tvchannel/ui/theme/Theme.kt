@@ -29,13 +29,13 @@ private val DarkColorScheme = darkColorScheme(
 
 private val LightColorScheme = lightColorScheme(
 
-    surface = lightBackground,
-    primary = lightBackground,
-    secondary = darkBackground,
-    background = lightBackground,
-    tertiary = lightThemeTextColor,
-    onTertiary = secondaryLightTextColor,
-    secondaryContainer = cardBackgroundColorLight
+    surface = darkBackground,
+    primary = darkBackground,
+    background = darkBackground,
+    secondary = lightBackground,
+    tertiary = darkThemeTextColor,
+    onTertiary = darkThemeTextColor,
+    secondaryContainer = cardBackgroundColorDark
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -117,3 +117,28 @@ val MaterialTheme.dimens
     @Composable
     get() = LocalAppDimens.current
 
+@Composable
+fun PreviewerTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val colorScheme = when {
+        darkTheme -> DarkColorScheme
+        else -> LightColorScheme
+    }
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = colorScheme.primary.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+        }
+    }
+    val Typography = CompactTypography
+
+    MaterialTheme(
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content
+    )
+}
