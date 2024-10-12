@@ -1,6 +1,5 @@
 package com.appifly.app_data_source.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -34,7 +33,7 @@ class ChannelViewModel @Inject constructor(
 
     var catId: Int = 0
     init {
-        callChannelDataByCatId()
+     //   callChannelDataByCatId()
     }
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
@@ -60,11 +59,11 @@ class ChannelViewModel @Inject constructor(
     fun callChannelDataByCatId() {
         viewModelScope.launch {
             withContext(mainDispatcher) {
-                _channelData.value = if (catId == 0) channelDao.getAllChannelByCategory(catId)
+                _channelData.value = if (catId != 0) channelDao.getAllChannelByCategory(catId)
                     .map { it.toDto() } else channelDao.getAllChannel().map { it.toDto() }
             }
         }
-        Log.e("data", channelData.value.toString())
+       // Log.e("data", channelData.value.toString())
     }
 
     fun setFavoriteChannel(channelDto: ChannelDto) {

@@ -14,7 +14,9 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,6 +28,7 @@ import com.appifly.tvchannel.ui.common_component.TextView32W500
 import com.appifly.tvchannel.ui.theme.CategoryColor
 import com.appifly.tvchannel.ui.theme.PreviewerTheme
 import com.appifly.tvchannel.ui.theme.darkBackground
+import com.appifly.tvchannel.ui.theme.lightBackground
 
 @Composable
 fun TvCategoryItem(

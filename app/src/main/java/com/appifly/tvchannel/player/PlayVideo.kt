@@ -20,6 +20,7 @@ import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
 import androidx.navigation.NavController
 import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
+import com.appifly.tvchannel.tv_ui.player.AndroidTvExoPlayer
 import com.appifly.tvchannel.utils.Constants.PLAYER_SEEK_BACK_INCREMENT
 import com.appifly.tvchannel.utils.Constants.PLAYER_SEEK_FORWARD_INCREMENT
 
@@ -77,12 +78,9 @@ fun PlayVideo(
         }
     }
 
-    TvPlayer(
+    AndroidTvExoPlayer (
         playerWrapper = PlayerWrapper(exoPlayer),
         onFullScreenToggle = onFullScreenToggle,
-        navigateBack = navigateBack,
-        isSeeAll =isSeeAll,
-        channelViewModel = channelViewModel, navController = navController,
     )
 }
 

@@ -41,7 +41,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
-import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
@@ -58,7 +57,6 @@ import com.appifly.tvchannel.ui.common_component.TextView12W400
 import com.appifly.tvchannel.ui.common_component.TextView14W500
 import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.ui.view.home.home_component.HeaderText
-import com.appifly.tvchannel.utils.setPortrait
 import kotlinx.coroutines.delay
 
 
@@ -226,12 +224,7 @@ fun PlayerView(
     val context = LocalContext.current
 
     BackHandler {
-        if (isFullScreen) {
-            context.setPortrait()
-            onFullScreenToggle.invoke(false)
-        } else {
-            navigateBack?.invoke()
-        }
+        navigateBack?.invoke()
     }
 
     Box(modifier = modifier) {
@@ -294,36 +287,7 @@ fun PlayerView(
             }
         )
 
-        PlayerControls(
-            modifier = Modifier.fillMaxSize(),
-            isVisible = { shouldShowControls },
-            isPlaying = { isPlaying },
-            playbackState = { playbackState },
-            getTitle = { title },
-            isFullScreen = isFullScreen,
-            onPrevious = { playerWrapper.exoPlayer.seekToPrevious() },
-            onNext = { playerWrapper.exoPlayer.seekToNext() },
-            onReplay = { playerWrapper.exoPlayer.seekBack() },
-            onForward = { playerWrapper.exoPlayer.seekForward() },
-            onPauseToggle = {
-                when {
-                    playerWrapper.exoPlayer.isPlaying -> {
-                        playerWrapper.exoPlayer.pause()
-                    }
 
-                    playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_ENDED -> {
-                        playerWrapper.exoPlayer.seekTo(0)
-                        playerWrapper.exoPlayer.playWhenReady = true
-                    }
-
-                    else -> {
-                        playerWrapper.exoPlayer.play()
-                    }
-                }
-                isPlaying = isPlaying.not()
-            },
-            onFullScreenToggle = onFullScreenToggle
-        )
     }
 
 }
@@ -352,13 +316,15 @@ private fun VideoPlayer(
             factory = {
                 PlayerView(context).apply {
                     player = playerWrapper.exoPlayer
-                    useController = false
+                    useController = true
                     layoutParams = FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
                     )
+
                     keepScreenOn = true
                     resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+
                 }
             })
     }

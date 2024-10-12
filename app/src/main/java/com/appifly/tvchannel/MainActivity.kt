@@ -241,7 +241,7 @@ private fun MainScreenView(
                 composable(Routing.HomeScreen.routeName) {
                     showBottomNav.value = false
 
-                    TvHomeScreen()
+                    TvHomeScreen(navController = navController, channelViewModel = channelViewModel)
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
