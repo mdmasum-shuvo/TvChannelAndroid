@@ -7,10 +7,8 @@ import com.appifly.tvchannel.player.PlayerWrapper
 @Composable
 fun AndroidTvExoPlayer(
     playerWrapper: PlayerWrapper,
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
     LandscapeView(
         playerWrapper = playerWrapper,
-        onFullScreenToggle = onFullScreenToggle
     )
 }

@@ -16,8 +16,7 @@ fun ChannelDetailScreen(
     navigateBack: () -> Unit,navController: NavController
 ) {
 
-
-    PlayVideo(onFullScreenToggle = onFullScreenToggle, navigateBack = navigateBack, channelViewModel = channelViewModel, navController = navController)
+    PlayVideo(channelViewModel = channelViewModel)
 
 }
 

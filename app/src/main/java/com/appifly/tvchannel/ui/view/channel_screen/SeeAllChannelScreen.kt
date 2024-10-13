@@ -1,3 +1,4 @@
+
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -6,7 +7,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
-import com.appifly.tvchannel.player.PlayVideo
 import com.appifly.tvchannel.utils.Constants.PLAYER_CONTROLS_VISIBILITY
 import kotlinx.coroutines.delay
 
@@ -26,13 +26,6 @@ fun SeeAllChannelScreen(
         }
     }
 
-    PlayVideo(
-        onFullScreenToggle = onFullScreenToggle,
-        navigateBack = navigateBack,
-        channelViewModel = channelViewModel,
-        navController = navController,
-        isSeeAll = true
-    )
 
 }
 

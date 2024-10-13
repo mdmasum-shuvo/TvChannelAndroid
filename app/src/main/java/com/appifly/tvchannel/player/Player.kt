@@ -1,8 +1,8 @@
 package com.appifly.tvchannel.player
 
+import android.view.KeyEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.activity.compose.BackHandler
 import androidx.annotation.OptIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -34,6 +34,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.onKeyEvent
+
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
@@ -63,15 +65,13 @@ import kotlinx.coroutines.delay
 @Composable
 fun LandscapeView(
     playerWrapper: PlayerWrapper,
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
 
     Box(modifier = Modifier.fillMaxSize()) {
         PlayerView(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,
-            isFullScreen = true,
-            onFullScreenToggle = onFullScreenToggle
+
         )
     }
 }
@@ -120,9 +120,6 @@ fun PortraitView(
 
             PlayerView(
                 playerWrapper = playerWrapper,
-                isFullScreen = false,
-                onFullScreenToggle = onFullScreenToggle,
-                navigateBack = navigateBack
             )
         }
         SpacerHeight(MaterialTheme.dimens.stdDimen12)
@@ -216,16 +213,12 @@ fun PortraitView(
 fun PlayerView(
     modifier: Modifier = Modifier,
     playerWrapper: PlayerWrapper,
-    isFullScreen: Boolean,
     onTrailerChange: ((Int) -> Unit)? = null,
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit,
-    navigateBack: (() -> Unit)? = null
+
 ) {
     val context = LocalContext.current
 
-    BackHandler {
-        navigateBack?.invoke()
-    }
+
 
     Box(modifier = modifier) {
 
@@ -311,7 +304,33 @@ private fun VideoPlayer(
 
     ) {
         AndroidView(
-            modifier = modifier
+            modifier = Modifier.onKeyEvent {event->
+                when (event.nativeKeyEvent.keyCode)        {
+                    KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
+                        if (playerWrapper.exoPlayer?.isPlaying == true) playerWrapper.exoPlayer?.pause() else playerWrapper.exoPlayer?.play()
+                        true
+                    }
+                    KeyEvent.KEYCODE_MEDIA_PLAY -> {
+                        playerWrapper.exoPlayer?.play()
+                        true
+                    }
+                    KeyEvent.KEYCODE_MEDIA_PAUSE -> {
+                        playerWrapper.exoPlayer?.pause()
+                        true
+                    }
+                    KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
+                        playerWrapper.exoPlayer?.seekForward()
+                        true
+                    }
+                    KeyEvent.KEYCODE_MEDIA_REWIND -> {
+                        playerWrapper.exoPlayer?.seekBack()
+                        true
+                    }
+                    else -> false
+                }
+
+
+            }
                 .testTag("VideoPlayer"),
             factory = {
                 PlayerView(context).apply {

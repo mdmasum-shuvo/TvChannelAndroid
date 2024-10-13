@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.tv.material3.ExperimentalTvMaterial3Api
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.tvchannel.routing.Routing
@@ -31,6 +32,7 @@ import com.appifly.tvchannel.ui.theme.dimens
 import com.appifly.tvchannel.utils.showToast
 
 
+@OptIn(ExperimentalTvMaterial3Api::class)
 @Composable
 fun TvHomeScreen(
     categoryViewModel: CategoryViewModel = hiltViewModel(),
@@ -97,6 +99,5 @@ fun TvHomeScreen(
 
         }
     }
-
 
 }

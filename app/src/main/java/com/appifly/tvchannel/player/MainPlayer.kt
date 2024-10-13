@@ -1,15 +1,7 @@
 package com.appifly.tvchannel.player
 
-import android.content.res.Configuration
-import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.navigation.NavController
-import com.appifly.app_data_source.viewmodel.ChannelViewModel
-import com.appifly.tvchannel.routing.Routing
-import com.appifly.tvchannel.ui.common_component.MainTopBar
 
-
+/*
 @Composable
  fun TvPlayer(
     playerWrapper: PlayerWrapper,
@@ -46,4 +38,4 @@ import com.appifly.tvchannel.ui.common_component.MainTopBar
             )
         }
     }
-}
+}*/
