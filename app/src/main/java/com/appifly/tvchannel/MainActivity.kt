@@ -48,9 +48,6 @@ import com.appifly.tvchannel.tv_ui.TvHomeScreen
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
 import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
-import com.appifly.tvchannel.ui.view.channel_screen.ChannelScreen
-import com.appifly.tvchannel.ui.view.favorite.FavoriteChannelListScreen
-import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
 import com.facebook.ads.Ad
@@ -244,29 +241,29 @@ private fun MainScreenView(
                     TvHomeScreen(navController = navController, channelViewModel = channelViewModel)
                 }
 
-                composable(Routing.ChannelScreen.routeName) {
+           /*     composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
                     ChannelScreen(categoryViewModel, homeViewModel, channelViewModel, navController)
-                }
+                }*/
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
                     mInterstitialAd?.show(activity)
 
-                    FavoriteScreen(
+            /*        FavoriteScreen(
                         navController,
                         homeViewModel,
                         categoryViewModel,
                         channelViewModel
-                    )
+                    )*/
                 }
-                composable(Routing.FavoriteChannelListScreen.routeName) {
+        /*        composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
                     mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
-                }
+                }*/
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
                     mInterstitialAd?.show(activity)

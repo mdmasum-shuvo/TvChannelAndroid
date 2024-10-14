@@ -37,9 +37,7 @@ import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
 import com.appifly.tvchannel.R
-import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.common_component.BasicTextField
-import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.theme.dimens
 
 @Composable
@@ -126,7 +124,7 @@ fun SearchScreen(
                         )
                     ) {
                         items(items = it, key = { item -> item.id!! }) { item ->
-                            RegularChannelItem(
+                      /*      RegularChannelItem(
                                 item = item,
                                 modifier = Modifier.height(MaterialTheme.dimens.channelMedium),
                                 onItemClick = { clickedItem ->
@@ -134,7 +132,7 @@ fun SearchScreen(
                                     channelViewModel.setSelectedChannel(clickedItem)
                                     navController.navigate(Routing.ChannelDetailScreen.routeName)
                                 },
-                            )
+                            )*/
                         }
 
                     }

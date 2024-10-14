@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
@@ -120,10 +119,10 @@ val context= LocalContext.current
             }
             SpacerHeight( MaterialTheme.dimens.stdDimen12)
             Row {
-                RegularChannelItem(
+           /*     RegularChannelItem(
                     modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
                     item = ChannelDto(iconUrl = dataList[page].iconUrl)
-                )
+                )*/
                 SpacerWidth( MaterialTheme.dimens.stdDimen10)
 
                 Column {
