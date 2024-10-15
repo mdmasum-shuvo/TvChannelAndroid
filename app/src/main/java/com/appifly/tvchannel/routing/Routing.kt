@@ -27,8 +27,8 @@ sealed class Routing(
     data object ChannelDetailScreen : Routing(routeName = CHANNEL_DETAIL_SCREEN)
     data object FavoriteScreen : Routing(routeName = FAVORITE_SCREEN,title = "Favorite", drawable =R.drawable.bottom_fav_icon )
     data object MenuScreen : Routing(routeName = MENU_SCREEN,title = "Menu", drawable =R.drawable.bottom_menu_icon)
-    data object ChannelScreen : Routing(routeName = CHANNEL_SCREEN,title = "Channel", drawable =R.drawable.bottom_tv_icon)
-    data object HomeScreen : Routing(routeName = HOME_SCREEN,title = "Home", drawable =R.drawable.bottom_home_icon)
+    data object ChannelScreen : Routing(routeName = CHANNEL_SCREEN,title = "Event", drawable =R.drawable.bottom_tv_icon)
+    data object HomeScreen : Routing(routeName = HOME_SCREEN,title = "Live", drawable =R.drawable.bottom_home_icon)
     data object SeeAllChannelScreen : Routing(routeName = SEE_ALL_CHANNEL_SCREEN,)
     data object SearchScreen : Routing(routeName = SEARCH_SCREEN)
 

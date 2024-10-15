@@ -32,8 +32,6 @@ fun BottomNavigation(navController: NavController,homeViewModel: HomeViewModel) 
     val items = listOf(
         Routing.HomeScreen,
         Routing.ChannelScreen,
-        Routing.FavoriteScreen,
-        Routing.MenuScreen,
     )
     Card(elevation = CardDefaults.elevatedCardElevation(4.dp),
         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 0.dp, bottomStart = 0.dp) ){
