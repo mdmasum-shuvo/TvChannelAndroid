@@ -1,8 +1,9 @@
 package com.appifly.tvchannel.ui.common_component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,12 +16,19 @@ import com.appifly.tvchannel.ui.theme.dimens
 @Composable
 fun CategoryListSection(list: List<CategoryDto>,selectedIndex:MutableState<Int> ,onItemClick: (CategoryDto) -> Unit = { }) {
 
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier.padding(start = 16.dp, top = MaterialTheme.dimens.stdDimen24, bottom = MaterialTheme.dimens.stdDimen24)
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier
+            .padding(
+                start = 16.dp,
+                end = 16.dp,
+                top = MaterialTheme.dimens.stdDimen24,
+                bottom = MaterialTheme.dimens.stdDimen24
+            )
+            .fillMaxWidth()
     ) {
-        itemsIndexed(list) {index, item ->
-            CategoryItem(item,selectedIndex,index) {
+        itemsIndexed(list) { index, item ->
+            CategoryItem(item, selectedIndex, index) {
                 onItemClick(item)
             }
         }

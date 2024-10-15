@@ -5,6 +5,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
@@ -42,7 +44,7 @@ fun CategoryItem(
     val showShimmer = remember { mutableStateOf(true) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = Modifier.fillMaxWidth()
             .selectable(selected = selectedIndex.value == index, onClick = {
                 if (selectedIndex.value != index) {
                     selectedIndex.value = if (selectedIndex.value != index) index else -1
@@ -52,8 +54,9 @@ fun CategoryItem(
             })
     ) {
         Card(
+            modifier = Modifier.fillMaxWidth(),
             shape = MaterialTheme.shapes.medium,
-            colors = cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
+            colors = cardColors(containerColor = gradientColor1),
             elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
             border = if (selectedIndex.value == index) {
                 BorderStroke(
@@ -64,29 +67,38 @@ fun CategoryItem(
                 BorderStroke(1.dp, MaterialTheme.colorScheme.secondaryContainer)
             }
         ) {
-            Box(
-                modifier = Modifier.background(shimmerEffect(targetValue = 1300f, showShimmer = showShimmer.value))
-                    .padding(12.dp)
-            ) {
-                AsyncImage(
-                    modifier = Modifier.size(MaterialTheme.dimens.categorySize),
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(item.imageUrl).diskCachePolicy(CachePolicy.ENABLED)
-                        .build(),
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .background(
+                            shimmerEffect(
+                                targetValue = 1300f,
+                                showShimmer = showShimmer.value
+                            )
+                        )
+                        .padding(12.dp)
+                ) {
+                    AsyncImage(
+                        modifier = Modifier.size(MaterialTheme.dimens.categorySize),
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(item.imageUrl).diskCachePolicy(CachePolicy.ENABLED)
+                            .build(),
 
-                    contentScale = ContentScale.Crop,
-                    contentDescription = context.getString(R.string.load_network_image),
-                    onSuccess = {
-                        showShimmer.value=false
-                    }
-                    , onError = {
-                        showShimmer.value=false
+                        contentScale = ContentScale.Crop,
+                        contentDescription = context.getString(R.string.load_network_image),
+                        onSuccess = {
+                            showShimmer.value = false
+                        }, onError = {
+                            showShimmer.value = false
 
-                    }
-                )
+                        }
+                    )
+                }
+                SpacerWidth(12.dp)
+                TextView18W500(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
+
             }
         }
-        TextView12W400(value = item.name ?: "N/A", color = MaterialTheme.colorScheme.onTertiary)
 
     }
 }

@@ -46,6 +46,9 @@ class ChannelViewModel @Inject constructor(
     val selectedChannel: LiveData<ChannelDto?>
         get() = _selectedChannel
 
+    fun resetSelectedChannel(){
+        _selectedChannel.value=null
+    }
 
     val popularChannelList = channelDao.getPopularChannel()?.map { it.map { data-> data.toDto() } }
     val favoriteChannelList =

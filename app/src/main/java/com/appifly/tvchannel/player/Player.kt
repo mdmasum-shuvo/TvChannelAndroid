@@ -95,14 +95,15 @@ fun PortraitView(
 
 
     LaunchedEffect(key1 = true, block = {
-        if (!isSeeAll) {
-            channelViewModel.selectedChannel.value?.catId?.let {
-                channelViewModel.catId = channelViewModel.selectedChannel.value?.catId!!
-                channelViewModel.callChannelDataByCatId()
+        if (channelViewModel.catId != 0) {
+            channelViewModel.callChannelDataByCatId()
+            channelViewModel.selectedChannel.value?.id?.let {
                 channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
-                viewModel.getCategoryNameById(channelViewModel.catId)
             }
+            viewModel.getCategoryNameById(channelViewModel.catId)
+            channelViewModel.catId = 0
         } else {
+
             viewModel.setCategoryName(channelViewModel.dataListTitle)
         }
 
@@ -113,57 +114,61 @@ fun PortraitView(
         horizontalAlignment = Alignment.Start
     ) {
 
+        if(channelViewModel.selectedChannel.observeAsState().value?.id !=null){
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
+            ) {
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(MaterialTheme.dimens.mediumWeightTv, fill = true)
-        ) {
-
-            PlayerView(
-                playerWrapper = playerWrapper,
-                isFullScreen = false,
-                onFullScreenToggle = onFullScreenToggle,
-                navigateBack = navigateBack
-            )
-        }
-        SpacerHeight(MaterialTheme.dimens.stdDimen12)
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Row {
-                RegularChannelItem(
-                    modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
-                    item = ChannelDto(iconUrl = channelViewModel.selectedChannel.observeAsState().value?.iconUrl)
+                PlayerView(
+                    playerWrapper = playerWrapper,
+                    isFullScreen = false,
+                    onFullScreenToggle = onFullScreenToggle,
+                    navigateBack = navigateBack
                 )
-                SpacerWidth(MaterialTheme.dimens.stdDimen10)
-
-                Column {
-                    TextView14W500(
-                        value = channelViewModel.selectedChannel.observeAsState().value?.name
-                            ?: "N/A"
-                    )
-                    TextView12W400(
-                        value = "${viewModel.channelCategoryName.observeAsState().value} Channel",
-                        color = MaterialTheme.colorScheme.onTertiary
-                    )
-                }
             }
-            channelViewModel.isFavoriteChannel.observeAsState().value?.let {
-                GradientFavIcon(
-                    size = 24.dp,
-                    isFavorite = it
-                ) { isFav ->
-                    if (isFav) {
-                        channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
-                    } else {
-                        channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
+        }
+        if(channelViewModel.selectedChannel.observeAsState().value?.id !=null){
+            SpacerHeight(MaterialTheme.dimens.stdDimen12)
+            Row(
+                modifier = Modifier
+                    .padding(horizontal = 16.dp)
+                    .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row {
+                    RegularChannelItem(
+                        modifier = Modifier.size(MaterialTheme.dimens.channelExtraSmall),
+                        item = ChannelDto(iconUrl = channelViewModel.selectedChannel.observeAsState().value?.iconUrl)
+                    )
+                    SpacerWidth(MaterialTheme.dimens.stdDimen10)
+
+                    Column {
+                        TextView14W500(
+                            value = channelViewModel.selectedChannel.observeAsState().value?.name
+                                ?: "N/A"
+                        )
+                        TextView12W400(
+                            value = "${viewModel.channelCategoryName.observeAsState().value} Channel",
+                            color = MaterialTheme.colorScheme.onTertiary
+                        )
+                    }
+                }
+                channelViewModel.isFavoriteChannel.observeAsState().value?.let {
+                    GradientFavIcon(
+                        size = 24.dp,
+                        isFavorite = it
+                    ) { isFav ->
+                        if (isFav) {
+                            channelViewModel.removeFavoriteChannel(channelViewModel.selectedChannel.value?.id!!)
+                        } else {
+                            channelViewModel.setFavoriteChannel(channelViewModel.selectedChannel.value!!)
+                        }
                     }
                 }
             }
         }
+
         SpacerHeight(MaterialTheme.dimens.stdDimen12)
 
         AdmobBanner(adLiveData = homeViewModel.adIdData)
@@ -177,7 +182,7 @@ fun PortraitView(
 
                 LazyVerticalGrid(
                     modifier = Modifier.height(
-                        (((MaterialTheme.dimens.gridItemHeight + 24) * it.size) /if (it.size < 3) 1 else 3).dp
+                        (((MaterialTheme.dimens.gridItemHeight + 24) * it.size) / if (it.size < 3) 1 else 3).dp
                     ),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
@@ -197,7 +202,6 @@ fun PortraitView(
                             onItemClick = { clickedItem ->
                                 channelViewModel.setSelectedChannel(clickedItem)
                                 channelViewModel.checkFavorite(channelViewModel.selectedChannel.value?.id!!)
-                                channelViewModel.addTOFrequentChannel(clickedItem.id!!)
                             },
                         )
                     }
