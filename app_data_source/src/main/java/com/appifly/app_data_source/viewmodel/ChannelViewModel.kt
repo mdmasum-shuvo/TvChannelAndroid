@@ -3,7 +3,6 @@ package com.appifly.app_data_source.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.appifly.app_data_source.datamapper.toDto
 import com.appifly.app_data_source.di.IoDispatcher
@@ -32,29 +31,44 @@ class ChannelViewModel @Inject constructor(
 ) : ViewModel() {
 
     var catId: Int = 0
-    init {
-     //   callChannelDataByCatId()
-    }
 
     private val _channelData = MutableLiveData<List<ChannelDto>>()
     val channelData: LiveData<List<ChannelDto>>
         get() = _channelData
     private val _isFavoriteChannel = MutableLiveData(false)
-    val isFavoriteChannel: LiveData<Boolean>
-        get() = _isFavoriteChannel
 
 
     private val _selectedChannel = MutableLiveData<ChannelDto?>()
     val selectedChannel: LiveData<ChannelDto?>
         get() = _selectedChannel
 
+    fun getAllFrequentlyPlayedChannel() {
+        viewModelScope.launch {
+            withContext(ioDispatcher) {
+                val data = channelDao.getPopularChannel()?.map { data -> data.toDto() }
+                withContext(mainDispatcher) {
+                    data?.let {
+                        _channelData.value = it
+                    }
+                }
+            }
+        }
+    }
 
-    val popularChannelList = channelDao.getPopularChannel()?.map { it.map { data -> data.toDto() } }
-    val favoriteChannelList =
-        favoriteDao.getAllFavoriteChannel().map { it.map { data -> data.toDto() } }
+    fun getPopularChannel() {
+        viewModelScope.launch {
+            withContext(ioDispatcher) {
+                val data = channelDao.getPopularChannel()?.map { data -> data.toDto() }
 
-    val frequentlyPlayedChannelList =
-        frequentlyDao.getAllFrequentlyPlayedChannel().map { it.map { data -> data.toDto() } }
+                withContext(mainDispatcher) {
+                    data?.let {
+                        _channelData.value = it
+                    }
+                }
+            }
+
+        }
+    }
 
     fun callChannelDataByCatId() {
         viewModelScope.launch {
@@ -63,7 +77,7 @@ class ChannelViewModel @Inject constructor(
                     .map { it.toDto() } else channelDao.getAllChannel().map { it.toDto() }
             }
         }
-       // Log.e("data", channelData.value.toString())
+        // Log.e("data", channelData.value.toString())
     }
 
     fun setFavoriteChannel(channelDto: ChannelDto) {

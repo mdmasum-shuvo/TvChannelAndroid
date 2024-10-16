@@ -1,6 +1,5 @@
 package com.appifly.cachemanager.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -17,6 +16,6 @@ interface FrequentlyDao {
     suspend fun countRow(channelId:Int):Long
 
     @Query("select catId,channel_table.id,name,iconUrl,liveUrl from channel_table  left join frequently_played_table where frequently_played_table.channelId=channel_table.id order by frequently_played_table.id DESC")
-    fun getAllFrequentlyPlayedChannel(): LiveData<List<ChannelEntity>>
+    fun getAllFrequentlyPlayedChannel(): List<ChannelEntity>
 
 }

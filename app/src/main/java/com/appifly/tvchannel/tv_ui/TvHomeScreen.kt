@@ -66,8 +66,7 @@ fun TvHomeScreen(
                     TvCategoryItem(
                         "Frequently Played",
                     ) { value ->
-                        channelViewModel.catId =0
-                        channelViewModel.callChannelDataByCatId()
+                        channelViewModel.getAllFrequentlyPlayedChannel()
                     }
                 }
 
@@ -75,8 +74,7 @@ fun TvHomeScreen(
                     TvCategoryItem(
                         "Popular Channel",
                     ) { value ->
-                        channelViewModel.catId =0
-                        channelViewModel.callChannelDataByCatId()
+                        channelViewModel.getPopularChannel()
                     }
                 }
 
