@@ -31,8 +31,6 @@ interface ChannelDao {
         return insertAll(users)
     }
 
-
-
     @Query("DELETE FROM CHANNEL_TABLE")
     fun deleteAll()
 

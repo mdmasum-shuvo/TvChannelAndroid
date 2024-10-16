@@ -32,8 +32,8 @@ class ChannelViewModel @Inject constructor(
 
     var catId: Int = 0
 
-    private val _channelData = MutableLiveData<List<ChannelDto>>()
-    val channelData: LiveData<List<ChannelDto>>
+    private val _channelData = MutableLiveData<List<ChannelDto>?>()
+    val channelData: LiveData<List<ChannelDto>?>
         get() = _channelData
     private val _isFavoriteChannel = MutableLiveData(false)
 
@@ -43,9 +43,10 @@ class ChannelViewModel @Inject constructor(
         get() = _selectedChannel
 
     fun getAllFrequentlyPlayedChannel() {
+        _channelData.value=null
         viewModelScope.launch {
             withContext(ioDispatcher) {
-                val data = channelDao.getPopularChannel()?.map { data -> data.toDto() }
+                val data = frequentlyDao.getAllFrequentlyPlayedChannel().map { data -> data.toDto() }
                 withContext(mainDispatcher) {
                     data?.let {
                         _channelData.value = it
@@ -56,6 +57,7 @@ class ChannelViewModel @Inject constructor(
     }
 
     fun getPopularChannel() {
+        _channelData.value=null
         viewModelScope.launch {
             withContext(ioDispatcher) {
                 val data = channelDao.getPopularChannel()?.map { data -> data.toDto() }
@@ -71,6 +73,8 @@ class ChannelViewModel @Inject constructor(
     }
 
     fun callChannelDataByCatId() {
+        _channelData.value=null
+
         viewModelScope.launch {
             withContext(mainDispatcher) {
                 _channelData.value = if (catId != 0) channelDao.getAllChannelByCategory(catId)
