@@ -8,6 +8,7 @@ import com.appifly.app_data_source.data.AdIdApiUseCase
 import com.appifly.app_data_source.data.BannerListApiUseCase
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.data.ChannelListUseCase
+import com.appifly.app_data_source.data.EventApiUseCase
 import com.appifly.app_data_source.data.TvShowListApiUseCase
 import javax.inject.Inject
 
@@ -18,6 +19,7 @@ class CustomWorkerFactory @Inject constructor(
     private val bannerListApiUseCase: BannerListApiUseCase,
     private val tvShowListApiUseCase: TvShowListApiUseCase,
     private val adIdApiUseCase: AdIdApiUseCase,
+    private val eventApiUseCase: EventApiUseCase
 
 ) : WorkerFactory() {
     override fun createWorker(
@@ -29,8 +31,8 @@ class CustomWorkerFactory @Inject constructor(
         channelListUseCase,
         tvShowListApiUseCase,
         bannerListApiUseCase,
-        adIdApiUseCase
-
+        adIdApiUseCase,
+        eventApiUseCase
     )
 
 }

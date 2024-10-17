@@ -6,6 +6,7 @@ import com.appifly.cachemanager.dao.AdDao
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.EventDao
 import com.appifly.cachemanager.dao.FavoriteDao
 import com.appifly.cachemanager.dao.FrequentlyDao
 import com.appifly.cachemanager.dao.TvShowDao
@@ -13,12 +14,13 @@ import com.appifly.cachemanager.model.AdIdEntity
 import com.appifly.cachemanager.model.BannerEntity
 import com.appifly.cachemanager.model.CategoryEntity
 import com.appifly.cachemanager.model.ChannelEntity
+import com.appifly.cachemanager.model.EventEntity
 import com.appifly.cachemanager.model.FavoriteEntity
 import com.appifly.cachemanager.model.FrequentlyEntity
 import com.appifly.cachemanager.model.TvShowEntity
 
 @Database(
-    entities = [CategoryEntity::class, ChannelEntity::class, BannerEntity::class, TvShowEntity::class, FavoriteEntity::class, FrequentlyEntity::class,AdIdEntity::class],
+    entities = [CategoryEntity::class,EventEntity::class, ChannelEntity::class, BannerEntity::class, TvShowEntity::class, FavoriteEntity::class, FrequentlyEntity::class,AdIdEntity::class],
     version = 11,
     exportSchema = false
 )
@@ -31,4 +33,5 @@ abstract class TvDatabase : RoomDatabase() {
     abstract fun favoriteDao(): FavoriteDao
     abstract fun frequentlyDao(): FrequentlyDao
     abstract fun adDao(): AdDao
+    abstract fun eventDao(): EventDao
 }

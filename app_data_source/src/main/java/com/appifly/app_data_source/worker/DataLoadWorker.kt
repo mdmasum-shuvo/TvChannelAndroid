@@ -8,6 +8,7 @@ import com.appifly.app_data_source.data.AdIdApiUseCase
 import com.appifly.app_data_source.data.BannerListApiUseCase
 import com.appifly.app_data_source.data.CategoryListUseCase
 import com.appifly.app_data_source.data.ChannelListUseCase
+import com.appifly.app_data_source.data.EventApiUseCase
 import com.appifly.app_data_source.data.TvShowListApiUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -26,6 +27,7 @@ class DataLoadWorker @AssistedInject constructor(
     @Assisted val tvShowListApiUseCase: TvShowListApiUseCase,
     @Assisted val bannerListApiUseCase: BannerListApiUseCase,
     @Assisted val adIdApiUseCase: AdIdApiUseCase,
+    @Assisted val eventApiUseCase: EventApiUseCase,
 ) : CoroutineWorker(appContext, params) {
     override suspend fun doWork(): Result {
 
@@ -36,6 +38,11 @@ class DataLoadWorker @AssistedInject constructor(
         categoryListUseCase.invoke().onEach {
 
         }.launchIn(CoroutineScope(Dispatchers.IO))
+
+        eventApiUseCase.invoke().onEach {
+
+        }.launchIn(CoroutineScope(Dispatchers.IO))
+
         channelListUseCase.invoke().onEach {
 
         }.launchIn(CoroutineScope(Dispatchers.IO))
