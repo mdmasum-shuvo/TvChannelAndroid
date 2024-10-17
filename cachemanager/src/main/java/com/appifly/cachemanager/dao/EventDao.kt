@@ -17,7 +17,7 @@ interface EventDao {
 
     // Select all events and return LiveData
     @Query("SELECT * FROM event_table")
-    fun getAllEvents(): LiveData<List<EventEntity>>
+    fun getAllEvents(): LiveData<List<EventEntity>?>
 
     @Transaction
     suspend fun updateData(data: List<EventEntity>): List<Long> {

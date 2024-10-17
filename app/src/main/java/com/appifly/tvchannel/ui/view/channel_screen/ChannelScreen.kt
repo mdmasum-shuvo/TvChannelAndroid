@@ -3,9 +3,11 @@ package com.appifly.tvchannel.ui.view.channel_screen
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,16 +36,20 @@ fun ChannelScreen(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState()),
+               ,
             horizontalAlignment = Alignment.Start
         ) {
             AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
 
-            repeat(5) {
-                LiveEventCardItem()
-                SpacerHeight(12.dp)
-
+            homeViewModel.eventListLiveData.observeAsState().value?.let {
+                LazyColumn(modifier = Modifier.padding(16.dp)) {
+                    items(it,){item->
+                        LiveEventCardItem(item)
+                        SpacerHeight(12.dp)
+                    }
+                }
             }
+
 
         }
     }

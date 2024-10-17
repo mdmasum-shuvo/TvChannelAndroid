@@ -3,13 +3,13 @@ package com.appifly.tvchannel.ui.common_component
 import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardDefaults.cardColors
@@ -45,13 +45,9 @@ fun CategoryItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.fillMaxWidth()
-            .selectable(selected = selectedIndex.value == index, onClick = {
-                if (selectedIndex.value != index) {
-                    selectedIndex.value = if (selectedIndex.value != index) index else -1
-                    onItemClick()
-                }
-
-            })
+            .clickable {
+                onItemClick()
+            }
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
