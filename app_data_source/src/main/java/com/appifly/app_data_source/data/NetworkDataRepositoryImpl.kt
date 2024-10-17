@@ -7,6 +7,7 @@ import com.appifly.cachemanager.dao.AdDao
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.EventDao
 import com.appifly.cachemanager.dao.TvShowDao
 import com.appifly.network.DataState
 import com.appifly.network.apiCall
@@ -26,6 +27,7 @@ class NetworkDataRepositoryImpl @Inject constructor(
     private val channelDao: ChannelDao,
     private val bannerDao: BannerDao,
     private val tvShowDao: TvShowDao,
+    private val eventDao: EventDao,
     private val adDao: AdDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
@@ -122,6 +124,35 @@ class NetworkDataRepositoryImpl @Inject constructor(
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
                         tvShowDao.updateData(data.result.data.map { it.toEntity() })
+                        print("")
+                    }
+
+                }
+
+                return responseData
+            }
+
+            is DataState.Error -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+
+            }
+
+            is DataState.IOError -> {
+                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+
+            }
+
+        }
+    }
+
+    override suspend fun getAllEvents(): DefaultResponse {
+        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
+
+        when (val data = apiCall( { apiService.getAllEvent() },ioDispatcher)) {
+            is DataState.Success -> {
+                if (data.result.data.isNotEmpty()) {
+                    withContext(ioDispatcher) {
+                        eventDao.updateData(data.result.data.map { it.toEntity() })
                         print("")
                     }
 

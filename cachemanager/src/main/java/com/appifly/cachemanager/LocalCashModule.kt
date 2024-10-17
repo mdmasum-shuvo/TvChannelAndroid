@@ -6,6 +6,7 @@ import com.appifly.cachemanager.dao.AdDao
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.EventDao
 import com.appifly.cachemanager.dao.FavoriteDao
 import com.appifly.cachemanager.dao.FrequentlyDao
 import com.appifly.cachemanager.dao.TvShowDao
@@ -75,6 +76,11 @@ object LocalCashModule {
     @Singleton
     fun provideFrequentlyDao(database: TvDatabase): FrequentlyDao {
         return database.frequentlyDao()
+    }
+    @Provides
+    @Singleton
+    fun provideEventDao(database: TvDatabase): EventDao {
+        return database.eventDao()
     }
 
     @Provides

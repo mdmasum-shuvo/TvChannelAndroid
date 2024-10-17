@@ -9,6 +9,7 @@ object HttpParam {
     const val BANNER = "banner-list"
     const val TV_SHOWS = "tvshow-list"
     const val ADVERTISEMENT = "advertisement"
+    const val EVENT = "event-list"
 
     const val SUCCESS_STATUS_CODE="200"
     const val ERROR_STATUS_CODE="404"

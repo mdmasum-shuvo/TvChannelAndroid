@@ -5,6 +5,7 @@ import com.appifly.cachemanager.dao.AdDao
 import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
+import com.appifly.cachemanager.dao.EventDao
 import com.appifly.cachemanager.dao.TvShowDao
 import com.appifly.network.remote_data.NetworkCallbackApi
 import com.appifly.network.remote_data.repository.NetworkDataRepository
@@ -25,7 +26,7 @@ object DataModule {
         networkCallbackApi: NetworkCallbackApi,
         categoryDao: CategoryDao,
         channelDao: ChannelDao,
-        bannerDao: BannerDao, tvShowDao: TvShowDao,addDao: AdDao
+        bannerDao: BannerDao, tvShowDao: TvShowDao, addDao: AdDao, eventDao: EventDao
     ): NetworkDataRepository {
         return NetworkDataRepositoryImpl(
             networkCallbackApi,
@@ -33,6 +34,7 @@ object DataModule {
             channelDao,
             bannerDao,
             tvShowDao,
+            eventDao,
             addDao
         )
     }
