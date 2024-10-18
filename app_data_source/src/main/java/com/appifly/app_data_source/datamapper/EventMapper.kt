@@ -24,7 +24,7 @@ fun EventNetwork.toEntity(): EventEntity {
 
 fun EventChannelJoin.toDto(): EventDto {
     return EventDto(
-        channelListId = this.channelId,
+        channelListId = this.channelListId,
         endTime = this.endTime,
         startTime = this.startTime,
         status = this.status,
@@ -35,7 +35,7 @@ fun EventChannelJoin.toDto(): EventDto {
         channelIconUrl = iconUrl,
         liveUrl = liveUrl,
         referUrl = refererUrl,
-        channelName = channelName, catId = catId
+        channelName = name, catId = catId
     )
 }
 

@@ -26,12 +26,11 @@ data class EventChannelJoin(
     val teamTwoName: String?,
     val teamOneImageUrl: String?,
     val teamTwoImageUrl: String?,
-    val channelId: Int?,
+    val channelListId: Int?,
     val name:String?,
     val catId:Int?,
     val iconUrl: String?,
     val liveUrl: String?,
     val refererUrl: String?,
-    val channelName: String?,
 
 )
