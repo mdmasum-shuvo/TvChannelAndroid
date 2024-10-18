@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.CachePolicy
 import coil.request.ImageRequest
+import com.appifly.app_data_source.datamapper.toChannelDto
+import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.dto.EventDto
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.theme.lightBackground
@@ -31,7 +33,7 @@ import com.appifly.tvchannel.utils.shimmerEffect
 
 
 @Composable
-fun LiveEventCardItem(eventDto: EventDto) {
+fun LiveEventCardItem(eventDto: EventDto, onItemClick: (ChannelDto) -> Unit = { }) {
     val context = LocalContext.current
     val showShimmer = remember { mutableStateOf(true) }
 
@@ -39,9 +41,11 @@ fun LiveEventCardItem(eventDto: EventDto) {
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp), onClick = {
+            onItemClick(eventDto.toChannelDto())
+        }
 
-        ) {
+    ) {
 
         Column(
             modifier = Modifier
@@ -52,13 +56,15 @@ fun LiveEventCardItem(eventDto: EventDto) {
                     .fillMaxWidth(), Arrangement.SpaceBetween
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(  modifier = Modifier
-                        .background(
-                            shimmerEffect(
-                                targetValue = 1300f,
-                                showShimmer = showShimmer.value
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                shimmerEffect(
+                                    targetValue = 1300f,
+                                    showShimmer = showShimmer.value
+                                )
                             )
-                        )) {
+                    ) {
                         AsyncImage(
                             modifier = Modifier.size(40.dp),
                             model = ImageRequest.Builder(LocalContext.current)
@@ -77,17 +83,19 @@ fun LiveEventCardItem(eventDto: EventDto) {
                     }
 
                     SpacerHeight(4.dp)
-                    TextView12W400(value = eventDto.teamOneName?:"", color = lightBackground)
+                    TextView12W400(value = eventDto.teamOneName ?: "", color = lightBackground)
                 }
                 TextView18W500(value = "VS", color = lightBackground)
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(  modifier = Modifier
-                        .background(
-                            shimmerEffect(
-                                targetValue = 1300f,
-                                showShimmer = showShimmer.value
+                    Box(
+                        modifier = Modifier
+                            .background(
+                                shimmerEffect(
+                                    targetValue = 1300f,
+                                    showShimmer = showShimmer.value
+                                )
                             )
-                        )) {
+                    ) {
                         AsyncImage(
                             modifier = Modifier.size(40.dp),
                             model = ImageRequest.Builder(LocalContext.current)
@@ -106,7 +114,7 @@ fun LiveEventCardItem(eventDto: EventDto) {
                     }
                     SpacerHeight(4.dp)
 
-                    TextView12W400(value = eventDto.teamTwoName?:"")
+                    TextView12W400(value = eventDto.teamTwoName ?: "")
                 }
             }
 
@@ -114,8 +122,8 @@ fun LiveEventCardItem(eventDto: EventDto) {
                 modifier = Modifier
                     .fillMaxWidth(), Arrangement.SpaceBetween
             ) {
-                TextView10W400(value = "Star Sports HD",)
-                TextView10W400(value = eventDto.startTime?:"")
+                TextView10W400(value = "Star Sports HD")
+                TextView10W400(value = eventDto.startTime ?: "")
 
             }
         }

@@ -16,7 +16,7 @@ class HomeViewModel @Inject constructor(
 
     var selectedIndex: Int = 0
     val bannerListLiveData = bannerDao.getAllBanner()?.map { banner -> banner.map { it.toDto() } }
-    val eventListLiveData = eventDao.getAllEvents().map { event -> event?.map { it.toDto() } }
+    val eventListLiveData = eventDao.getAllEvents().map {data-> data?.map { it.toDto() } }
     val adIdData = adDao.getAllAdID()?.map { adData -> adData.map { it.toDto() }}
 
 }

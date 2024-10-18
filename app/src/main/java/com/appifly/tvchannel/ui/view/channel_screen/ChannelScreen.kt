@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -22,6 +23,7 @@ import com.appifly.tvchannel.ui.common_component.LiveEventCardItem
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
+import com.appifly.tvchannel.ui.view.home.gotoChannelDetail
 
 @Composable
 fun ChannelScreen(
@@ -29,22 +31,30 @@ fun ChannelScreen(
     homeViewModel: HomeViewModel,
     channelViewModel: ChannelViewModel, navController: NavController
 ) {
-
+    val context = LocalContext.current
     Column {
         MainTopBar(onSearchIconClick = { navController.navigate(Routing.SearchScreen.routeName) })
 
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-               ,
+                .fillMaxWidth(),
             horizontalAlignment = Alignment.Start
         ) {
             AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
 
             homeViewModel.eventListLiveData.observeAsState().value?.let {
                 LazyColumn(modifier = Modifier.padding(16.dp)) {
-                    items(it,){item->
-                        LiveEventCardItem(item)
+                    items(it) { item ->
+                        LiveEventCardItem(item) { channelDto ->
+                            gotoChannelDetail(
+                                context,
+                                channelViewModel,
+                                channelDto,
+                                navController,
+                                homeViewModel.adIdData
+                            )
+
+                        }
                         SpacerHeight(12.dp)
                     }
                 }

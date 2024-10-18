@@ -15,5 +15,23 @@ data class EventEntity(
     val teamOneName: String?,
     val teamTwoName: String?,
     val teamOneImageUrl: String?,
-    val teamTwoImageUrl: String?
+    val teamTwoImageUrl: String?,
+)
+
+data class EventChannelJoin(
+    val endTime: String?,
+    val startTime: String?,
+    val status: Int?,
+    val teamOneName: String?,
+    val teamTwoName: String?,
+    val teamOneImageUrl: String?,
+    val teamTwoImageUrl: String?,
+    val channelId: Int?,
+    val name:String?,
+    val catId:Int?,
+    val iconUrl: String?,
+    val liveUrl: String?,
+    val refererUrl: String?,
+    val channelName: String?,
+
 )
