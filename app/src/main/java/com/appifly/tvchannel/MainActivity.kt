@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -16,6 +17,8 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -24,6 +27,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -68,6 +73,10 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.startapp.sdk.ads.banner.Banner
+import com.startapp.sdk.adsbase.StartAppAd
+import com.startapp.sdk.adsbase.StartAppSDK
+import com.startapp.sdk.adsbase.adlisteners.AdEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -107,9 +116,17 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
+
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             installSplashScreen()
         }
+        StartAppSDK.initParams(applicationContext, BuildConfig.START_IO_APP_ID)
+            .setReturnAdsEnabled(false)
+            .setCallback { /* ready to request ads */ }
+            .init()
+        StartAppSDK.setTestAdsEnabled(true)
         appUpdateManager = AppUpdateManagerFactory.create(this)
         observeState()
         checkUpdate()
@@ -275,7 +292,7 @@ private fun MainScreenView(
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
+                    loadInterstittialAd(activity)
                     ChannelDetailScreen(
                         channelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
@@ -312,7 +329,19 @@ private fun MainScreenView(
     }
 
 }
+fun loadInterstittialAd(activity: Context) {
+    val interstitialAd = StartAppAd(activity)
+    interstitialAd.loadAd(object : AdEventListener {
 
+        override fun onReceiveAd(p0: com.startapp.sdk.adsbase.Ad) {
+        }
+
+        override fun onFailedToReceiveAd(p0: com.startapp.sdk.adsbase.Ad?) {
+        }
+    })
+
+    interstitialAd.showAd()
+}
 fun loadInterstitialAdd(activity: Context, adLiveData: List<AdIdDto>?) {
     val adRequest = AdRequest.Builder().build()
     adLiveData?.let { adData ->
@@ -416,4 +445,36 @@ fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
 
 }
 
+@Composable
+fun StartIoBannerAd() {
+    AndroidView(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp),
+        factory = ::Banner,
+    )
+}
 
+/*fun loadBanner(context: Context) {
+    BannerRequest(context)
+        .setAdFormat(BannerFormat.BANNER)
+        .load { creator: BannerCreator?, error: String? ->
+            if (creator != null) {
+                val adView = creator.create(context, null)
+
+                // TODO save the adView and refresh the compose UI
+            } else {
+                // TODO handle error
+            }
+        }
+    AdView(adView)
+}*/
+
+
+@Composable
+fun AdView(adView: View) {
+    AndroidView(
+        modifier = Modifier.fillMaxWidth(),
+        factory = {adView  },
+    )
+}
