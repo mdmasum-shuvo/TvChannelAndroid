@@ -89,6 +89,8 @@ fun HomeScreen(
             }
             SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
             AdmobBanner(adLiveData = homeViewModel.adIdData)
+            SpacerHeight(height = MaterialTheme.dimens.stdDimen16)
+
             viewModel.categoryData?.observeAsState()?.value?.let {
 
                 LaunchedEffect(key1 = true, block = {
@@ -104,6 +106,7 @@ fun HomeScreen(
                     viewModel.setCategoryName(item.name)
                 }
             }
+            StartIoBannerAdView()
 
             when {
                 !channelViewModel.channelData.observeAsState().value.isNullOrEmpty() -> {
@@ -147,7 +150,6 @@ fun HomeScreen(
                     }
                 }
             }
-            StartIoBannerAdView()
             if (!channelViewModel.frequentlyPlayedChannelList.observeAsState().value.isNullOrEmpty()) {
                 channelViewModel.frequentlyPlayedChannelList.observeAsState().value?.let {
                     Column(horizontalAlignment = Alignment.Start) {
@@ -228,7 +230,7 @@ fun HomeScreen(
                     }
                 }
             }
-            AdmobBanner(adLiveData = homeViewModel.adIdData)
+            StartIoBannerAdView()
 
             if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
                 homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {

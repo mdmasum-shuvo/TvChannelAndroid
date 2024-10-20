@@ -49,6 +49,7 @@ import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
+import com.appifly.tvchannel.StartIoBannerAdView
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.GradientFavIcon
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
@@ -78,9 +79,6 @@ fun LandscapeView(
     }
 }
 
-fun getGridSize(size: Int): Int {
-    return if (size % 3 == 0) 3 else if (size <= 2) 1 else size - 2
-}
 
 @Composable
 fun PortraitView(
@@ -204,6 +202,7 @@ fun PortraitView(
 
                 }
             }
+            StartIoBannerAdView()
 
         }
 
