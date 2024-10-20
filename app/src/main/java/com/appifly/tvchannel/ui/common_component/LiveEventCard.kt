@@ -99,7 +99,7 @@ fun LiveEventCardItem(eventDto: EventDto, onItemClick: (ChannelDto) -> Unit = { 
                         AsyncImage(
                             modifier = Modifier.size(40.dp),
                             model = ImageRequest.Builder(LocalContext.current)
-                                .data(eventDto.teamOneImageUrl).diskCachePolicy(CachePolicy.ENABLED)
+                                .data(eventDto.teamTwoImageUrl).diskCachePolicy(CachePolicy.ENABLED)
                                 .build(),
 
                             contentScale = ContentScale.Crop,
