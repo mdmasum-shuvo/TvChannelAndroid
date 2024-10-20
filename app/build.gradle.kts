@@ -62,17 +62,20 @@ android {
         create("dev") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel.dev"
-            
+
+            buildConfigField("String","START_IO_APP_ID","\"" + "209498500"+ "\"")
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
             buildConfigField("String","FB_BANNER_ADD_ID","\"" + "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
             buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "VID_HD_16_9_46S_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
-            
+
 
         }
         create("pro") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel"
+            buildConfigField("String","START_IO_APP_ID","\"" + "209498500"+ "\"")
+
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
             buildConfigField("String","FB_BANNER_ADD_ID","\"" + "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
@@ -124,7 +127,7 @@ dependencies {
             )
         }"
     )
-
+    implementation ("com.startapp:inapp-sdk:5.+")
     // Moshi
     implementation("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
     implementation("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")
