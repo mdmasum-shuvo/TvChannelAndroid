@@ -34,8 +34,8 @@ import com.appifly.app_data_source.dto.ChannelDto
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
-import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.StartIoBannerAdView
 import com.appifly.tvchannel.loadInterstitialAdd
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
@@ -56,7 +56,6 @@ fun HomeScreen(
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
     homeViewModel: HomeViewModel,
-    seeAllChannelViewModel: SeeAllChannelViewModel
 ) {
     val context = LocalContext.current
     val permission = Manifest.permission.POST_NOTIFICATIONS
@@ -106,47 +105,49 @@ fun HomeScreen(
                 }
             }
 
-            if (!channelViewModel.channelData.observeAsState().value.isNullOrEmpty()) {
-                channelViewModel.channelData.observeAsState().value?.let {
-                    Column(horizontalAlignment = Alignment.Start) {
-                        HeaderText(
-                            viewModel.channelCategoryName.observeAsState().value,
-                            context.getString(R.string.see_all)
-                        ) {
-                            channelViewModel.setSeeAllChannelList(
-                                it,
-                                context.getString(R.string.all_channel)
-                            )
-                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
+            when {
+                !channelViewModel.channelData.observeAsState().value.isNullOrEmpty() -> {
+                    channelViewModel.channelData.observeAsState().value?.let {
+                        Column(horizontalAlignment = Alignment.Start) {
+                            HeaderText(
+                                viewModel.channelCategoryName.observeAsState().value,
+                                context.getString(R.string.see_all)
+                            ) {
+                                channelViewModel.setSeeAllChannelList(
+                                    it,
+                                    context.getString(R.string.all_channel)
+                                )
+                                navController.navigate(Routing.SeeAllChannelScreen.routeName)
 
-                        }
+                            }
 
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier.padding(
-                                start = 16.dp,
-                                top = 10.dp,
-                                bottom = MaterialTheme.dimens.stdDimen24
-                            )
-                        ) {
-                            items(items = it, key = { it.id!! }) { item ->
-                                LargeChannelItem(
-                                    item,
-                                ) { clickedItem ->
-                                    gotoChannelDetail(context,
-                                        channelViewModel,
-                                        clickedItem,
-                                        navController,homeViewModel.adIdData
-                                    )
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = 10.dp,
+                                    bottom = MaterialTheme.dimens.stdDimen24
+                                )
+                            ) {
+                                items(items = it, key = { it.id!! }) { item ->
+                                    LargeChannelItem(
+                                        item,
+                                    ) { clickedItem ->
+                                        gotoChannelDetail(context,
+                                            channelViewModel,
+                                            clickedItem,
+                                            navController,homeViewModel.adIdData
+                                        )
 
+                                    }
                                 }
                             }
                         }
-                    }
 
+                    }
                 }
             }
-
+            StartIoBannerAdView()
             if (!channelViewModel.frequentlyPlayedChannelList.observeAsState().value.isNullOrEmpty()) {
                 channelViewModel.frequentlyPlayedChannelList.observeAsState().value?.let {
                     Column(horizontalAlignment = Alignment.Start) {
@@ -188,38 +189,40 @@ fun HomeScreen(
             }
             AdmobBanner(adLiveData = homeViewModel.adIdData, isAdaptive = true)
 
-            if (!channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty()) {
-                channelViewModel.popularChannelList?.observeAsState()?.value?.let {
-                    Column(horizontalAlignment = Alignment.Start) {
-                        HeaderText(
-                            context.getString(R.string.popular_channel),
-                            context.getString(R.string.see_all)
-                        ) {
-                            channelViewModel.setSeeAllChannelList(
-                                it,
-                                context.getString(R.string.popular_channel)
-                            )
-                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
+            when {
+                !channelViewModel.popularChannelList?.observeAsState()?.value.isNullOrEmpty() -> {
+                    channelViewModel.popularChannelList?.observeAsState()?.value?.let {
+                        Column(horizontalAlignment = Alignment.Start) {
+                            HeaderText(
+                                context.getString(R.string.popular_channel),
+                                context.getString(R.string.see_all)
+                            ) {
+                                channelViewModel.setSeeAllChannelList(
+                                    it,
+                                    context.getString(R.string.popular_channel)
+                                )
+                                navController.navigate(Routing.SeeAllChannelScreen.routeName)
 
-                        }
+                            }
 
-                        LazyRow(
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            modifier = Modifier.padding(
-                                start = 16.dp,
-                                top = 10.dp,
-                                bottom = MaterialTheme.dimens.stdDimen24
-                            )
-                        ) {
-                            items(items = it, key = { it.id!! }) { item ->
-                                RegularChannelItem(item, onItemClick = { clickedItem ->
-                                    gotoChannelDetail(context,
-                                        channelViewModel,
-                                        clickedItem,
-                                        navController,homeViewModel.adIdData
-                                    )
+                            LazyRow(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                modifier = Modifier.padding(
+                                    start = 16.dp,
+                                    top = 10.dp,
+                                    bottom = MaterialTheme.dimens.stdDimen24
+                                )
+                            ) {
+                                items(items = it, key = { it.id!! }) { item ->
+                                    RegularChannelItem(item, onItemClick = { clickedItem ->
+                                        gotoChannelDetail(context,
+                                            channelViewModel,
+                                            clickedItem,
+                                            navController,homeViewModel.adIdData
+                                        )
 
-                                })
+                                    })
+                                }
                             }
                         }
                     }
