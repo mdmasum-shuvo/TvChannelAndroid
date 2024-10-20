@@ -71,7 +71,7 @@ fun LiveEventCardItem(eventDto: EventDto, onItemClick: (ChannelDto) -> Unit = { 
                                 .data(eventDto.teamOneImageUrl).diskCachePolicy(CachePolicy.ENABLED)
                                 .build(),
 
-                            contentScale = ContentScale.Crop,
+                            contentScale = ContentScale.Fit,
                             contentDescription = context.getString(R.string.load_network_image),
                             onSuccess = {
                                 showShimmer.value = false
@@ -102,7 +102,7 @@ fun LiveEventCardItem(eventDto: EventDto, onItemClick: (ChannelDto) -> Unit = { 
                                 .data(eventDto.teamTwoImageUrl).diskCachePolicy(CachePolicy.ENABLED)
                                 .build(),
 
-                            contentScale = ContentScale.Crop,
+                            contentScale = ContentScale.Fit,
                             contentDescription = context.getString(R.string.load_network_image),
                             onSuccess = {
                                 showShimmer.value = false

@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
+import com.appifly.tvchannel.StartIoBannerAdView
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.LiveEventCardItem
@@ -59,7 +60,7 @@ fun ChannelScreen(
                     }
                 }
             }
-
+            StartIoBannerAdView()
 
         }
     }

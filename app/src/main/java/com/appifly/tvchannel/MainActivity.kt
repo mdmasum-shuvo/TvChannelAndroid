@@ -18,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -446,30 +444,12 @@ fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
 }
 
 @Composable
-fun StartIoBannerAd() {
+fun StartIoBannerAdView() {
     AndroidView(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(40.dp),
+        modifier = Modifier.fillMaxSize(),
         factory = ::Banner,
     )
 }
-
-/*fun loadBanner(context: Context) {
-    BannerRequest(context)
-        .setAdFormat(BannerFormat.BANNER)
-        .load { creator: BannerCreator?, error: String? ->
-            if (creator != null) {
-                val adView = creator.create(context, null)
-
-                // TODO save the adView and refresh the compose UI
-            } else {
-                // TODO handle error
-            }
-        }
-    AdView(adView)
-}*/
-
 
 @Composable
 fun AdView(adView: View) {
