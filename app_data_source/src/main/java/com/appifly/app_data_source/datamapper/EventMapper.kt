@@ -12,7 +12,7 @@ fun EventNetwork.toEntity(): EventEntity {
         id = this.id,
         channelListId = this.channelListId,
         endTime = this.endTime,
-        startTime = this.startTime,
+        startTime = this.matchStartTime,
         status = this.status,
         teamOneName = this.teamOneName,
         teamTwoName = this.teamTwoName,

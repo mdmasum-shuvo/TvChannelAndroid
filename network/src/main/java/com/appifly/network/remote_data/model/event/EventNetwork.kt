@@ -8,6 +8,7 @@ data class EventNetwork(
     val status: Int,
     val teamOneName: String,
     val teamTwoName: String,
+    val matchStartTime: String?,
     val team_one_image_url: String,
     val team_two_image_url: String
 )
