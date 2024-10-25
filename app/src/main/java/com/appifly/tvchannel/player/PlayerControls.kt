@@ -6,12 +6,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,8 +32,6 @@ import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.media3.common.Player.STATE_ENDED
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.Loader
-import com.appifly.tvchannel.utils.setLandscape
-import com.appifly.tvchannel.utils.setPortrait
 
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -46,13 +42,12 @@ fun PlayerControls(
     isPlaying: () -> Boolean,
     playbackState: () -> Int,
     getTitle: () -> String,
-    isFullScreen: Boolean,
     onPauseToggle: () -> Unit,
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onReplay: () -> Unit,
     onForward: () -> Unit,
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit
+    isFullScreen:Boolean=true
 ) {
 
     val visible = remember(isVisible()) { isVisible() }
@@ -198,70 +193,6 @@ fun PlayerControls(
                     }
                 }
 
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .padding(bottom = if (isFullScreen) 32.dp else 16.dp)
-                        .testTag("VideoSeek")
-                        .animateEnterExit(
-                            enter = slideInVertically(
-                                initialOffsetY = { fullHeight: Int -> fullHeight }
-                            ),
-                            exit = slideOutVertically(
-                                targetOffsetY = { fullHeight: Int -> fullHeight }
-                            )
-                        )
-                ) {
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp),
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Box {
-
-                        }
-
-                        IconButton(
-                            modifier = Modifier
-                                .testTag("FullScreenToggleButton")
-                                .padding(end = 16.dp)
-                                .size(24.dp)
-                                .animateEnterExit(
-                                    enter = slideInVertically(
-                                        initialOffsetY = { fullHeight: Int -> fullHeight }
-                                    ),
-                                    exit = slideOutVertically(
-                                        targetOffsetY = { fullHeight: Int -> fullHeight }
-                                    )
-                                ),
-                            onClick = {
-                                if (isFullScreen.not()) {
-                                    context.setLandscape()
-                                } else {
-                                    context.setPortrait()
-                                }.also {
-                                    onFullScreenToggle.invoke(isFullScreen.not())
-                                }
-                            }
-                        ) {
-                            Image(
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop,
-                                painter = painterResource(
-                                    id = if (isFullScreen) {
-                                        R.drawable.full_screen_exit
-                                    } else {
-                                        R.drawable.full_screen_entry
-                                    }
-                                ),
-                                contentDescription = stringResource(id = R.string.toggle_full_screen)
-                            )
-                        }
-                    }
-                }
             }
         }
         if (playing.not() && playerState == STATE_BUFFERING) {

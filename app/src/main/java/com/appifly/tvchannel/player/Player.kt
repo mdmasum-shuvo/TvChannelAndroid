@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.MediaItem
 import androidx.media3.common.Player
+import androidx.media3.common.Player.STATE_ENDED
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
@@ -122,7 +123,34 @@ fun PlayerView(
                 shouldShowControls = shouldShowControls.not()
             }
         )
+        PlayerControls(
+            modifier = Modifier.fillMaxSize(),
+            isVisible = { shouldShowControls },
+            isPlaying = { isPlaying },
+            playbackState = { playbackState },
+            getTitle = { title },
+            onPrevious = { playerWrapper.exoPlayer.seekToPrevious() },
+            onNext = { playerWrapper.exoPlayer.seekToNext() },
+            onReplay = { playerWrapper.exoPlayer.seekBack() },
+            onForward = { playerWrapper.exoPlayer.seekForward() },
+            onPauseToggle = {
+                when {
+                    playerWrapper.exoPlayer.isPlaying -> {
+                        playerWrapper.exoPlayer.pause()
+                    }
 
+                    playerWrapper.exoPlayer.isPlaying.not() && playbackState == STATE_ENDED -> {
+                        playerWrapper.exoPlayer.seekTo(0)
+                        playerWrapper.exoPlayer.playWhenReady = true
+                    }
+
+                    else -> {
+                        playerWrapper.exoPlayer.play()
+                    }
+                }
+                isPlaying = isPlaying.not()
+            },
+        )
 
     }
 
@@ -178,7 +206,7 @@ private fun VideoPlayer(
             factory = {
                 PlayerView(context).apply {
                     player = playerWrapper.exoPlayer
-                    useController = true
+                    useController = false
                     layoutParams = FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT
