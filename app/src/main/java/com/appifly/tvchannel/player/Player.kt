@@ -174,9 +174,7 @@ fun PortraitView(
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
-                    modifier = Modifier.height(
-                        (((MaterialTheme.dimens.gridItemHeight + 24) * it.size) /if (it.size < 3) 1 else 3).dp
-                    ),
+                    modifier  = Modifier.height((((MaterialTheme.dimens.gridItemHeight + MaterialTheme.dimens.stdDimen12.value + MaterialTheme.dimens.stdDimen16.value) * it.size+12) / if (it.size < 3) 1 else 3).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -185,7 +183,7 @@ fun PortraitView(
                         start = 12.dp,
                         top = 10.dp,
                         end = 12.dp,
-                        bottom = 16.dp
+                        bottom = 12.dp
                     )
                 ) {
                     items(items = it, key = { item -> item.id!! }) { item ->
