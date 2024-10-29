@@ -9,7 +9,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,26 +19,15 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.WindowCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
-import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
-import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
-import com.appifly.tvchannel.player.MainActivityViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.tv_ui.TvHomeScreen
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
-import com.appifly.tvchannel.ui.view.menu.MenuScreen
-import com.appifly.tvchannel.ui.view.search.SearchScreen
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -48,12 +36,10 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     private var appUpdateManager: AppUpdateManager? = null
     private val TAG: String = MainActivity::class.java.simpleName
@@ -88,7 +74,6 @@ class MainActivity : ComponentActivity() {
             installSplashScreen()
         }
         appUpdateManager = AppUpdateManagerFactory.create(this)
-        observeState()
         checkUpdate()
 
         setContent {
@@ -98,7 +83,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreenView(mainActivityViewModel::toggleFullScreen)
+                    MainScreenView()
                 }
             }
 
@@ -106,37 +91,7 @@ class MainActivity : ComponentActivity() {
         // Set up an OnPreDrawListener to the root view.
     }
 
-    private fun observeState() {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainActivityViewModel.uiState.observe(this@MainActivity) { state ->
-                    if (state.isFullScreen) {
-                        hideSystemBars()
-                    } else {
-                        showSystemBars()
-                    }
-                }
-            }
-        }
-    }
 
-
-    private fun hideSystemBars() {
-        // Configure the behavior of the hidden system bars
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        windowInsetsController.systemBarsBehavior =
-            WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        // Hide both the status bar and the navigation bar
-        windowInsetsController.hide(WindowInsetsCompat.Type.systemBars())
-    }
-
-    private fun showSystemBars() {
-        val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
-        windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-
-    }
 
     override fun onStop() {
         appUpdateManager?.unregisterListener(listener)
@@ -186,12 +141,10 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MainScreenView(
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
     val navController = rememberNavController()
     hiltViewModel<MainViewModel>()
     val channelViewModel: ChannelViewModel = hiltViewModel()
-    val homeViewModel: HomeViewModel = hiltViewModel()
     Scaffold(bottomBar = {
 
     }) { paddingValues ->
@@ -202,10 +155,6 @@ private fun MainScreenView(
             ) {
 
 
-                composable(Routing.MenuScreen.routeName) {
-
-                    MenuScreen(navController, homeViewModel)
-                }
 
                 composable(Routing.HomeScreen.routeName) {
 
@@ -213,19 +162,7 @@ private fun MainScreenView(
                 }
 
 
-                composable(Routing.FavoriteScreen.routeName) {
 
-                }
-
-
-                composable(Routing.SearchScreen.routeName) {
-                    val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
-                    SearchScreen(
-                        searchChannelViewModel = searchChannelViewModel,
-                        channelViewModel,
-                        navController
-                    )
-                }
             }
         }
 

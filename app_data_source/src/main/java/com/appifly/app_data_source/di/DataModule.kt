@@ -22,15 +22,11 @@ object DataModule {
         networkCallbackApi: NetworkCallbackApi,
         categoryDao: CategoryDao,
         channelDao: ChannelDao,
-        bannerDao: BannerDao, tvShowDao: TvShowDao,addDao: AdDao
     ): NetworkDataRepository {
         return NetworkDataRepositoryImpl(
             networkCallbackApi,
             categoryDao,
-            channelDao,
-            bannerDao,
-            tvShowDao,
-            addDao
+            channelDao
         )
     }
 

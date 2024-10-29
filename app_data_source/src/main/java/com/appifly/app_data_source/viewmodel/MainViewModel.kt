@@ -21,7 +21,6 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        //getCategoryData()
         applyWorker()
     }
 

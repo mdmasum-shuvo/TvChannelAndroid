@@ -21,9 +21,6 @@ class NetworkDataRepositoryImpl @Inject constructor(
     private val apiService: NetworkCallbackApi,
     private val categoryDao: CategoryDao,
     private val channelDao: ChannelDao,
-    private val bannerDao: BannerDao,
-    private val tvShowDao: TvShowDao,
-    private val adDao: AdDao,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
 ) : NetworkDataRepository {
@@ -83,87 +80,5 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getAllBanner() :DefaultResponse{
-        val responseData = DefaultResponse(statusCode =HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
-
-        when (val data = apiCall ({ apiService.getAllBanner() },ioDispatcher )) {
-            is DataState.Success -> {
-                if (data.result.data.isNotEmpty()) {
-                    withContext(ioDispatcher) {
-                        bannerDao.updateData(data.result.data.map { it.toEntity() })
-                        print("")
-                    }
-
-                }
-                return responseData
-            }
-
-            is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
-            }
-
-            is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
-            }
-
-        }
-    }
-
-    override suspend fun getAllTvShows():DefaultResponse {
-        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
-
-        when (val data = apiCall( { apiService.getAllTvShows() },ioDispatcher)) {
-            is DataState.Success -> {
-                if (data.result.data.isNotEmpty()) {
-                    withContext(ioDispatcher) {
-                        tvShowDao.updateData(data.result.data.map { it.toEntity() })
-                        print("")
-                    }
-
-                }
-
-                return responseData
-            }
-
-            is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
-            }
-
-            is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
-            }
-
-        }
-    }
-
-    override suspend fun getAllAddId(): DefaultResponse {
-        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
-
-        when (val data = apiCall( { apiService.getAllAdId() },ioDispatcher)) {
-            is DataState.Success -> {
-                withContext(ioDispatcher) {
-                    data.result.data?.toEntity()?.let { adDao.updateData(it) }
-                    print("")
-                }
-
-                return responseData
-            }
-
-            is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
-            }
-
-            is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
-            }
-
-        }
-    }
 
 }
