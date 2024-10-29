@@ -24,7 +24,6 @@ class TvApplication: Application(), Configuration.Provider , LifecycleOwner {
         super.onCreate()
         // Initialize your application
         lifecycleRegistry.currentState = Lifecycle.State.CREATED
-        // FirebaseMessaging.getInstance().subscribeToTopic("mastermind_notification");
         FirebaseApp.initializeApp(this)
         FirebaseMessaging.getInstance().subscribeToTopic("all")
 

@@ -126,7 +126,7 @@ val ExpandedDimens = Dimens(
     stdDimen16 = 16.dp,
     stdDimen12 = 12.dp,
     stdDimen10 = 10.dp, stdDimen8 = 8.dp,
-    gridCellsChannel = 5,
+    gridCellsChannel = 4,
     gridCellsFavorite = 4,
     mediumWeightTv = .9f,
     gridItemHeight = 112,

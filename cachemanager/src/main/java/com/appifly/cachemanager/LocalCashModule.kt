@@ -2,13 +2,9 @@ package com.appifly.cachemanager
 
 import android.content.Context
 import androidx.room.Room
-import com.appifly.cachemanager.dao.AdDao
-import com.appifly.cachemanager.dao.BannerDao
 import com.appifly.cachemanager.dao.CategoryDao
 import com.appifly.cachemanager.dao.ChannelDao
-import com.appifly.cachemanager.dao.FavoriteDao
 import com.appifly.cachemanager.dao.FrequentlyDao
-import com.appifly.cachemanager.dao.TvShowDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,33 +51,10 @@ object LocalCashModule {
 
     @Provides
     @Singleton
-    fun provideBannerDao(database: TvDatabase): BannerDao {
-        return database.bannerDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideTvShowDao(database: TvDatabase): TvShowDao {
-        return database.tvShowDao()
-    }
-
-    @Provides
-    @Singleton
-    fun provideFavoriteDao(database: TvDatabase): FavoriteDao {
-        return database.favoriteDao()
-    }
-
-    @Provides
-    @Singleton
     fun provideFrequentlyDao(database: TvDatabase): FrequentlyDao {
         return database.frequentlyDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideAdDao(database: TvDatabase): AdDao {
-        return database.adDao()
-    }
 
 
 }

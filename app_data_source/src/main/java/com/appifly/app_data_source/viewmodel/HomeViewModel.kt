@@ -3,9 +3,6 @@ package com.appifly.app_data_source.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.appifly.app_data_source.datamapper.toDto
-import com.appifly.cachemanager.dao.AdDao
-import com.appifly.cachemanager.dao.BannerDao
-import com.appifly.cachemanager.dao.TvShowDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

@@ -1,9 +1,6 @@
 package com.appifly.tvchannel
 
-import SeeAllChannelScreen
-import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -21,8 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -35,29 +30,16 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.appifly.app_data_source.dto.AdIdDto
-import com.appifly.app_data_source.viewmodel.CategoryViewModel
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
-import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.player.MainActivityViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.tv_ui.TvHomeScreen
-import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
-import com.appifly.tvchannel.ui.view.channel_screen.ChannelDetailScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
-import com.facebook.ads.Ad
-import com.facebook.ads.InterstitialAdListener
-import com.google.android.gms.ads.AdError
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.FullScreenContentCallback
-import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.interstitial.InterstitialAd
-import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.appupdate.AppUpdateOptions
@@ -68,8 +50,6 @@ import com.google.android.play.core.install.model.UpdateAvailability
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-private var mInterstitialAd: InterstitialAd? = null
-private var interstitialAd: com.facebook.ads.InterstitialAd? = null
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -118,7 +98,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainScreenView(mainActivityViewModel::toggleFullScreen, this)
+                    MainScreenView(mainActivityViewModel::toggleFullScreen)
                 }
             }
 
@@ -206,21 +186,14 @@ class MainActivity : ComponentActivity() {
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 private fun MainScreenView(
-    onFullScreenToggle: (isFullScreen: Boolean) -> Unit, activity: Activity
+    onFullScreenToggle: (isFullScreen: Boolean) -> Unit
 ) {
     val navController = rememberNavController()
     hiltViewModel<MainViewModel>()
-    val showBottomNav = remember { mutableStateOf(false) }
-
-    val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
-    val seeAllChannelViewModel: SeeAllChannelViewModel = hiltViewModel()
     Scaffold(bottomBar = {
-        if (showBottomNav.value) BottomNavigation(
-            navController,
-            homeViewModel
-        )
+
     }) { paddingValues ->
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
@@ -230,54 +203,22 @@ private fun MainScreenView(
 
 
                 composable(Routing.MenuScreen.routeName) {
-                    showBottomNav.value = true
 
                     MenuScreen(navController, homeViewModel)
                 }
 
                 composable(Routing.HomeScreen.routeName) {
-                    showBottomNav.value = false
 
                     TvHomeScreen(navController = navController, channelViewModel = channelViewModel)
                 }
 
-           /*     composable(Routing.ChannelScreen.routeName) {
-                    showBottomNav.value = true
-
-                    ChannelScreen(categoryViewModel, homeViewModel, channelViewModel, navController)
-                }*/
 
                 composable(Routing.FavoriteScreen.routeName) {
-                    showBottomNav.value = true
-                    mInterstitialAd?.show(activity)
 
-            /*        FavoriteScreen(
-                        navController,
-                        homeViewModel,
-                        categoryViewModel,
-                        channelViewModel
-                    )*/
                 }
-        /*        composable(Routing.FavoriteChannelListScreen.routeName) {
-                    showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
 
-                    FavoriteChannelListScreen(channelViewModel, navController)
-                }*/
-                composable(Routing.ChannelDetailScreen.routeName) {
-                    showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
-                    ChannelDetailScreen(
-                        channelViewModel,
-                        onFullScreenToggle = onFullScreenToggle, navigateBack = {
-                            navController.navigateUp()
-                        }, navController = navController
-                    )
-                }
 
                 composable(Routing.SearchScreen.routeName) {
-                    showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
                         searchChannelViewModel = searchChannelViewModel,
@@ -285,18 +226,6 @@ private fun MainScreenView(
                         navController
                     )
                 }
-
-                composable(Routing.SeeAllChannelScreen.routeName) {
-                    showBottomNav.value = false
-                    mInterstitialAd?.show(activity)
-                    channelViewModel.setSelectedChannel(null)
-                    SeeAllChannelScreen(
-                        channelViewModel,
-                        onFullScreenToggle = onFullScreenToggle, navigateBack = {
-                            navController.popBackStack()
-                        }, navController = navController
-                    )
-                }
             }
         }
 
@@ -304,107 +233,6 @@ private fun MainScreenView(
 
 }
 
-fun loadInterstitialAdd(activity: Context, adLiveData: List<AdIdDto>?) {
-    val adRequest = AdRequest.Builder().build()
-    adLiveData?.let { adData ->
 
-        if (adData.isNotEmpty()) {
-            InterstitialAd.load(
-                activity,
-                if (BuildConfig.DEBUG) BuildConfig.INTERSTITIAL_ADD_ID else adData[0].admobInterstitial
-                    ?: "",
-                adRequest,
-                object : InterstitialAdLoadCallback() {
-                    override fun onAdFailedToLoad(adError: LoadAdError) {
-                        adError.toString().let { Log.d(ContentValues.TAG, it) }
-                        mInterstitialAd = null
-                        showFacebookInterstitialAd(activity, adLiveData)
-                    }
-
-                    override fun onAdLoaded(interstitialAd: InterstitialAd) {
-                        Log.d(ContentValues.TAG, "Ad was loaded.")
-                        mInterstitialAd = interstitialAd
-                    }
-                })
-            mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
-                override fun onAdClicked() {
-                    // Called when a click is recorded for an ad.
-                    Log.d(ContentValues.TAG, "Ad was clicked.")
-                }
-
-                override fun onAdDismissedFullScreenContent() {
-                    // Called when ad is dismissed.
-                    Log.d(ContentValues.TAG, "Ad dismissed fullscreen content.")
-                    mInterstitialAd = null
-                }
-
-                override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                    // Called when ad fails to show.
-                    Log.e(ContentValues.TAG, "Ad failed to show fullscreen content.")
-                    mInterstitialAd = null
-                }
-
-                override fun onAdImpression() {
-                    // Called when an impression is recorded for an ad.
-                    Log.d(ContentValues.TAG, "Ad recorded an impression.")
-                }
-
-                override fun onAdShowedFullScreenContent() {
-                    // Called when ad is shown.
-                    Log.d(ContentValues.TAG, "Ad showed fullscreen content.")
-                }
-            }
-        }
-    }
-
-
-}
-
-fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
-    adLiveData?.let { adData ->
-
-        if (adData.isNotEmpty()) {
-            interstitialAd = com.facebook.ads.InterstitialAd(
-                context,
-                if (BuildConfig.DEBUG) BuildConfig.FB_INTERSTITIAL_ADD_ID else adData[0].fbInterstitial
-                    ?: ""
-            )
-            val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
-
-                override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
-                    Log.d(ContentValues.TAG, "onError: " + p1?.errorMessage)
-                }
-
-                override fun onAdLoaded(ad: com.facebook.ads.Ad) {
-                    interstitialAd!!.show()
-                }
-
-                override fun onAdClicked(ad: com.facebook.ads.Ad) {
-
-                    Log.d(ContentValues.TAG, "onAdClicked")
-                }
-
-                override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
-
-                    Log.d(ContentValues.TAG, "onLoggingImpression")
-                }
-
-                override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
-                    Log.d(ContentValues.TAG, "onInterstitialDisplayed")
-                }
-
-                override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
-                    Log.d(ContentValues.TAG, "onInterstitialDismissed")
-                }
-            }
-            interstitialAd!!.loadAd(
-                interstitialAd!!.buildLoadAdConfig()
-                    .withAdListener(interstitialAdListener)
-                    .build()
-            )
-        }
-    }
-
-}
 
 
