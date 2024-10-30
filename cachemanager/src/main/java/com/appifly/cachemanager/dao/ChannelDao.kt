@@ -25,6 +25,7 @@ interface ChannelDao {
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE}")
     suspend fun getAllChannel(): List<ChannelEntity>
 
+
     @Transaction
     suspend fun updateData(users: List<ChannelEntity>): List<Long> {
         deleteAll()

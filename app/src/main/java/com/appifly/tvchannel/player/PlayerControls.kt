@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.media3.common.Player.STATE_ENDED
+import androidx.tv.material3.IconButton
 import com.appifly.tvchannel.R
 import com.appifly.tvchannel.ui.common_component.Loader
 
@@ -142,7 +142,19 @@ fun PlayerControls(
                     }
 
                     IconButton(
-                        modifier = controlButtonModifier,
+                        modifier = Modifier
+                           // .focusable()  // Make the button focusable for D-pad navigation
+                      /*      .onKeyEvent { keyEvent ->
+                                // Check if the key event is D-pad center or Enter
+                                when (keyEvent.nativeKeyEvent.keyCode) {
+                                    KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
+                                        // Call the onPauseToggle function when Enter or D-pad center is pressed
+                                        onPauseToggle()
+                                        true
+                                    }
+                                    else -> false
+                                }
+                            }*/,
                         onClick = onPauseToggle
                     ) {
                         Image(
@@ -199,5 +211,6 @@ fun PlayerControls(
             Loader()
         }
     }
+
 
 }

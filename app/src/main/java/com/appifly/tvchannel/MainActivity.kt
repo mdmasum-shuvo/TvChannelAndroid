@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
+import com.appifly.tvchannel.player.PlayVideo
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.tv_ui.TvHomeScreen
 import com.appifly.tvchannel.ui.theme.TvChannelTheme
@@ -160,6 +161,10 @@ private fun MainScreenView(
 
                     TvHomeScreen(navController = navController, channelViewModel = channelViewModel)
                 }
+                    composable(Routing.ChannelDetailScreen.routeName) {
+                        PlayVideo(channelViewModel = channelViewModel)
+                }
+
 
 
 

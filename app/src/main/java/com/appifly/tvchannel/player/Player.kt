@@ -1,6 +1,5 @@
 package com.appifly.tvchannel.player
 
-import android.view.KeyEvent
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
@@ -19,7 +18,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.viewinterop.AndroidView
@@ -42,7 +40,7 @@ fun LandscapeView(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,
 
-        )
+            )
     }
 }
 
@@ -51,15 +49,13 @@ fun getGridSize(size: Int): Int {
 }
 
 
-
-
 @Composable
 fun PlayerView(
     modifier: Modifier = Modifier,
     playerWrapper: PlayerWrapper,
     onTrailerChange: ((Int) -> Unit)? = null,
 
-) {
+    ) {
     val context = LocalContext.current
 
 
@@ -119,10 +115,12 @@ fun PlayerView(
         VideoPlayer(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,
+            playbackState=playbackState,
             onPlayerClick = {
                 shouldShowControls = shouldShowControls.not()
             }
         )
+
         PlayerControls(
             modifier = Modifier.fillMaxSize(),
             isVisible = { shouldShowControls },
@@ -156,11 +154,13 @@ fun PlayerView(
 
 }
 
+
 @OptIn(UnstableApi::class)
 @Composable
 private fun VideoPlayer(
     modifier: Modifier = Modifier,
     playerWrapper: PlayerWrapper,
+    playbackState: Int,
     onPlayerClick: () -> Unit
 ) {
     val context = LocalContext.current
@@ -175,38 +175,11 @@ private fun VideoPlayer(
 
     ) {
         AndroidView(
-            modifier = Modifier.onKeyEvent {event->
-                when (event.nativeKeyEvent.keyCode)        {
-                    KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE -> {
-                        if (playerWrapper.exoPlayer?.isPlaying == true) playerWrapper.exoPlayer?.pause() else playerWrapper.exoPlayer?.play()
-                        true
-                    }
-                    KeyEvent.KEYCODE_MEDIA_PLAY -> {
-                        playerWrapper.exoPlayer?.play()
-                        true
-                    }
-                    KeyEvent.KEYCODE_MEDIA_PAUSE -> {
-                        playerWrapper.exoPlayer?.pause()
-                        true
-                    }
-                    KeyEvent.KEYCODE_MEDIA_FAST_FORWARD -> {
-                        playerWrapper.exoPlayer?.seekForward()
-                        true
-                    }
-                    KeyEvent.KEYCODE_MEDIA_REWIND -> {
-                        playerWrapper.exoPlayer?.seekBack()
-                        true
-                    }
-                    else -> false
-                }
-
-
-            }
-                .testTag("VideoPlayer"),
             factory = {
                 PlayerView(context).apply {
                     player = playerWrapper.exoPlayer
                     useController = false
+
                     layoutParams = FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT

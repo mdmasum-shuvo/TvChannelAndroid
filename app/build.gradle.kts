@@ -145,8 +145,7 @@ dependencies {
     implementation("com.google.firebase:firebase-messaging")
     implementation ("androidx.core:core-splashscreen:1.0.1")
     implementation ("com.google.accompanist:accompanist-flowlayout:0.20.0")
-    //admob
-    implementation("com.google.android.gms:play-services-ads:23.0.0")
+
     //WindowSizeClass
     implementation ("androidx.compose.material3:material3-window-size-class:1.2.1")
     implementation ("com.google.android.play:app-update:${rootProject.extra.get("appUpdateVersion")}")
