@@ -1,13 +1,14 @@
 package com.appifly.tvchannel.player
 
+import android.util.Log
+import android.view.KeyEvent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -18,21 +19,19 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.onKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.media3.common.Player.STATE_BUFFERING
-import androidx.media3.common.Player.STATE_ENDED
 import androidx.tv.material3.IconButton
 import com.appifly.tvchannel.R
-import com.appifly.tvchannel.ui.common_component.Loader
-
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -47,24 +46,21 @@ fun PlayerControls(
     onNext: () -> Unit,
     onReplay: () -> Unit,
     onForward: () -> Unit,
-    isFullScreen:Boolean=true
+    isFullScreen: Boolean = true
 ) {
-
     val visible = remember(isVisible()) { isVisible() }
-
     val playing = remember(isPlaying()) { isPlaying() }
-
     val title = remember(getTitle()) { getTitle() }
+    val playerState = remember(playbackState()) { playbackState() }
 
+    // Create a FocusRequester
+    val playPauseFocusRequester = remember { FocusRequester() }
 
-    val playerState = remember(playbackState()) {
-        playbackState()
+    LaunchedEffect(visible) {
+        if (visible) {
+            playPauseFocusRequester.requestFocus()  // Request focus when controls are visible
+        }
     }
-
-
-    val context = LocalContext.current
-
-
 
     Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
         AnimatedVisibility(
@@ -75,47 +71,30 @@ fun PlayerControls(
         ) {
             Box(
                 modifier = Modifier
-                    .testTag("PlayerControlsParent")
                     .background(MaterialTheme.colorScheme.background.copy(alpha = 0.6f))
             ) {
-
                 Text(
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .padding(16.dp)
-                        .testTag("VideoTitle")
-                        .animateEnterExit(
-                            enter = slideInVertically(
-                                initialOffsetY = { fullHeight: Int -> -fullHeight }
-                            ),
-                            exit = shrinkVertically()
-                        ),
+                        .padding(16.dp),
                     text = title,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                val controlButtonModifier: Modifier = remember(isFullScreen) {
-
-                    if (isFullScreen) {
-                        Modifier
-                            .padding(horizontal = 8.dp)
-                            .size(40.dp)
-                    } else {
-                        Modifier.size(32.dp)
-                    }
+                val controlButtonModifier: Modifier = if (isFullScreen) {
+                    Modifier
+                        .padding(horizontal = 8.dp)
+                        .size(40.dp)
+                } else {
+                    Modifier.size(32.dp)
                 }
 
                 Row(
                     modifier = Modifier
                         .align(Alignment.Center)
-                        .fillMaxWidth()
-                        .testTag("VideoControlParent"),
-                    horizontalArrangement = if (isFullScreen) {
-                        Arrangement.Center
-                    } else {
-                        Arrangement.SpaceEvenly
-                    }
+                        .fillMaxWidth(),
+                    horizontalArrangement = if (isFullScreen) Arrangement.Center else Arrangement.SpaceEvenly
                 ) {
                     IconButton(
                         modifier = controlButtonModifier,
@@ -123,9 +102,8 @@ fun PlayerControls(
                     ) {
                         Image(
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
                             painter = painterResource(id = androidx.media3.ui.R.drawable.exo_ic_skip_previous),
-                            contentDescription = stringResource(id = R.string.play_previous)
+                            contentDescription = null
                         )
                     }
 
@@ -135,48 +113,35 @@ fun PlayerControls(
                     ) {
                         Image(
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
                             painter = painterResource(id = R.drawable.ic_replay_5),
-                            contentDescription = stringResource(id = R.string.rewind_5)
+                            contentDescription = null
                         )
                     }
 
                     IconButton(
-                        modifier = Modifier
-                           // .focusable()  // Make the button focusable for D-pad navigation
-                      /*      .onKeyEvent { keyEvent ->
-                                // Check if the key event is D-pad center or Enter
-                                when (keyEvent.nativeKeyEvent.keyCode) {
-                                    KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
-                                        // Call the onPauseToggle function when Enter or D-pad center is pressed
-                                        onPauseToggle()
-                                        true
-                                    }
-                                    else -> false
+                        modifier = controlButtonModifier
+                            .focusRequester(playPauseFocusRequester) // Apply FocusRequester
+                            .focusable()
+                            .onKeyEvent { keyEvent ->
+                                if (keyEvent.type == KeyEventType.KeyDown &&
+                                    (keyEvent.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER ||
+                                            keyEvent.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER)
+                                ) {
+                                    Log.d("PlayerControls", "D-pad Center/Enter detected, toggling play/pause")
+                                    onPauseToggle()
+                                    true
+                                } else {
+                                    false
                                 }
-                            }*/,
-                        onClick = onPauseToggle
+                            },
+                        onClick = { onPauseToggle() }
                     ) {
                         Image(
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
                             painter = painterResource(
-                                id =
-                                when {
-                                    playing -> {
-                                        R.drawable.pause_button
-                                    }
-
-                                    playing.not() && playerState == STATE_ENDED -> {
-                                        R.drawable.play_button
-                                    }
-
-                                    else -> {
-                                        R.drawable.play_button
-                                    }
-                                }
+                                id = if (playing)R.drawable.pause_button else R.drawable.play_button
                             ),
-                            contentDescription = stringResource(id = R.string.toggle_play)
+                            contentDescription = null
                         )
                     }
 
@@ -186,9 +151,8 @@ fun PlayerControls(
                     ) {
                         Image(
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
                             painter = painterResource(id = R.drawable.ic_forward_10),
-                            contentDescription = stringResource(id = R.string.forward_10)
+                            contentDescription = null
                         )
                     }
 
@@ -198,19 +162,12 @@ fun PlayerControls(
                     ) {
                         Image(
                             modifier = Modifier.fillMaxSize(),
-                            contentScale = ContentScale.Crop,
-                            painter = painterResource(id = androidx.media3.ui.R.drawable.exo_ic_skip_next),//R.drawable.ic_skip_next
-                            contentDescription = stringResource(id = R.string.play_next)
+                            painter = painterResource(id = androidx.media3.ui.R.drawable.exo_ic_skip_next),
+                            contentDescription = null
                         )
                     }
                 }
-
             }
         }
-        if (playing.not() && playerState == STATE_BUFFERING) {
-            Loader()
-        }
     }
-
-
 }
