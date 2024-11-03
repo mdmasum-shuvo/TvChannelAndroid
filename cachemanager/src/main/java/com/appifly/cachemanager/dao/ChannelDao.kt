@@ -13,9 +13,6 @@ interface ChannelDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(list: List<ChannelEntity>):List<Long>
 
-    @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE name LIKE  '%' || :search || '%'  ")
-    suspend fun searchChannel(search:String): List<ChannelEntity>?
-
     @Query("SELECT * FROM ${LocalDbConstant.CHANNEL_TABLE} WHERE isPopular=1")
     fun getPopularChannel():List<ChannelEntity>?
 
