@@ -27,24 +27,6 @@ fun TextView32W500(
 }
 
 @Composable
-fun TextView16W500(
-    modifier: Modifier = Modifier,
-    value: String,
-    color: Color = MaterialTheme.colorScheme.tertiary,
-    textAlign: TextAlign = TextAlign.Start,
-) {
-    Text(
-        modifier = modifier,
-        text = value,
-        color = color,
-        style = MaterialTheme.typography.titleLarge,
-        textAlign = textAlign,
-    )
-}
-
-
-
-@Composable
 fun TextView14W500(
     modifier: Modifier = Modifier,
     value: String,
@@ -63,23 +45,3 @@ fun TextView14W500(
         maxLines = maxLine
     )
 }
-
-@Composable
-fun TextView12W400(
-    modifier: Modifier = Modifier,
-    value: String,
-    color: Color = MaterialTheme.colorScheme.tertiary,
-    textAlign: TextAlign = TextAlign.Start,
-    overflow: TextOverflow = TextOverflow.Visible,
-) {
-    Text(
-        modifier = modifier,
-        text = value,
-        color = color,
-        style = MaterialTheme.typography.bodySmall,
-        textAlign = textAlign,
-        overflow = overflow,
-
-    )
-}
-

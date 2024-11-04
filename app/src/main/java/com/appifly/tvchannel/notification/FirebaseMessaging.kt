@@ -30,12 +30,6 @@ class FirebaseMessaging :FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
-
-        // Check if message contains a data payload.
-        if (remoteMessage.data.isNotEmpty()) {
-
-        }
-
         // Check if message contains a notification payload.
         remoteMessage.notification?.let {
             val intent = Intent(this, MainActivity::class.java).apply {

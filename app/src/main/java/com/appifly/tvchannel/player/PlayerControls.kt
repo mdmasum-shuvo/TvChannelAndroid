@@ -3,7 +3,6 @@ package com.appifly.tvchannel.player
 import android.util.Log
 import android.view.KeyEvent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
@@ -30,10 +29,11 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.media3.common.Player.STATE_BUFFERING
 import androidx.tv.material3.IconButton
 import com.appifly.tvchannel.R
+import com.appifly.tvchannel.ui.common_component.Loader
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun PlayerControls(
     modifier: Modifier = Modifier,
@@ -43,9 +43,6 @@ fun PlayerControls(
     getTitle: () -> String,
     onPauseToggle: () -> Unit,
     onPrevious: () -> Unit,
-    onNext: () -> Unit,
-    onReplay: () -> Unit,
-    onForward: () -> Unit,
     isFullScreen: Boolean = true
 ) {
     val visible = remember(isVisible()) { isVisible() }
@@ -82,13 +79,9 @@ fun PlayerControls(
                     color = MaterialTheme.colorScheme.onBackground
                 )
 
-                val controlButtonModifier: Modifier = if (isFullScreen) {
-                    Modifier
-                        .padding(horizontal = 8.dp)
-                        .size(40.dp)
-                } else {
-                    Modifier.size(32.dp)
-                }
+                val controlButtonModifier: Modifier = if (isFullScreen) Modifier
+                    .padding(horizontal = 8.dp)
+                    .size(40.dp) else Modifier.size(32.dp)
 
                 Row(
                     modifier = Modifier
@@ -107,16 +100,7 @@ fun PlayerControls(
                         )
                     }
 
-                    IconButton(
-                        modifier = controlButtonModifier,
-                        onClick = onReplay
-                    ) {
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(id = R.drawable.ic_replay_5),
-                            contentDescription = null
-                        )
-                    }
+
 
                     IconButton(
                         modifier = controlButtonModifier
@@ -127,7 +111,10 @@ fun PlayerControls(
                                     (keyEvent.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_DPAD_CENTER ||
                                             keyEvent.nativeKeyEvent.keyCode == KeyEvent.KEYCODE_ENTER)
                                 ) {
-                                    Log.d("PlayerControls", "D-pad Center/Enter detected, toggling play/pause")
+                                    Log.d(
+                                        "PlayerControls",
+                                        "D-pad Center/Enter detected, toggling play/pause"
+                                    )
                                     onPauseToggle()
                                     true
                                 } else {
@@ -139,35 +126,17 @@ fun PlayerControls(
                         Image(
                             modifier = Modifier.fillMaxSize(),
                             painter = painterResource(
-                                id = if (playing)R.drawable.pause_button else R.drawable.play_button
+                                id = if (playing) R.drawable.pause_button else R.drawable.play_button
                             ),
                             contentDescription = null
                         )
                     }
 
-                    IconButton(
-                        modifier = controlButtonModifier,
-                        onClick = onForward
-                    ) {
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(id = R.drawable.ic_forward_10),
-                            contentDescription = null
-                        )
-                    }
-
-                    IconButton(
-                        modifier = controlButtonModifier,
-                        onClick = onNext
-                    ) {
-                        Image(
-                            modifier = Modifier.fillMaxSize(),
-                            painter = painterResource(id = androidx.media3.ui.R.drawable.exo_ic_skip_next),
-                            contentDescription = null
-                        )
-                    }
                 }
             }
+        }
+        if (playing.not() && playerState == STATE_BUFFERING) {
+            Loader()
         }
     }
 }

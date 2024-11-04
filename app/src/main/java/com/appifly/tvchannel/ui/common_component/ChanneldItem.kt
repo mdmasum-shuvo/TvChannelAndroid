@@ -40,7 +40,6 @@ fun LargeChannelItem(
     val context = LocalContext.current
     Card(
         onClick = {onItemClick(item)},
-      //  shape = CardDefaults.shape(shape = MaterialTheme.shapes.medium),
         colors =
         CardDefaults.colors(
             containerColor = cardBackgroundColorDark,

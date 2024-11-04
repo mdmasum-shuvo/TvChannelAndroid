@@ -93,7 +93,6 @@ class MainActivity : ComponentActivity() {
     }
 
 
-
     override fun onStop() {
         appUpdateManager?.unregisterListener(listener)
         super.onStop()
@@ -156,16 +155,13 @@ private fun MainScreenView(
             ) {
 
 
-
                 composable(Routing.HomeScreen.routeName) {
 
                     TvHomeScreen(navController = navController, channelViewModel = channelViewModel)
                 }
-                    composable(Routing.ChannelDetailScreen.routeName) {
-                        PlayVideo(channelViewModel = channelViewModel)
+                composable(Routing.ChannelDetailScreen.routeName) {
+                    PlayVideo(channelViewModel = channelViewModel)
                 }
-
-
 
 
             }

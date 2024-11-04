@@ -56,8 +56,6 @@ fun PlayerView(
     onTrailerChange: ((Int) -> Unit)? = null,
 
     ) {
-    val context = LocalContext.current
-
 
 
     Box(modifier = modifier) {
@@ -115,7 +113,6 @@ fun PlayerView(
         VideoPlayer(
             modifier = Modifier.fillMaxSize(),
             playerWrapper = playerWrapper,
-            playbackState=playbackState,
             onPlayerClick = {
                 shouldShowControls = shouldShowControls.not()
             }
@@ -128,9 +125,7 @@ fun PlayerView(
             playbackState = { playbackState },
             getTitle = { title },
             onPrevious = { playerWrapper.exoPlayer.seekToPrevious() },
-            onNext = { playerWrapper.exoPlayer.seekToNext() },
-            onReplay = { playerWrapper.exoPlayer.seekBack() },
-            onForward = { playerWrapper.exoPlayer.seekForward() },
+
             onPauseToggle = {
                 when {
                     playerWrapper.exoPlayer.isPlaying -> {
@@ -160,7 +155,6 @@ fun PlayerView(
 private fun VideoPlayer(
     modifier: Modifier = Modifier,
     playerWrapper: PlayerWrapper,
-    playbackState: Int,
     onPlayerClick: () -> Unit
 ) {
     val context = LocalContext.current

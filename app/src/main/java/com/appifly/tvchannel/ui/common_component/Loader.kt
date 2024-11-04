@@ -8,6 +8,3 @@ import com.spr.jetpack_loading.components.indicators.LineSpinFadeLoaderIndicator
 fun Loader(){
     LineSpinFadeLoaderIndicator()
 }
-/*
-LineSpinFadeLoaderIndicator()
-*/

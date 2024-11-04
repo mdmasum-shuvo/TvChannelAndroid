@@ -31,7 +31,6 @@ fun PlayVideo(
 
     ) {
 
-
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
 
@@ -49,7 +48,6 @@ fun PlayVideo(
 
         }
     }
-
 
 
     DisposableEffect(key1 = Unit) {
@@ -75,7 +73,7 @@ fun PlayVideo(
         }
     }
 
-    AndroidTvExoPlayer (
+    AndroidTvExoPlayer(
         playerWrapper = PlayerWrapper(exoPlayer),
     )
 }
@@ -90,8 +88,6 @@ fun playerReadyToPlay(data: ChannelDto, exoPlayer: ExoPlayer) {
         .setMediaMetadata(MediaMetadata.Builder().setDisplayTitle(data.name).build())
         .build()
     val mediaSourceFactory = DefaultMediaSourceFactory(httpDataSourceFactory)
-    // Create a media item
-    // val mediaItem = MediaItem.fromUri(Uri.parse(data.liveUrl))
     exoPlayer.setMediaSource(mediaSourceFactory.createMediaSource(mediaItem))
     exoPlayer.prepare()
     exoPlayer.play()

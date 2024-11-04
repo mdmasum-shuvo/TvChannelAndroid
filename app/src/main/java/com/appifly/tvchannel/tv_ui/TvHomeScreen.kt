@@ -41,7 +41,12 @@ fun TvHomeScreen(
 ) {
 
     Column {
-        Box(modifier = Modifier.padding(start = 24.dp, top = 24.dp).fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+        Box(
+            modifier = Modifier
+                .padding(start = 24.dp, top = 24.dp)
+                .fillMaxWidth(),
+            contentAlignment = Alignment.TopCenter
+        ) {
             ImageComponent(R.drawable.app_logo, modifier = Modifier.size(60.dp))
         }
         SpacerHeight(24.dp)
@@ -51,8 +56,8 @@ fun TvHomeScreen(
                     item {
                         TvCategoryItem(
                             "All",
-                        ) { value ->
-                            channelViewModel.catId =0
+                        ) {
+                            channelViewModel.catId = 0
                             channelViewModel.callChannelDataByCatId()
                         }
                     }
@@ -67,7 +72,7 @@ fun TvHomeScreen(
                     item {
                         TvCategoryItem(
                             "Frequently Played",
-                        ) { value ->
+                        ) {
                             channelViewModel.getAllFrequentlyPlayedChannel()
                         }
                     }
@@ -75,7 +80,7 @@ fun TvHomeScreen(
                     item {
                         TvCategoryItem(
                             "Popular Channel",
-                        ) { value ->
+                        ) {
                             channelViewModel.getPopularChannel()
                         }
                     }
@@ -83,7 +88,11 @@ fun TvHomeScreen(
                 }
                 SpacerWidth(24.dp)
 
-                Box(modifier = Modifier.weight(0.8f).padding(bottom = 24.dp)) {
+                Box(
+                    modifier = Modifier
+                        .weight(0.8f)
+                        .padding(bottom = 24.dp)
+                ) {
                     channelViewModel.channelData.observeAsState().value?.let {
                         LazyVerticalGrid(
                             columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
@@ -96,7 +105,7 @@ fun TvHomeScreen(
                                 bottom = 16.dp
                             )
                         ) {
-                            items(items = it, ) { item ->
+                            items(items = it) { item ->
                                 LargeChannelItem(
                                     item = item,
                                     onItemClick = { clickedItem ->
