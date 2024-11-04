@@ -13,10 +13,8 @@
     <application
         android:name=".app.TvApplication"
         android:allowBackup="false"
-        android:icon="@mipmap/ic_launcher"
-        android:banner="@mipmap/ic_launcher"
+        android:banner="@drawable/app_banner_icon"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.App.Splash"
         android:usesCleartextTraffic="true"
