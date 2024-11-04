@@ -154,9 +154,7 @@ private fun MainScreenView(
                 startDestination = Routing.HomeScreen.routeName
             ) {
 
-
                 composable(Routing.HomeScreen.routeName) {
-
                     TvHomeScreen(navController = navController, channelViewModel = channelViewModel)
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
