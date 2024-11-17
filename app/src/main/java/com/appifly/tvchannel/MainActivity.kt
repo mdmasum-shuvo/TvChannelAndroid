@@ -237,7 +237,7 @@ private fun MainScreenView(
                 .setCallback { /* ready to request ads */ }
                 .init()
 
-            StartAppSDK.setTestAdsEnabled(!BuildConfig.DEBUG)
+            StartAppSDK.setTestAdsEnabled(BuildConfig.DEBUG)
         }
 
     }

@@ -12,13 +12,13 @@ import com.appifly.cachemanager.model.AdIdEntity
 interface AdDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(data: AdIdEntity): Long
+    suspend fun insertAll(data:  List<AdIdEntity>):  List<Long>
 
     @Query("select * from ad_id_table")
     fun getAllAdID(): LiveData<List<AdIdEntity>>?
 
     @Transaction
-    suspend fun updateData(data: AdIdEntity):Long {
+    suspend fun updateData(data: List<AdIdEntity>): List<Long> {
         deleteAll()
         return insertAll(data)
     }

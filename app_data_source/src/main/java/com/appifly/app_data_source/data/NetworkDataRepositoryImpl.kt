@@ -164,8 +164,10 @@ class NetworkDataRepositoryImpl @Inject constructor(
         when (val data = apiCall({ apiService.getAllAdId() }, ioDispatcher)) {
             is DataState.Success -> {
                 withContext(ioDispatcher) {
-                    data.result.ad_networks.map { it.toEntity() }
-                        .map { data -> adDao.updateData(data) }
+                    data.result.ad_networks.map { it.toEntity()}.let {data->
+                        adDao.updateData(data)
+                    }
+
                     print("")
                 }
 

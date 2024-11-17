@@ -6,7 +6,7 @@ import com.appifly.cachemanager.LocalDbConstant
 
 @Entity(tableName = LocalDbConstant.AD_ID_TABLE)
 data class AdIdEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int,
     val appId: String?,
     val bannerAdId: String?,
