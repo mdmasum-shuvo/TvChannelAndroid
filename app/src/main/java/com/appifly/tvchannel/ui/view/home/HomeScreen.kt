@@ -115,7 +115,7 @@ fun HomeScreen(
                     viewModel.setCategoryName(item.name)
                 }
             }
-            StartIoBannerAdView()
+            StartIoBannerAdView(homeViewModel.adIdData)
 
             when {
                 !channelViewModel.channelData.observeAsState().value.isNullOrEmpty() -> {
@@ -238,7 +238,7 @@ fun HomeScreen(
                     }
                 }
             }
-            StartIoBannerAdView()
+            StartIoBannerAdView(homeViewModel.adIdData)
 
             if (!homeViewModel.tvShowListLiveData?.observeAsState()?.value.isNullOrEmpty()) {
                 homeViewModel.tvShowListLiveData?.observeAsState()?.value?.let {

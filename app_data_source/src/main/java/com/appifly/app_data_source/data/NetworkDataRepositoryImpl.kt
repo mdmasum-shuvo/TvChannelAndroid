@@ -30,10 +30,11 @@ class NetworkDataRepositoryImpl @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 
 ) : NetworkDataRepository {
-    override suspend fun getAllCategory():DefaultResponse {
-        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
+    override suspend fun getAllCategory(): DefaultResponse {
+        val responseData =
+            DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall({ apiService.getAllCategory() },ioDispatcher)) {
+        when (val data = apiCall({ apiService.getAllCategory() }, ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -46,21 +47,24 @@ class NetworkDataRepositoryImpl @Inject constructor(
             }
 
             is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
+                return responseData.copy(
+                    HttpParam.ERROR_STATUS_CODE,
+                    HttpParam.SERVER_NOT_FOUND_EXCEPTION
+                )
             }
 
             is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+                return defaultResponse()
             }
 
         }
     }
 
-    override suspend fun getAllChannel():DefaultResponse {
-        val responseData = DefaultResponse(statusCode =HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
+    override suspend fun getAllChannel(): DefaultResponse {
+        val responseData =
+            DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall( { apiService.getAllChannel() },ioDispatcher)) {
+        when (val data = apiCall({ apiService.getAllChannel() }, ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -73,12 +77,15 @@ class NetworkDataRepositoryImpl @Inject constructor(
             }
 
             is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+                return responseData.copy(
+                    HttpParam.ERROR_STATUS_CODE,
+                    HttpParam.SERVER_NOT_FOUND_EXCEPTION
+                )
 
             }
 
             is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+                return defaultResponse()
 
             }
 
@@ -86,10 +93,11 @@ class NetworkDataRepositoryImpl @Inject constructor(
 
     }
 
-    override suspend fun getAllBanner() :DefaultResponse{
-        val responseData = DefaultResponse(statusCode =HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
+    override suspend fun getAllBanner(): DefaultResponse {
+        val responseData =
+            DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall ({ apiService.getAllBanner() },ioDispatcher )) {
+        when (val data = apiCall({ apiService.getAllBanner() }, ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -102,22 +110,25 @@ class NetworkDataRepositoryImpl @Inject constructor(
             }
 
             is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
+                return responseData.copy(
+                    HttpParam.ERROR_STATUS_CODE,
+                    HttpParam.SERVER_NOT_FOUND_EXCEPTION
+                )
             }
 
             is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+                return defaultResponse()
 
             }
 
         }
     }
 
-    override suspend fun getAllTvShows():DefaultResponse {
-        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
+    override suspend fun getAllTvShows(): DefaultResponse {
+        val responseData =
+            DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall( { apiService.getAllTvShows() },ioDispatcher)) {
+        when (val data = apiCall({ apiService.getAllTvShows() }, ioDispatcher)) {
             is DataState.Success -> {
                 if (data.result.data.isNotEmpty()) {
                     withContext(ioDispatcher) {
@@ -131,12 +142,15 @@ class NetworkDataRepositoryImpl @Inject constructor(
             }
 
             is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+                return responseData.copy(
+                    HttpParam.ERROR_STATUS_CODE,
+                    HttpParam.SERVER_NOT_FOUND_EXCEPTION
+                )
 
             }
 
             is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
+                return defaultResponse()
 
             }
 
@@ -144,12 +158,14 @@ class NetworkDataRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getAllAddId(): DefaultResponse {
-        val responseData = DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message =SUCCESSFUL_TEXT )
+        val responseData =
+            DefaultResponse(statusCode = HttpParam.SUCCESS_STATUS_CODE, message = SUCCESSFUL_TEXT)
 
-        when (val data = apiCall( { apiService.getAllAdId() },ioDispatcher)) {
+        when (val data = apiCall({ apiService.getAllAdId() }, ioDispatcher)) {
             is DataState.Success -> {
                 withContext(ioDispatcher) {
-                    data.result.data?.toEntity()?.let { adDao.updateData(it) }
+                    data.result.ad_networks.map { it.toEntity() }
+                        .map { data -> adDao.updateData(data) }
                     print("")
                 }
 
@@ -157,16 +173,23 @@ class NetworkDataRepositoryImpl @Inject constructor(
             }
 
             is DataState.Error -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
+                return responseData.copy(
+                    HttpParam.ERROR_STATUS_CODE,
+                    HttpParam.SERVER_NOT_FOUND_EXCEPTION
+                )
             }
 
             is DataState.IOError -> {
-                return responseData.copy(HttpParam.ERROR_STATUS_CODE,HttpParam.SERVER_NOT_FOUND_EXCEPTION)
-
+                return defaultResponse()
             }
-
         }
+    }
+
+    private fun defaultResponse(): DefaultResponse {
+        return DefaultResponse(
+            HttpParam.ERROR_STATUS_CODE,
+            HttpParam.SERVER_NOT_FOUND_EXCEPTION
+        )
     }
 
 }

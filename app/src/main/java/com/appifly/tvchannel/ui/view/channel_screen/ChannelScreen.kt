@@ -76,7 +76,7 @@ fun ChannelScreen(
             }
 
 
-            StartIoBannerAdView()
+            StartIoBannerAdView(homeViewModel.adIdData)
 
 
             channelViewModel.channelData.observeAsState().value?.let {

@@ -2,8 +2,14 @@ package com.appifly.app_data_source.dto
 
 data class AdIdDto(
     val id : Int,
-    val fbBanner: String?,
-    val fbInterstitial: String?,
-    val admobBanner: String?,
-    val admobInterstitial: String?
-)
+    val appId: String?,
+    val bannerAdId: String?,
+    val bannerEnabled: Boolean?,
+    val enabled: Boolean?,
+    val interstitialAdId: String?,
+    val interstitialEnabled: Boolean?,
+    val networkName: String?,
+    val videoAdId: String?,
+    val videoEnabled: Boolean?,
+
+    )

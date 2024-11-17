@@ -21,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.NavHost
@@ -70,7 +72,6 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.startapp.sdk.ads.banner.Banner
 import com.startapp.sdk.adsbase.StartAppAd
-import com.startapp.sdk.adsbase.StartAppSDK
 import com.startapp.sdk.adsbase.adlisteners.AdEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -115,11 +116,7 @@ class MainActivity : ComponentActivity() {
             installSplashScreen()
         }
         appUpdateManager = AppUpdateManagerFactory.create(this)
-        StartAppSDK.initParams(applicationContext, BuildConfig.START_IO_APP_ID)
-            .setCallback { /* ready to request ads */ }
-            .init()
 
-        StartAppSDK.setTestAdsEnabled(true)
 
         observeState()
         checkUpdate()
@@ -284,7 +281,9 @@ private fun MainScreenView(
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
-                    loadInterstittialAd(activity)
+                    homeViewModel.adIdData?.observeAsState()?.value?.let {
+                        loadInterstittialAd(activity,homeViewModel.adIdData?.value)
+                    }
                     ChannelDetailScreen(
                         channelViewModel,
                         onFullScreenToggle = onFullScreenToggle, navigateBack = {
@@ -295,7 +294,9 @@ private fun MainScreenView(
 
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
-                    loadInterstittialAd(activity)
+                    homeViewModel.adIdData?.observeAsState()?.value?.let {
+                        loadInterstittialAd(activity,homeViewModel.adIdData?.value)
+                    }
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
                         searchChannelViewModel = searchChannelViewModel,
@@ -329,7 +330,7 @@ fun loadInterstitialAdd(activity: Context, adLiveData: List<AdIdDto>?) {
         if (adData.isNotEmpty()) {
             InterstitialAd.load(
                 activity,
-                if (BuildConfig.DEBUG) BuildConfig.INTERSTITIAL_ADD_ID else adData[0].admobInterstitial
+                if (BuildConfig.DEBUG) BuildConfig.INTERSTITIAL_ADD_ID else adData[0].interstitialAdId
                     ?: "",
                 adRequest,
                 object : InterstitialAdLoadCallback() {
@@ -384,7 +385,7 @@ fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
         if (adData.isNotEmpty()) {
             interstitialAd = com.facebook.ads.InterstitialAd(
                 context,
-                if (BuildConfig.DEBUG) BuildConfig.FB_INTERSTITIAL_ADD_ID else adData[0].fbInterstitial
+                if (BuildConfig.DEBUG) BuildConfig.FB_INTERSTITIAL_ADD_ID else adData[1].interstitialAdId
                     ?: ""
             )
             val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
@@ -426,7 +427,8 @@ fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
 }
 
 
-fun loadInterstittialAd(activity: Context) {
+fun loadInterstittialAd(activity: Context,adLiveData: List<AdIdDto>?) {
+
     val interstitialAd = StartAppAd(activity)
     interstitialAd.loadAd(object : AdEventListener {
 
@@ -442,9 +444,15 @@ fun loadInterstittialAd(activity: Context) {
 
 
 @Composable
-fun StartIoBannerAdView() {
-    AndroidView(
-        modifier = Modifier.fillMaxSize(),
-        factory = ::Banner,
-    )
+fun StartIoBannerAdView(adLiveData: LiveData<List<AdIdDto>>?) {
+    adLiveData?.observeAsState()?.value?.let {
+        if ((adLiveData.value!![2].enabled == true) && (adLiveData.value!![2].bannerEnabled == true)) {
+            AndroidView(
+                modifier = Modifier.fillMaxSize(),
+                factory = ::Banner,
+            )
+        }
+
+    }
+
 }
