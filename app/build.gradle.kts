@@ -127,7 +127,8 @@ dependencies {
             )
         }"
     )
-    implementation ("com.startapp:inapp-sdk:5.+")
+    implementation ("com.startapp:inapp-sdk:5.1.0")
+    implementation ("com.google.accompanist:accompanist-swiperefresh:v0.36.0")
     // Moshi
     implementation("com.squareup.moshi:moshi:${rootProject.extra.get("version_moshi")}")
     implementation("com.squareup.moshi:moshi-kotlin:${rootProject.extra.get("version_moshi")}")

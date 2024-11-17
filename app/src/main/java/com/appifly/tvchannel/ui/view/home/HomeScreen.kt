@@ -9,7 +9,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -41,6 +43,7 @@ import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.admob.AdmobBanner
 import com.appifly.tvchannel.ui.common_component.CategoryListSection
 import com.appifly.tvchannel.ui.common_component.LargeChannelItem
+import com.appifly.tvchannel.ui.common_component.Loader
 import com.appifly.tvchannel.ui.common_component.MainTopBar
 import com.appifly.tvchannel.ui.common_component.RegularChannelItem
 import com.appifly.tvchannel.ui.common_component.SpacerHeight
@@ -55,7 +58,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: CategoryViewModel,
     channelViewModel: ChannelViewModel,
-    homeViewModel: HomeViewModel,
+    homeViewModel: HomeViewModel
 ) {
     val context = LocalContext.current
     val permission = Manifest.permission.POST_NOTIFICATIONS
@@ -64,10 +67,16 @@ fun HomeScreen(
     ) {
 
     }
+
     LaunchedEffect(key1 = true, block = {
         checkAndRequestCameraPermission(context, permission, launcher)
     })
     val selectedIndex = remember { mutableIntStateOf(0) }
+    if (channelViewModel.channelData.observeAsState().value==null){
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Loader()
+        }
+    }
     Column {
         MainTopBar(onSearchIconClick = {
             navController.navigate(Routing.SearchScreen.routeName)
@@ -93,7 +102,7 @@ fun HomeScreen(
 
             viewModel.categoryData?.observeAsState()?.value?.let {
 
-                LaunchedEffect(key1 = true, block = {
+                LaunchedEffect(key1 = viewModel.categoryData?.observeAsState()?.value, block = {
                     if (it.isNotEmpty()) {
                         channelViewModel.catId = it[0].id
                         channelViewModel.callChannelDataByCatId()
@@ -110,45 +119,44 @@ fun HomeScreen(
 
             when {
                 !channelViewModel.channelData.observeAsState().value.isNullOrEmpty() -> {
-                    channelViewModel.channelData.observeAsState().value?.let {
-                        Column(horizontalAlignment = Alignment.Start) {
-                            HeaderText(
-                                viewModel.channelCategoryName.observeAsState().value,
-                                context.getString(R.string.see_all)
-                            ) {
-                                channelViewModel.setSeeAllChannelList(
-                                    it,
-                                    context.getString(R.string.all_channel)
-                                )
-                                navController.navigate(Routing.SeeAllChannelScreen.routeName)
+                    Column(horizontalAlignment = Alignment.Start) {
+                        HeaderText(
+                            viewModel.channelCategoryName.observeAsState().value,
+                            context.getString(R.string.see_all)
+                        ) {
+                            channelViewModel.setSeeAllChannelList(
+                                channelViewModel.channelData.value!!,
+                                context.getString(R.string.all_channel)
+                            )
+                            navController.navigate(Routing.SeeAllChannelScreen.routeName)
 
-                            }
+                        }
 
-                            LazyRow(
-                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                modifier = Modifier.padding(
-                                    start = 16.dp,
-                                    top = 10.dp,
-                                    bottom = MaterialTheme.dimens.stdDimen24
-                                )
-                            ) {
-                                items(items = it, key = { it.id!! }) { item ->
-                                    LargeChannelItem(
-                                        item,
-                                    ) { clickedItem ->
-                                        gotoChannelDetail(context,
-                                            channelViewModel,
-                                            clickedItem,
-                                            navController,homeViewModel.adIdData
-                                        )
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            modifier = Modifier.padding(
+                                start = 16.dp,
+                                top = 10.dp,
+                                bottom = MaterialTheme.dimens.stdDimen24
+                            )
+                        ) {
+                            items(items = channelViewModel.channelData.value!!, key = { it.id!! }) { item ->
+                                LargeChannelItem(
+                                    item,
+                                ) { clickedItem ->
+                                    gotoChannelDetail(context,
+                                        channelViewModel,
+                                        clickedItem,
+                                        navController,homeViewModel.adIdData
+                                    )
 
-                                    }
                                 }
                             }
                         }
-
                     }
                 }
+
+
             }
             if (!channelViewModel.frequentlyPlayedChannelList.observeAsState().value.isNullOrEmpty()) {
                 channelViewModel.frequentlyPlayedChannelList.observeAsState().value?.let {

@@ -42,7 +42,6 @@ import com.appifly.app_data_source.viewmodel.ChannelViewModel
 import com.appifly.app_data_source.viewmodel.HomeViewModel
 import com.appifly.app_data_source.viewmodel.MainViewModel
 import com.appifly.app_data_source.viewmodel.SearchChannelViewModel
-import com.appifly.app_data_source.viewmodel.SeeAllChannelViewModel
 import com.appifly.tvchannel.player.MainActivityViewModel
 import com.appifly.tvchannel.routing.Routing
 import com.appifly.tvchannel.ui.bottom_nav.BottomNavigation
@@ -229,13 +228,13 @@ private fun MainScreenView(
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
-    val seeAllChannelViewModel: SeeAllChannelViewModel = hiltViewModel()
     Scaffold(bottomBar = {
         if (showBottomNav.value) BottomNavigation(
             navController,
             homeViewModel
         )
     }) { paddingValues ->
+
         Column(modifier = Modifier.padding(bottom = paddingValues.calculateBottomPadding())) {
             NavHost(
                 navController = navController,
