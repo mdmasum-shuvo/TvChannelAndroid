@@ -14,7 +14,7 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"" + "http://68.183.63.105/api/" + "\""
+            "\"" + "http://68.183.63.105/basictvapp/api/" + "\""
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
