@@ -25,6 +25,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -72,6 +73,7 @@ import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.startapp.sdk.ads.banner.Banner
 import com.startapp.sdk.adsbase.StartAppAd
+import com.startapp.sdk.adsbase.StartAppSDK
 import com.startapp.sdk.adsbase.adlisteners.AdEventListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -225,6 +227,20 @@ private fun MainScreenView(
     val categoryViewModel: CategoryViewModel = hiltViewModel()
     val channelViewModel: ChannelViewModel = hiltViewModel()
     val homeViewModel: HomeViewModel = hiltViewModel()
+
+    homeViewModel.adIdData?.observeAsState()?.value?.let {
+        if (it[2].enabled == true) {
+            StartAppSDK.initParams(
+                LocalContext.current,
+                if (BuildConfig.DEBUG) BuildConfig.START_IO_APP_ID else it[2].appId ?: ""
+            )
+                .setCallback { /* ready to request ads */ }
+                .init()
+
+            StartAppSDK.setTestAdsEnabled(!BuildConfig.DEBUG)
+        }
+
+    }
     Scaffold(bottomBar = {
         if (showBottomNav.value) BottomNavigation(
             navController,
@@ -282,7 +298,7 @@ private fun MainScreenView(
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
                     homeViewModel.adIdData?.observeAsState()?.value?.let {
-                        loadInterstittialAd(activity,homeViewModel.adIdData?.value)
+                        loadInterstittialAd(activity, homeViewModel.adIdData?.value)
                     }
                     ChannelDetailScreen(
                         channelViewModel,
@@ -295,7 +311,7 @@ private fun MainScreenView(
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
                     homeViewModel.adIdData?.observeAsState()?.value?.let {
-                        loadInterstittialAd(activity,homeViewModel.adIdData?.value)
+                        loadInterstittialAd(activity, homeViewModel.adIdData?.value)
                     }
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
@@ -427,7 +443,7 @@ fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
 }
 
 
-fun loadInterstittialAd(activity: Context,adLiveData: List<AdIdDto>?) {
+fun loadInterstittialAd(activity: Context, adLiveData: List<AdIdDto>?) {
 
     val interstitialAd = StartAppAd(activity)
     interstitialAd.loadAd(object : AdEventListener {

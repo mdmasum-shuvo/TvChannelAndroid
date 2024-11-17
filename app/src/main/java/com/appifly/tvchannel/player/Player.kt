@@ -174,7 +174,7 @@ fun PortraitView(
                 HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                 LazyVerticalGrid(
-                    modifier  = Modifier.height((((MaterialTheme.dimens.gridItemHeight + MaterialTheme.dimens.stdDimen12.value + MaterialTheme.dimens.stdDimen16.value) * it.size+12) / if (it.size < 3) 1 else 3).dp),
+                    modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight + MaterialTheme.dimens.stdDimen12.value + MaterialTheme.dimens.stdDimen16.value) * it.size + 12) / if (it.size < 3) 1 else 3).dp),
                     columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -197,14 +197,10 @@ fun PortraitView(
                             },
                         )
                     }
-
                 }
             }
-            StartIoBannerAdView()
-
+            StartIoBannerAdView(homeViewModel.adIdData)
         }
-
-
     }
 
 
