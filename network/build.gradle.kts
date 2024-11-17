@@ -14,7 +14,7 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"" + "https://laraveltrust.com/public/api/" + "\""
+            "\"" + "http://68.183.63.105/api/" + "\""
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

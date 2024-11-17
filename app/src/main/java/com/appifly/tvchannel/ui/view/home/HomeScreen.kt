@@ -65,6 +65,8 @@ fun HomeScreen(
     ) {
 
     }
+
+
     LaunchedEffect(key1 = true, block = {
         checkAndRequestCameraPermission(context, permission, launcher)
     })
