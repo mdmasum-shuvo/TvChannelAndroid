@@ -14,7 +14,7 @@ android {
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"" + "https://flytv.codehouseit.com/api/" + "\""
+            "\"" + "BASE_URL" + "\""
         )
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
