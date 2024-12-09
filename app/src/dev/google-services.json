@@ -1,13 +1,33 @@
 {
   "project_info": {
-    "project_number": "981746993478",
-    "project_id": "fly-tv-test",
-    "storage_bucket": "fly-tv-test.appspot.com"
+    "project_number": "892115719121",
+    "project_id": "fly-tv-a6af8",
+    "storage_bucket": "fly-tv-a6af8.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:981746993478:android:cee56c13206913a679bd47",
+        "mobilesdk_app_id": "1:892115719121:android:77b3e995a5db3906ab46f0",
+        "android_client_info": {
+          "package_name": "com.appifly.tvchannel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBx2CmOpttWEDwZqXPZcKGGyyMGzXBS3Qw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      },
+      "admob_app_id": "ca-app-pub-1337577089653332~9365677874"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:892115719121:android:c8062e65f28ff120ab46f0",
         "android_client_info": {
           "package_name": "com.appifly.tvchannel.dev"
         }
@@ -15,7 +35,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCzBlyiqRsIwRz487X9npIcTP5Dnlxch1Y"
+          "current_key": "AIzaSyBx2CmOpttWEDwZqXPZcKGGyyMGzXBS3Qw"
         }
       ],
       "services": {

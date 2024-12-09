@@ -81,7 +81,7 @@ fun LargeChannelItem(
                     verticalArrangement = Arrangement.Center,
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(16.dp),
+                      ,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     AsyncImage(
@@ -89,7 +89,7 @@ fun LargeChannelItem(
                             .data(item.iconUrl)
                             .diskCachePolicy(CachePolicy.ENABLED)
                             .build(),
-                        contentScale = ContentScale.Fit,
+                        contentScale = ContentScale.Crop,
                         contentDescription =context.getString(R.string.load_network_image) ,
                         onSuccess = {
                             showShimmer.value = false
@@ -142,7 +142,7 @@ fun RegularChannelItem(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(8.dp),
+                    ,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
@@ -150,7 +150,7 @@ fun RegularChannelItem(
                     model = ImageRequest.Builder(LocalContext.current)
                         .data(item?.iconUrl).diskCachePolicy(CachePolicy.ENABLED)
                         .build(),
-                    contentScale = ContentScale.Fit,
+                    contentScale = ContentScale.Crop,
                     contentDescription =context.getString(R.string.load_network_image) ,
                     onSuccess = {
                         showShimmer.value = false

@@ -18,8 +18,8 @@ android {
         applicationId = "com.appifly.tvchannel"
         minSdk = 26
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0.4"
+        versionCode = 14
+        versionName = "1.0.9"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
@@ -34,7 +34,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            //signingConfig = signingConfigs.getByName("debug")
             //signingConfig = signingConfigs.getByName("debug")
         }
     }
@@ -62,8 +62,12 @@ android {
         create("dev") {
             dimension = "firebase"
             applicationId = "com.appifly.tvchannel.dev"
+            
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-3940256099942544/6300978111"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-3940256099942544/1033173712"+ "\"")
+            buildConfigField("String","FB_BANNER_ADD_ID","\"" + "IMG_16_9_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
+            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "VID_HD_16_9_46S_APP_INSTALL#YOUR_PLACEMENT_ID"+ "\"")
+            
 
         }
         create("pro") {
@@ -71,6 +75,8 @@ android {
             applicationId = "com.appifly.tvchannel"
             buildConfigField("String","BANNER_ADD_ID","\"" + "ca-app-pub-1337577089653332/5737408144"+ "\"")
             buildConfigField("String","INTERSTITIAL_ADD_ID","\"" + "ca-app-pub-1337577089653332/4285892965"+ "\"")
+            buildConfigField("String","FB_BANNER_ADD_ID","\"" + "785679336855305_785683446854894"+ "\"")
+            buildConfigField("String","FB_INTERSTITIAL_ADD_ID","\"" + "785679336855305_785683713521534"+ "\"")
 
         }
     }
@@ -148,6 +154,8 @@ dependencies {
 
     implementation( "com.google.accompanist:accompanist-pager:0.23.1")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.23.1")
+    implementation("com.facebook.android:audience-network-sdk:6.16.0")
+    implementation ("com.facebook.infer.annotation:infer-annotation:0.18.0")
 }
 
 // Allow references to generated code

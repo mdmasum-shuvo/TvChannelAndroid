@@ -194,7 +194,7 @@ fun ChannelDetailScreen(
                     HeaderText(viewModel.channelCategoryName.observeAsState().value)
 
                     LazyVerticalGrid(
-                        modifier = Modifier.height(((MaterialTheme.dimens.gridItemHeight * it.size) / 2).dp),
+                        modifier = Modifier.height((((MaterialTheme.dimens.gridItemHeight+24) * it.size) /if (it.size<3) 1 else 3).dp),
                         columns = GridCells.Fixed(MaterialTheme.dimens.gridCellsChannel),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),

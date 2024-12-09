@@ -2,9 +2,14 @@ package com.appifly.tvchannel
 
 import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,11 +23,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -43,6 +54,8 @@ import com.appifly.tvchannel.ui.view.favorite.FavoriteScreen
 import com.appifly.tvchannel.ui.view.home.HomeScreen
 import com.appifly.tvchannel.ui.view.menu.MenuScreen
 import com.appifly.tvchannel.ui.view.search.SearchScreen
+import com.facebook.ads.Ad
+import com.facebook.ads.InterstitialAdListener
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -56,14 +69,18 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.firebase.Firebase
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.analytics
+import com.google.firebase.analytics.logEvent
 import dagger.hilt.android.AndroidEntryPoint
-
 private var mInterstitialAd: InterstitialAd? = null
-
+private var interstitialAd: com.facebook.ads.InterstitialAd? = null
+private lateinit var analytics: FirebaseAnalytics
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var appUpdateManager: AppUpdateManager? = null
-
+    private val TAG: String = MainActivity::class.java.simpleName
     private val listener: InstallStateUpdatedListener =
         InstallStateUpdatedListener { installState ->
             if (installState.installStatus() == InstallStatus.DOWNLOADED) {
@@ -92,8 +109,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         appUpdateManager = AppUpdateManagerFactory.create(this)
-
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            hideSystemUI()
+            // In landscape
+        }
+        analytics = Firebase.analytics
         checkUpdate()
+
         setContent {
             TvChannelTheme {
                 // A surface container using the 'background' color from the theme
@@ -101,7 +124,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    loadInterstitialAdd(this)
+                    //loadInterstitialAdd(this)
                     MainScreenView(activity = this)
                 }
             }
@@ -109,7 +132,24 @@ class MainActivity : ComponentActivity() {
         }
         // Set up an OnPreDrawListener to the root view.
     }
+    fun hideSystemUI() {
 
+        //Hides the ugly action bar at the top
+        actionBar?.hide()
+
+        //Hide the status bars
+
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            window.insetsController?.apply {
+                hide(WindowInsets.Type.statusBars())
+                systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        }
+    }
     override fun onStop() {
         appUpdateManager?.unregisterListener(listener)
         super.onStop()
@@ -182,7 +222,7 @@ private fun MainScreenView(
 
                 composable(Routing.MenuScreen.routeName) {
                     showBottomNav.value = true
-
+                    TrackedScreen("Menu Screen")
                     MenuScreen(navController)
                 }
 
@@ -196,22 +236,29 @@ private fun MainScreenView(
                         homeViewModel = homeViewModel,
                         seeAllChannelViewModel = seeAllChannelViewModel
                     )
+                    TrackedScreen("Home Screen")
                 }
 
                 composable(Routing.ChannelScreen.routeName) {
                     showBottomNav.value = true
 
                     ChannelScreen(categoryViewModel, channelViewModel, navController)
+                    TrackedScreen("Channel Screen")
                 }
 
                 composable(Routing.FavoriteScreen.routeName) {
                     showBottomNav.value = true
+                    mInterstitialAd?.show(activity)
+
                     FavoriteScreen(navController, categoryViewModel, channelViewModel)
+                    TrackedScreen("Favorite Screen")
                 }
                 composable(Routing.FavoriteChannelListScreen.routeName) {
                     showBottomNav.value = false
+                    mInterstitialAd?.show(activity)
 
                     FavoriteChannelListScreen(channelViewModel, navController)
+                    TrackedScreen("Favorite Channel List Screen")
                 }
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
@@ -221,6 +268,7 @@ private fun MainScreenView(
                         channelViewModel,
                         navController = navController
                     )
+                    TrackedScreen("Channel Detail Screen")
                 }
 
                 composable(Routing.SearchScreen.routeName) {
@@ -232,6 +280,7 @@ private fun MainScreenView(
                         channelViewModel,
                         navController
                     )
+                    TrackedScreen("Search Screen")
                 }
 
                 composable(Routing.SeeAllChannelScreen.routeName) {
@@ -243,6 +292,7 @@ private fun MainScreenView(
                         seeAllChannelViewModel,
                         navController = navController
                     )
+                    TrackedScreen("See AllChannel Screen")
                 }
             }
         }
@@ -250,9 +300,30 @@ private fun MainScreenView(
     }
 
 }
+@Composable
+fun TrackedScreen(
+    name: String,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current,
+) {
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            Log.d("TrackedScreen", "TrackedScreen: $event")
+            if (event == Lifecycle.Event.ON_START) {
+                Firebase.analytics.logEvent(FirebaseAnalytics.Event.SCREEN_VIEW) {
+                    param(FirebaseAnalytics.Param.SCREEN_NAME, name)
+                    Log.d("TrackedScreen", "TrackedScreen: $name")
+                }
+            }
+        }
 
+        lifecycleOwner.lifecycle.addObserver(observer)
 
-private fun loadInterstitialAdd(activity: Activity) {
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+        }
+    }
+}
+ fun loadInterstitialAdd(activity: Context) {
     val adRequest = AdRequest.Builder().build()
 
     InterstitialAd.load(
@@ -263,6 +334,7 @@ private fun loadInterstitialAdd(activity: Activity) {
             override fun onAdFailedToLoad(adError: LoadAdError) {
                 adError.toString().let { Log.d(ContentValues.TAG, it) }
                 mInterstitialAd = null
+                showFacebookInterstitialAd(activity)
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
@@ -299,6 +371,42 @@ private fun loadInterstitialAdd(activity: Activity) {
         }
     }
 
+}
+ fun showFacebookInterstitialAd(context: Context) {
+    interstitialAd = com.facebook.ads.InterstitialAd(context, BuildConfig.FB_INTERSTITIAL_ADD_ID)
+    val interstitialAdListener: InterstitialAdListener = object : InterstitialAdListener {
+
+        override fun onError(p0: Ad?, p1: com.facebook.ads.AdError?) {
+            Log.d(ContentValues.TAG, "onError: " + p1?.errorMessage)
+        }
+
+        override fun onAdLoaded(ad: com.facebook.ads.Ad) {
+            interstitialAd!!.show()
+        }
+
+        override fun onAdClicked(ad: com.facebook.ads.Ad) {
+
+            Log.d(ContentValues.TAG, "onAdClicked")
+        }
+
+        override fun onLoggingImpression(ad: com.facebook.ads.Ad) {
+
+            Log.d(ContentValues.TAG, "onLoggingImpression")
+        }
+
+        override fun onInterstitialDisplayed(ad: com.facebook.ads.Ad) {
+            Log.d(ContentValues.TAG, "onInterstitialDisplayed")
+        }
+
+        override fun onInterstitialDismissed(ad: com.facebook.ads.Ad) {
+            Log.d(ContentValues.TAG, "onInterstitialDismissed")
+        }
+    }
+    interstitialAd!!.loadAd(
+        interstitialAd!!.buildLoadAdConfig()
+            .withAdListener(interstitialAdListener)
+            .build()
+    )
 }
 
 
