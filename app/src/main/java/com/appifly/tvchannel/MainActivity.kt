@@ -229,16 +229,19 @@ private fun MainScreenView(
     val homeViewModel: HomeViewModel = hiltViewModel()
 
     homeViewModel.adIdData?.observeAsState()?.value?.let {
-        if (it[2].enabled == true) {
-            StartAppSDK.initParams(
-                LocalContext.current,
-                if (BuildConfig.DEBUG) BuildConfig.START_IO_APP_ID else it[2].appId ?: ""
-            )
-                .setCallback { /* ready to request ads */ }
-                .init()
+        if (it.isNotEmpty()){
+            if (it[2].enabled == true) {
+                StartAppSDK.initParams(
+                    LocalContext.current,
+                    if (BuildConfig.DEBUG) BuildConfig.START_IO_APP_ID else it[2].appId ?: ""
+                )
+                    .setCallback { /* ready to request ads */ }
+                    .init()
 
-            StartAppSDK.setTestAdsEnabled(BuildConfig.DEBUG)
+                StartAppSDK.setTestAdsEnabled(BuildConfig.DEBUG)
+            }
         }
+
 
     }
     Scaffold(bottomBar = {
@@ -298,7 +301,9 @@ private fun MainScreenView(
                 composable(Routing.ChannelDetailScreen.routeName) {
                     showBottomNav.value = false
                     homeViewModel.adIdData?.observeAsState()?.value?.let {
-                        loadInterstittialAd(activity, homeViewModel.adIdData?.value)
+                        if (it.isNotEmpty()) {
+                            loadInterstittialAdStartIo(activity)
+                        }
                     }
                     ChannelDetailScreen(
                         channelViewModel,
@@ -311,7 +316,9 @@ private fun MainScreenView(
                 composable(Routing.SearchScreen.routeName) {
                     showBottomNav.value = false
                     homeViewModel.adIdData?.observeAsState()?.value?.let {
-                        loadInterstittialAd(activity, homeViewModel.adIdData?.value)
+                        if (it.isNotEmpty()) {
+                            loadInterstittialAdStartIo(activity,)
+                        }
                     }
                     val searchChannelViewModel: SearchChannelViewModel = hiltViewModel()
                     SearchScreen(
@@ -443,7 +450,7 @@ fun showFacebookInterstitialAd(context: Context, adLiveData: List<AdIdDto>?) {
 }
 
 
-fun loadInterstittialAd(activity: Context, adLiveData: List<AdIdDto>?) {
+fun loadInterstittialAdStartIo(activity: Context) {
 
     val interstitialAd = StartAppAd(activity)
     interstitialAd.loadAd(object : AdEventListener {
@@ -462,11 +469,13 @@ fun loadInterstittialAd(activity: Context, adLiveData: List<AdIdDto>?) {
 @Composable
 fun StartIoBannerAdView(adLiveData: LiveData<List<AdIdDto>>?) {
     adLiveData?.observeAsState()?.value?.let {
-        if ((adLiveData.value!![2].enabled == true) && (adLiveData.value!![2].bannerEnabled == true)) {
-            AndroidView(
-                modifier = Modifier.fillMaxSize(),
-                factory = ::Banner,
-            )
+        if (it.isNotEmpty()) {
+            if ((adLiveData.value!![2].enabled == true) && (adLiveData.value!![2].bannerEnabled == true)) {
+                AndroidView(
+                    modifier = Modifier.fillMaxSize(),
+                    factory = ::Banner,
+                )
+            }
         }
 
     }
